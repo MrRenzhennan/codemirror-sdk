@@ -424,11 +424,4 @@ div.CodeMirror-dragcursors {
 span.CodeMirror-selectedtext {
   background: none; }
 
-.Online-Programming div {
-  color: red;
-  -webkit-border-radius: none;
-     -moz-border-radius: none;
-          border-radius: none; }
-  .Online-Programming div span {
-    font-size: 20px; }
 

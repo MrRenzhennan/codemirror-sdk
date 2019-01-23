@@ -7,7 +7,6 @@ const optimizeCss = require('optimize-css-assets-webpack-plugin');
 const HappyPack = require('happypack');
 const os = require('os');
 const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length });
-console.log(os.cpus().length)
 module.exports = [
 	//压缩
 	{

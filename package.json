@@ -20,6 +20,7 @@
     "cover 99.5% in CN"
   ],
   "devDependencies": {
+    "@babel/polyfill": "^7.2.5",
     "autoprefixer": "^9.4.6",
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.5",
