@@ -1,4 +1,220 @@
 
-.Online-Programming{
-
+.online-programming{
+    font-family: 'Lato', 'Lucida Grande', 'Lucida Sans Unicode', Tahoma, Sans-Serif;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    .cm-matchhighlight {
+        background-color: #616486;
+    }
+    .CodeMirror-selection-highlight-scrollbar {
+        background-color: green;
+    }
+    .CodeMirror{
+        font-size: 18px;
+    }
+    .programming-practice-area{
+        width: calc(50% - 30px);
+        height: 100%;
+        float: left;
+        box-sizing: border-box;
+        position: relative;
+        overflow: hidden;
+        .exothecium-box{
+            width: 100%;
+            height: calc(100% - 80px);
+            box-sizing: border-box;
+            .editor_box{
+                width: 100%;
+                padding-top: 30px;
+                box-sizing: border-box;
+                position: relative;
+                //transition: all 0.1s linear 0s;
+                .create-editor-name{
+                    width: 100%;
+                    height: 30px;
+                    background: #000;
+                    position: absolute;
+                    top: 0px;
+                    left: 0;
+                    .title-text{
+                        position: absolute;
+                        color: #c5c8d4;
+                        font-size: 18px;
+                        font-weight: 600;
+                        top: 6px;
+                        left: 60px;
+                    }
+                    .setting-icon-box{
+                        position: absolute;
+                        top: 6px;
+                        right: 10px;
+                        width: 25px;
+                        height: 25px;
+                        border-radius: 2px;
+                        text-align: center;
+                        line-height: 22px;
+                        background: #36383f;
+                        cursor: pointer;
+                        .icon-shezhi{
+                            color: white;
+                           font-size: 12px;
+                        }
+                    }
+                }
+            }
+        }
+        .button-operation-area{
+            width: 100%;
+            height: 40px;
+            border-top: 1px solid #36383f;
+            background: #000;
+            box-sizing: border-box;
+            button {
+                float: right;
+                padding: 5px;
+                border: none;
+                color: #fff;
+                background: #ff0000;
+                margin-right: 30px;
+                margin-top: 5px;
+            }
+        }
+        
+    }
+    .style-area{
+        width: calc(50% - 30px);
+        height: 100%;
+        float: left;
+        background: #000;
+        box-sizing: border-box;
+        position: relative;
+        overflow: hidden;
+        .exothecium-box{
+            width: 100%;
+            height: calc(100% - 40px);
+            box-sizing: border-box;
+        }
+    }
+    
+    // 分割条样式
+    .editor-resizer-col {
+        z-index: 2;
+        width: 20px;
+        border-left: 1px solid rgba(255, 255, 255, 0.1);
+        border-right: 1px solid rgba(0, 0, 0, 0.4);
+        background: #36383f;
+        box-sizing: border-box;
+        height: 100%;
+        float: left;
+    }
+    .col-resize,{
+        cursor: col-resize;
+    }
+    .row-resize{
+        cursor: row-resize;
+    }
+    .editor-resizer-row {
+        z-index: 2;
+        width: 100%;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+        background: #36383f;
+        box-sizing: border-box;
+        height: 5px;
+    }
+    .editor-title{
+        position: relative;
+        width: 100%;
+        height: 40px;
+        background: #000;
+        .title-text{
+            position: absolute;
+            color: #c5c8d4;
+            font-size: 18px;
+            font-weight: 600;
+            top: 8px;
+            left: 30px;
+            width: 100px;
+        }
+        .change-mode{
+            position: absolute;
+            top: 7px;
+            right: 7px;
+            height: 25px;
+            width: 100px;
+            background: #000;
+            color: #fff;
+        }
+    }
+    .setting-dialog{
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.6);
+        z-index: 999;
+        .item-settings-modal{
+            width: 520px;
+            height: 480px;
+            margin: 0 auto;
+            margin-top: 60px;
+            border-radius: 4px;
+            box-sizing: border-box;
+            background: #fff;
+            padding: 2px;
+            .header{
+                width: 100%;
+                height: 75px;
+                color: #fff;
+                background: #202125;
+                padding: 15px 18px;
+                box-sizing: border-box;
+                border-radius: 3px 3px 0 0;
+                position: relative;
+                h2{
+                    color: white;
+                    margin: 3px auto 0 0;
+                    font-size: 30px;
+                    font-weight: normal;
+                }
+                .close-settings{
+                    position: absolute;
+                    top: 15px;
+                    right: 15px;
+                    background: #47cf73;
+                    color: #000;
+                    padding: 10px 16px;
+                    border-radius: 4px;
+                    border: 3px solid transparent;
+                    font-size: 15px;
+                    cursor: pointer;
+                }
+            }
+            .settings-tabs{
+                width: 100%;
+                height: 38px;
+                box-sizing: border-box;
+                padding: 0 20px;
+                background: #000;
+                .settings-tab-link{
+                    font-size: 18px;
+                    display: inline-block;
+                    color: #9396a4;
+                    padding: 5px 14px 5px 0;
+                    text-decoration: none;
+                }
+                .active{
+                    color: white;
+                    font-weight: 700;
+                }
+            }
+            .settings{
+                width: 100%;
+                height: calc(100% - 38px - 75px);
+                box-sizing: border-box;
+                padding: 22px 18px;
+                overflow-y: auto;
+            }
+        }
+    }
 }

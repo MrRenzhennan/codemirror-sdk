@@ -8,6 +8,7 @@ const HappyPack = require('happypack');
 const os = require('os');
 const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length });
 module.exports = [
+	/*
 	//压缩
 	{
 		mode: 'production',
@@ -74,7 +75,28 @@ module.exports = [
 				{
 					test: /\.json$/,
 					use: 'json-loader'
-				}
+				},
+				{
+					test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+					loader: 'url-loader',
+					options: {
+					  limit: 10000,
+					}
+				  },
+				  {
+					test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
+					loader: 'url-loader',
+					options: {
+					  limit: 10000,
+					}
+				  },
+				  {
+					test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
+					loader: 'url-loader',
+					options: {
+					  limit: 10000,
+					}
+				  }
 			]
 		},
 		plugins: [
@@ -104,7 +126,7 @@ module.exports = [
 				verbose: true
 			}),
 		]
-	},
+	},*/
 	//不压缩
 	{
 		mode: 'development',
@@ -134,7 +156,7 @@ module.exports = [
 				{
 					test: /\.js$/,
 					exclude: /node_modules/, //  不包括node_modules文件夹
-					use: [ 'happypack/loader?id=babel' ]
+					use: ['happypack/loader?id=babel']
 					// use: {
 					// 	loader: 'babel-loader'
 					// }
@@ -171,6 +193,27 @@ module.exports = [
 				{
 					test: /\.json$/,
 					use: 'json-loader'
+				},
+				{
+					test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+					loader: 'url-loader',
+					options: {
+						limit: 10000,
+					}
+				},
+				{
+					test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
+					loader: 'url-loader',
+					options: {
+						limit: 10000,
+					}
+				},
+				{
+					test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
+					loader: 'url-loader',
+					options: {
+						limit: 10000,
+					}
 				}
 			]
 		},
@@ -187,7 +230,7 @@ module.exports = [
 				// 用唯一的标识符 id 来代表当前的 HappyPack 是用来处理一类特定的文件
 				id: 'babel',
 				// 如何处理 .js 文件，用法和 Loader 配置中一样
-				loaders: [ 'babel-loader' ],
+				loaders: ['babel-loader'],
 				//使用共享进程池中的自进程去处理任务
 				threadPool: happyThreadPool,
 				//是否允许happypack输出日志，默认true
