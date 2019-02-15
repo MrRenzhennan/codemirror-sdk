@@ -463,8 +463,10 @@ span.CodeMirror-selectedtext {
   content: "\e68b"; }
 
 .online-programming {
+  font-family: 'Lato', 'Lucida Grande', 'Lucida Sans Unicode', Tahoma, Sans-Serif;
   width: 100%;
-  height: 100%; }
+  height: 100%;
+  position: relative; }
   .online-programming .cm-matchhighlight {
     background-color: #616486; }
   .online-programming .CodeMirror-selection-highlight-scrollbar {
@@ -511,6 +513,26 @@ span.CodeMirror-selectedtext {
             font-weight: 600;
             top: 6px;
             left: 60px; }
+            .online-programming .programming-practice-area .exothecium-box .editor_box .create-editor-name .title-text span {
+              font-size: 12px;
+              margin-left: 5px;
+              font-weight: normal; }
+          .online-programming .programming-practice-area .exothecium-box .editor_box .create-editor-name .setting-icon-box {
+            position: absolute;
+            top: 6px;
+            right: 10px;
+            width: 25px;
+            height: 25px;
+            -webkit-border-radius: 2px;
+               -moz-border-radius: 2px;
+                    border-radius: 2px;
+            text-align: center;
+            line-height: 22px;
+            background: #36383f;
+            cursor: pointer; }
+            .online-programming .programming-practice-area .exothecium-box .editor_box .create-editor-name .setting-icon-box .icon-shezhi {
+              color: white;
+              font-size: 12px; }
     .online-programming .programming-practice-area .button-operation-area {
       width: 100%;
       height: 40px;
@@ -583,7 +605,8 @@ span.CodeMirror-selectedtext {
       font-size: 18px;
       font-weight: 600;
       top: 8px;
-      left: 30px; }
+      left: 30px;
+      width: 100px; }
     .online-programming .editor-title .change-mode {
       position: absolute;
       top: 7px;
@@ -592,6 +615,230 @@ span.CodeMirror-selectedtext {
       width: 100px;
       background: #000;
       color: #fff; }
+  .online-programming .setting-dialog {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 999;
+    display: none; }
+    .online-programming .setting-dialog .item-settings-modal {
+      width: 520px;
+      height: 480px;
+      margin: 0 auto;
+      margin-top: 60px;
+      -webkit-border-radius: 4px;
+         -moz-border-radius: 4px;
+              border-radius: 4px;
+      -webkit-box-sizing: border-box;
+         -moz-box-sizing: border-box;
+              box-sizing: border-box;
+      background: #fff;
+      padding: 2px;
+      -webkit-animation: bounceIn 1000ms both;
+         -moz-animation: bounceIn 1000ms both;
+              animation: bounceIn 1000ms both; }
+      .online-programming .setting-dialog .item-settings-modal .header {
+        width: 100%;
+        height: 75px;
+        color: #fff;
+        background: #202125;
+        padding: 15px 18px;
+        -webkit-box-sizing: border-box;
+           -moz-box-sizing: border-box;
+                box-sizing: border-box;
+        -webkit-border-radius: 3px 3px 0 0;
+           -moz-border-radius: 3px 3px 0 0;
+                border-radius: 3px 3px 0 0;
+        position: relative; }
+        .online-programming .setting-dialog .item-settings-modal .header h2 {
+          color: white;
+          margin: 3px auto 0 0;
+          font-size: 30px;
+          font-weight: normal; }
+        .online-programming .setting-dialog .item-settings-modal .header .close-settings {
+          position: absolute;
+          top: 15px;
+          right: 15px;
+          background: #47cf73;
+          color: #fff;
+          padding: 10px 16px;
+          -webkit-border-radius: 4px;
+             -moz-border-radius: 4px;
+                  border-radius: 4px;
+          border: 3px solid transparent;
+          font-size: 15px;
+          cursor: pointer; }
+      .online-programming .setting-dialog .item-settings-modal .settings-tabs {
+        width: 100%;
+        height: 38px;
+        -webkit-box-sizing: border-box;
+           -moz-box-sizing: border-box;
+                box-sizing: border-box;
+        padding: 0 20px;
+        background: #000; }
+        .online-programming .setting-dialog .item-settings-modal .settings-tabs .settings-tab-link {
+          font-size: 18px;
+          display: inline-block;
+          color: #9396a4;
+          padding: 5px 14px 5px 0;
+          text-decoration: none; }
+        .online-programming .setting-dialog .item-settings-modal .settings-tabs .active {
+          color: white;
+          font-weight: 700; }
+      .online-programming .setting-dialog .item-settings-modal .settings {
+        width: 100%;
+        height: -webkit-calc(100% - 38px - 75px);
+        height: -moz-calc(100% - 38px - 75px);
+        height: calc(100% - 38px - 75px);
+        -webkit-box-sizing: border-box;
+           -moz-box-sizing: border-box;
+                box-sizing: border-box;
+        padding: 22px 18px;
+        overflow-y: auto; }
+        .online-programming .setting-dialog .item-settings-modal .settings .setting-box {
+          width: 100%;
+          height: 100%;
+          overflow: hidden; }
+          .online-programming .setting-dialog .item-settings-modal .settings .setting-box .setting-type {
+            width: 100%;
+            height: 100%; }
+            .online-programming .setting-dialog .item-settings-modal .settings .setting-box .setting-type h4 {
+              font-weight: bold;
+              font-size: 16px;
+              margin: 0 0 4px 0;
+              color: black;
+              text-transform: none;
+              line-height: 1.2; }
+            .online-programming .setting-dialog .item-settings-modal .settings .setting-box .setting-type .select-box {
+              margin: 0 0 10px 0;
+              position: relative; }
+              .online-programming .setting-dialog .item-settings-modal .settings .setting-box .setting-type .select-box select {
+                background: #eaeff0;
+                font-size: 14px;
+                color: #616574;
+                padding: 0 12px;
+                -webkit-appearance: none;
+                outline: 0;
+                z-index: 0;
+                position: relative;
+                width: 100%;
+                border: none;
+                cursor: pointer;
+                height: 42px;
+                line-height: 42px; }
+              .online-programming .setting-dialog .item-settings-modal .settings .setting-box .setting-type .select-box .up-down-icon {
+                position: absolute;
+                right: 0;
+                top: 10px; }
+                .online-programming .setting-dialog .item-settings-modal .settings .setting-box .setting-type .select-box .up-down-icon .up {
+                  position: absolute;
+                  right: 20px;
+                  top: 5px; }
+            .online-programming .setting-dialog .item-settings-modal .settings .setting-box .setting-type .preprocessor {
+              margin-top: 10px; }
+            .online-programming .setting-dialog .item-settings-modal .settings .setting-box .setting-type .externalScripts {
+              margin-top: 30px; }
+
+@-webkit-keyframes bounceIn {
+  from,
+  20%,
+  40%,
+  60%,
+  80%,
+  to {
+    -webkit-animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+            animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1); }
+  0% {
+    opacity: 0;
+    -webkit-transform: scale3d(0.3, 0.3, 0.3);
+            transform: scale3d(0.3, 0.3, 0.3); }
+  20% {
+    -webkit-transform: scale3d(1.1, 1.1, 1.1);
+            transform: scale3d(1.1, 1.1, 1.1); }
+  40% {
+    -webkit-transform: scale3d(0.9, 0.9, 0.9);
+            transform: scale3d(0.9, 0.9, 0.9); }
+  60% {
+    opacity: 1;
+    -webkit-transform: scale3d(1.03, 1.03, 1.03);
+            transform: scale3d(1.03, 1.03, 1.03); }
+  80% {
+    -webkit-transform: scale3d(0.97, 0.97, 0.97);
+            transform: scale3d(0.97, 0.97, 0.97); }
+  to {
+    opacity: 1;
+    -webkit-transform: scale3d(1, 1, 1);
+            transform: scale3d(1, 1, 1); } }
+
+@-moz-keyframes bounceIn {
+  from,
+  20%,
+  40%,
+  60%,
+  80%,
+  to {
+    -moz-animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+         animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1); }
+  0% {
+    opacity: 0;
+    -moz-transform: scale3d(0.3, 0.3, 0.3);
+         transform: scale3d(0.3, 0.3, 0.3); }
+  20% {
+    -moz-transform: scale3d(1.1, 1.1, 1.1);
+         transform: scale3d(1.1, 1.1, 1.1); }
+  40% {
+    -moz-transform: scale3d(0.9, 0.9, 0.9);
+         transform: scale3d(0.9, 0.9, 0.9); }
+  60% {
+    opacity: 1;
+    -moz-transform: scale3d(1.03, 1.03, 1.03);
+         transform: scale3d(1.03, 1.03, 1.03); }
+  80% {
+    -moz-transform: scale3d(0.97, 0.97, 0.97);
+         transform: scale3d(0.97, 0.97, 0.97); }
+  to {
+    opacity: 1;
+    -moz-transform: scale3d(1, 1, 1);
+         transform: scale3d(1, 1, 1); } }
+
+@keyframes bounceIn {
+  from,
+  20%,
+  40%,
+  60%,
+  80%,
+  to {
+    -webkit-animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+       -moz-animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+            animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1); }
+  0% {
+    opacity: 0;
+    -webkit-transform: scale3d(0.3, 0.3, 0.3);
+       -moz-transform: scale3d(0.3, 0.3, 0.3);
+            transform: scale3d(0.3, 0.3, 0.3); }
+  20% {
+    -webkit-transform: scale3d(1.1, 1.1, 1.1);
+       -moz-transform: scale3d(1.1, 1.1, 1.1);
+            transform: scale3d(1.1, 1.1, 1.1); }
+  40% {
+    -webkit-transform: scale3d(0.9, 0.9, 0.9);
+       -moz-transform: scale3d(0.9, 0.9, 0.9);
+            transform: scale3d(0.9, 0.9, 0.9); }
+  60% {
+    opacity: 1;
+    -webkit-transform: scale3d(1.03, 1.03, 1.03);
+       -moz-transform: scale3d(1.03, 1.03, 1.03);
+            transform: scale3d(1.03, 1.03, 1.03); }
+  80% {
+    -webkit-transform: scale3d(0.97, 0.97, 0.97);
+       -moz-transform: scale3d(0.97, 0.97, 0.97);
+            transform: scale3d(0.97, 0.97, 0.97); }
+  to {
+    opacity: 1;
+    -webkit-transform: scale3d(1, 1, 1);
+       -moz-transform: scale3d(1, 1, 1);
+            transform: scale3d(1, 1, 1); } }
 
 .CodeMirror-hints {
   position: absolute;

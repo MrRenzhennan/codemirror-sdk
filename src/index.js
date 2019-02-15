@@ -142,6 +142,8 @@ class Unit {
 		}
 		return dom;
 	}
+
+
 	//dom取值
 	DomGetVal(dom = '') {
 		let Text;
@@ -162,6 +164,8 @@ class Unit {
 		div.className += ` ${_class}`;
 		return div;
 	}
+
+
 	//创建 横向向 区间分隔
 	EditorResizerRow(_class = '') {
 		let div = document.createElement('div');
@@ -170,7 +174,7 @@ class Unit {
 		return div;
 	}
 
-	//titile 生成
+	//titile 生成    分区名称
 	CreateTitle(title = '编程实践区') {
 		let div = document.createElement('div');
 		div.className = 'editor-title';
@@ -180,48 +184,22 @@ class Unit {
 		return div;
 	}
 
-	//编辑区生成
-	CreateEditor(_type = 'html/css/js') {
-		//编辑器容器
+	//编辑区类型 区域生成  编辑区 模式名称
+	CreateEditorName(name = 'html') {
 		let div = document.createElement('div');
-		div.className = 'exothecium-box';
-		let _num, text;
-		if (_type == 'html/css/js') {
-			_num = 3;
-			text = _type.split('/');
-		} else {
-			_num = 1;
-			text = [_type];
+		div.className = 'create-editor-name';
+		let text = document.createElement('div');
+		text.className = 'title-text';
+		this.DomSetVal(text, name);
+		div.appendChild(text);
+		if (name == 'html' || name == 'js' || name == 'css') {
+			//添加当前编译模式
+			let span = document.createElement('span');
+			this.DomSetVal(span, `(none)`);
+			text.appendChild(span);
+			//添加设置按钮
+			div.appendChild(this.CreateIconForSetting(name))
 		}
-		for (let i = 0; i < _num; i++) {
-			let editor_box = document.createElement('div');
-			editor_box.className = 'editor_box';
-			if (_num == 3) {
-				editor_box.setAttribute('style', 'height:calc(33.33% - 5px)');
-			} else {
-				editor_box.setAttribute('style', 'height:calc(100% - 5px)');
-			}
-			//name
-			editor_box.appendChild(this.CreateEditorName(text[i]));
-			//textarea
-			let textarea = document.createElement('textarea');
-			textarea.setAttribute('mode', text[i]);
-			editor_box.appendChild(textarea);
-			//横向分区
-			if (i > 0 && i < _num) {
-				div.appendChild(this.EditorResizerRow('row-resize'));
-			} else {
-				div.appendChild(this.EditorResizerRow());
-			}
-			div.appendChild(editor_box);
-		}
-		return div;
-	}
-
-	//按钮操作区
-	ButtonOperationArea() {
-		let div = document.createElement('div');
-		div.className = 'button-operation-area';
 		return div;
 	}
 
@@ -231,91 +209,17 @@ class Unit {
 		btn.className = `btn_${i + 1}`;
 		btn.setAttribute('style', bute.style ? bute.style : '');
 		btn.onclick = bute.callback ? bute.callback : null;
-		return this.DomSetVal(btn, bute.text ? bute.text : '');
+		this.DomSetVal(btn, bute.text ? bute.text : '');
+		return btn;
 	}
 
-	//编辑区类型 区域生成
-	CreateEditorName(name = 'html') {
+	//箭头 icon生成
+	CreateUpDownIcon() {
 		let div = document.createElement('div');
-		div.className = 'create-editor-name';
-		let text = document.createElement('div');
-		text.className = 'title-text';
-		div.appendChild(this.DomSetVal(text, name));
-		if(name == 'html' || name == 'js' || name == 'css'){
-			div.appendChild(this.CreateIconForSetting(name))
-		}
-		return div;
-	}
-
-	//select 生成
-	CreateSleect(_opaction = [],_class = '') {
-		let select = document.createElement('select');
-		select.className = _class;
-		for (let i = 0; i < _opaction.length; i++) {
-			let option = document.createElement('option');
-			this.DomSetVal(option, _opaction[i]);
-			select.appendChild(option);
-		}
-		return select;
-	}
-
-	//设置图标按钮生成
-	CreateIconForSetting(name = ''){
-		let div = document.createElement('div');
-		div.className = 'setting-icon-box';
-		let span = document.createElement('span');
-		span.className = 'iconfont icon-shezhi';
-		div.appendChild(span);
-		return div;
-	}
-
-	//设置弹框生成
-	SettingDiaLog(_array = {}){
-		let div = document.createElement('div');
-		div.className = 'setting-dialog';
-		let div_c = document.createElement('div');
-		div_c.className = 'item-settings-modal';
-		let header = document.createElement('div');
-		header.className = 'header';
-		let h2 = document.createElement('h2');
-		this.DomSetVal(h2,'设置')
-		let btn = document.createElement('input');
-		btn.setAttribute('type','button');
-		btn.setAttribute('value','Close')
-		btn.className = 'close-settings';
-		header.appendChild(h2);
-		header.appendChild(btn);
-		div_c.appendChild(header);
-		//tab
-		let tab = document.createElement('div');
-		tab.className = 'settings-tabs';
-		
-		for(let key in _array){
-			let aLink = document.createElement('a');
-			aLink.setAttribute('href','javascript:;');
-			aLink.setAttribute('data-type',key);
-			aLink.className = 'settings-tab-link';
-			this.DomSetVal(aLink,key)
-			tab.appendChild(aLink)
-		}
-
-		div_c.appendChild(tab);
-		//setting
-		let settings = document.createElement('div');
-		settings.className = 'settings';
-		settings.appendChild(this.CreateSettings(_array));
-		div_c.appendChild(settings);
-		div.appendChild(div_c);
-		return div;
-	};
-
-	//设置区生成
-	CreateSettings(_array = {}){
-		console.log(_array)
-		let div = document.createElement('div');
-		let preprocessor = document.createElement('p');
-		preprocessor.className = 'preprocessor'
-
+		div.className = 'up-down-icon';
+		let span_up = document.createElement('span');
+		span_up.className = 'iconfont icon-zhankai up';
+		div.appendChild(span_up);
 		return div;
 	}
 
@@ -367,6 +271,7 @@ class OnlineProgramming extends Unit {
 			continueComments: 'Enter', //在注释行按下Enter 下一行会跟着注释
 			highlightSelectionMatches: { showToken: /\w/, annotateScrollbar: true } //标记选中 所有匹配高亮 滚动条显示位置
 		};
+		//可配置项
 		this.configuration = Object.assign(
 			{
 				id: '', //容器
@@ -392,42 +297,45 @@ class OnlineProgramming extends Unit {
 			},
 			configuration
 		);
+		//支持的语言
 		this.option = ['html/css/js', 'java', 'c#', 'pathon2', 'python3'];
+		//支持的 编译模式
 		this.preprocessor = {
-			'html':{
-				preprocessor:[ //编译模式
-					'None'
+			'html': {
+				preprocessor: [ //编译模式
+					'none'
 				],
-				externalScripts:[ //外部链接插件
+				externalScripts: [ //外部链接插件
 					'https://codemirror.net/mode/vue/index.html',
 					'https://codemirror.net/mode/vue/index.html'
 				]
 			},
-			'css':{
-				preprocessor:[ //编译模式
-					'None',
-					'Scss',
-					'Less',
-					'Sass',
+			'css': {
+				preprocessor: [ //编译模式
+					'none',
+					'scss',
+					'less',
+					'sass',
 				],
-				externalScripts:[ //外部链接插件
+				externalScripts: [ //外部链接插件
 					'https://codemirror.net/mode/vue/index.html',
 					'https://codemirror.net/mode/vue/index.html'
 				]
 			},
-			'javascript':{
-				preprocessor:[ //编译模式
-					'None',
-					'Es6',
+			'js': {
+				preprocessor: [ //编译模式
+					'none',
+					'es6',
 					'typescript',
 					'vue'
 				],
-				externalScripts:[ //外部链接插件
+				externalScripts: [ //外部链接插件
 					'https://codemirror.net/mode/vue/index.html',
 					'https://codemirror.net/mode/vue/index.html'
 				]
 			},
 		}
+		//语法支持
 		this.support_language = {
 			'html/css/js': {
 				name: 'htmlmixed',
@@ -460,11 +368,16 @@ class OnlineProgramming extends Unit {
 				name: 'python',
 				version: 3,
 				singleLineStringErrors: false
-			}
+			},
+			vue:{
+				name: "vue"
+			  }
 		};
 		this.editor = {};
 		this.Init();
 	}
+
+
 	//整体布局
 	DomLayout() {
 		let outermost_layer = document.querySelector(`#${this.configuration.id}`);
@@ -485,7 +398,6 @@ class OnlineProgramming extends Unit {
 		outermost_layer.appendChild(div);
 
 		this.EditorInit();
-		this.SelectEvent();
 		this.ResizerMove();
 	}
 
@@ -495,12 +407,13 @@ class OnlineProgramming extends Unit {
 		div.className = 'programming-practice-area';
 		//title 区
 		let CreateTitle = this.CreateTitle('编程实践区');
-		CreateTitle.appendChild(this.CreateSleect(this.option,'change-mode'));
+		CreateTitle.appendChild(this.CreateSleect(this.option, 'change-mode', this.SelectEventForChangeMode));
 		div.appendChild(CreateTitle);
 		//编程区
 		div.appendChild(this.CreateEditor());
 		//底部按扭区
-		let buttonOperationArea = this.ButtonOperationArea();
+		let buttonOperationArea = document.createElement('div');
+		buttonOperationArea.className = 'button-operation-area';
 		for (let i = 0; i < this.configuration.button.length; i++) {
 			let btn = this.CreateButton(this.configuration.button[i], i);
 			buttonOperationArea.appendChild(btn);
@@ -509,6 +422,8 @@ class OnlineProgramming extends Unit {
 
 		return div;
 	}
+
+
 	//样式展示区
 	StyleArea() {
 		let div = document.createElement('div');
@@ -521,17 +436,243 @@ class OnlineProgramming extends Unit {
 		div.appendChild(div_c);
 		return div;
 	}
-	//select change事件注册
-	SelectEvent() {
-		let select = document.querySelector(
-			`#${this.configuration.id} .programming-practice-area .editor-title .change-mode`
-		);
-		select.onchange = (e) => {
-			this.editor = {};
-			let text = this.DomGetVal(select.options[select.selectedIndex]);
-			this.ReplactRditor(text);
+
+	//编辑区生成
+	CreateEditor(_type = 'html/css/js') {
+		//编辑器容器
+		let div = document.createElement('div');
+		div.className = 'exothecium-box';
+		let _num, text;
+		if (_type == 'html/css/js') {
+			_num = 3;
+			text = _type.split('/'); //html css js
+		} else {
+			_num = 1;
+			text = [_type];
 		};
+
+		for (let i = 0; i < text.length; i++) {
+			let editor_box = document.createElement('div');
+			editor_box.className = 'editor_box';
+			editor_box.setAttribute('mode', text[i]);
+			if (_num == 3) {
+				editor_box.setAttribute('style', 'height:calc(33.33% - 5px)');
+			} else {
+				editor_box.setAttribute('style', 'height:calc(100% - 5px)');
+			}
+			//name
+			editor_box.appendChild(this.CreateEditorName(text[i]));
+			//textarea
+			let textarea = document.createElement('textarea');
+			textarea.setAttribute('mode', text[i]);
+			editor_box.appendChild(textarea);
+			//横向分区
+			if (i > 0 && i < text.length) {
+				div.appendChild(this.EditorResizerRow('row-resize'));
+			} else {
+				div.appendChild(this.EditorResizerRow());
+			}
+			div.appendChild(editor_box);
+		}
+		return div;
 	}
+
+	//select 生成
+	CreateSleect(_opaction = [], _class = '', callback) {
+		let select = document.createElement('select');
+		select.className = _class;
+		for (let i = 0; i < _opaction.length; i++) {
+			let option = document.createElement('option');
+			this.DomSetVal(option, _opaction[i]);
+			select.appendChild(option);
+		};
+		select.onchange = (e) => {
+			let text = this.DomGetVal(select.options[select.selectedIndex]);
+			let _event = e || window.event;
+			let _target = _event.target || _event.srcElement;
+			if (callback) {
+				callback(text, this, _target)
+			}
+		};
+		return select;
+	}
+
+	//设置图标按钮生成
+	CreateIconForSetting(name = '') {
+		let div = document.createElement('div');
+		div.className = 'setting-icon-box';
+		div.setAttribute('data-type', name);
+		div.onclick = (e) => {
+			document.querySelector('.setting-dialog').setAttribute('style', 'display:block')
+			let _event = e || window.event;
+			let _target = _event.target || _event.srcElement;
+			//tab选区
+			let tabChildren = document.querySelector('.item-settings-modal .settings-tabs').children;
+			//设置区
+			let createSettingsChildren = document.querySelector('.item-settings-modal .settings .setting-box').children;
+			//下面逻辑 控制 设置区  选中显示  未选中 隐藏
+			for (let i = 0; i < tabChildren.length; i++) {
+				tabChildren[i].className = 'settings-tab-link';
+				_target.getAttribute('data-type') == tabChildren[i].getAttribute('data-type')
+					? (tabChildren[i].className += ' active')
+					: (tabChildren[i].className = 'settings-tab-link');
+			};
+			for (let i = 0; i < createSettingsChildren.length; i++) {
+				_target.getAttribute('data-type') == createSettingsChildren[i].getAttribute('data-type')
+					? (createSettingsChildren[i].setAttribute('style', 'display:block'))
+					: (createSettingsChildren[i].setAttribute('style', 'display:none'));
+			}
+		};
+		let span = document.createElement('span');
+		span.className = 'iconfont icon-shezhi';
+		span.setAttribute('data-type', name);
+		div.appendChild(span);
+		return div;
+	}
+
+	//设置弹框生成
+	SettingDiaLog(_array = {}) {
+		let div = document.createElement('div');
+		div.className = 'setting-dialog';
+		let div_c = document.createElement('div');
+		div_c.className = 'item-settings-modal';
+		let header = document.createElement('div');
+		header.className = 'header';
+		let h2 = document.createElement('h2');
+		this.DomSetVal(h2, '设置')
+		//关闭按钮
+		let btn = document.createElement('input');
+		btn.setAttribute('type', 'button');
+		btn.setAttribute('value', '关闭')
+		btn.className = 'close-settings';
+		btn.onclick = () => {
+			document.querySelector('.setting-dialog').setAttribute('style', 'display:none')
+		};
+		header.appendChild(h2);
+		header.appendChild(btn);
+		div_c.appendChild(header);
+		//tab
+		div_c.appendChild(this.CreateTabs(_array));
+		//setting
+		let settings = document.createElement('div');
+		settings.className = 'settings';
+		settings.appendChild(this.CreateSettings(_array));
+		div_c.appendChild(settings);
+		div.appendChild(div_c);
+		return div;
+	};
+
+	//tab选择区生成
+	CreateTabs(_array = []) {
+		let tab = document.createElement('div');
+		tab.className = 'settings-tabs';
+		for (let key in _array) {
+			let aLink = document.createElement('a');
+			aLink.setAttribute('href', 'javascript:;');
+			aLink.setAttribute('data-type', key);
+			aLink.className = 'settings-tab-link';
+			aLink.onclick = (e) => {
+				let _event = e || window.event;
+				let _target = _event.target || _event.srcElement;
+				let createSettingsChildren = document.querySelector('.item-settings-modal .settings .setting-box').children;//设置区
+				for (let i = 0; i < _target.parentNode.children.length; i++) {
+					if (_target !== _target.parentNode.children[i]) {
+						_target.parentNode.children[i].className.includes('active')
+							? (_target.parentNode.children[i].className = 'settings-tab-link')
+							: '';
+					}
+				};
+				_target.className.includes('active') ? '' : (_target.className += ' active');
+				for (let i = 0; i < createSettingsChildren.length; i++) {
+					if (_target.getAttribute('data-type') == createSettingsChildren[i].getAttribute('data-type')) {
+						createSettingsChildren[i].setAttribute('style', 'display:block')
+					} else {
+						createSettingsChildren[i].setAttribute('style', 'display:none')
+					}
+				}
+			};
+			this.DomSetVal(aLink, key)
+			tab.appendChild(aLink)
+		};
+		return tab;
+	}
+
+	//设置区生成
+	CreateSettings(_array = {}) {
+		let div = document.createElement('div');
+		div.className = 'setting-box';
+		for (let key in _array) {
+			let box = document.createElement('div');
+			box.className = 'setting-type';
+			box.setAttribute('data-type', `${key}`);
+
+			let preprocessor = document.createElement('h4');
+			preprocessor.className = 'preprocessor';
+			this.DomSetVal(preprocessor, `${key} 预处理器`);
+			box.appendChild(preprocessor);
+
+			let select_box_preprocessor = document.createElement('div');
+			select_box_preprocessor.className = 'select-box';
+			select_box_preprocessor.appendChild(
+				this.CreateSleect(_array[key].preprocessor, 'select-preprocessor', this.SelectEventForPreprocessor)
+			);
+			select_box_preprocessor.appendChild(this.CreateUpDownIcon());
+			box.appendChild(select_box_preprocessor);
+
+			let externalScripts = document.createElement('h4');
+			externalScripts.className = 'externalScripts';
+			this.DomSetVal(externalScripts, `${key} 外部引用`);
+			box.appendChild(externalScripts);
+
+			let select_box_externalScripts = document.createElement('div');
+			select_box_externalScripts.className = 'select-box';
+			select_box_externalScripts.appendChild(
+				this.CreateSleect(_array[key].externalScripts, 'select-externalScripts')
+			);
+			select_box_externalScripts.appendChild(this.CreateUpDownIcon());
+			box.appendChild(select_box_externalScripts);
+
+			div.appendChild(box);
+		};
+		return div;
+	}
+
+	//select change 事件 回调    改变编辑区 编译模式
+	SelectEventForChangeMode(text = '', _this = '') {
+		_this.editor = {};
+		_this.ReplactRditor(text);
+	}
+
+	//select change 事件 回调    修改 预处理器 模式
+	SelectEventForPreprocessor(text = '', _this = '', _target = '') {
+		let parent = document.querySelectorAll(`#${_this.configuration.id} .online-programming .editor_box`);
+		//下面逻辑 只是为了更改 编辑模式后面的文字   和更改 编译模式
+		for(let i = 0; i< parent.length;i++){
+			if(parent[i].getAttribute('mode') == _target.parentNode.parentNode.getAttribute('data-type')){
+				for(let k = 0; k < parent[i].children.length; k++){
+					if(parent[i].children[k].className == 'create-editor-name'){
+						for(let j = 0; j < parent[i].children[k].children.length; j++){
+							if(parent[i].children[k].children[j].className == 'title-text'){
+								_this.DomSetVal(parent[i].children[k].children[j].children[0],`(${text})`);
+								for(let key in _this.support_language){
+									console.log(text,key)
+									if(text == key){
+										_this.editor[parent[i].getAttribute('mode')].setOption("mode",_this.support_language[key]);
+									};
+									if(text == 'none'){
+										_this.editor[parent[i].getAttribute('mode')].setOption("mode",_this.support_language[parent[i].getAttribute('mode')]);
+									};
+									console.log(_this.editor[parent[i].getAttribute('mode')])
+									//_this.editor[parent[i].getAttribute('mode')].setValue('');
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
 	//拖动事件注册
 	ResizerMove() {
 		//事件委托
@@ -598,11 +739,11 @@ class OnlineProgramming extends Unit {
 		let prev_previousSibling_height;
 		let old_next_nextSibling_height;
 		let next_nextSibling_height;
-		if(prevDom.previousSibling && prevDom.previousSibling.previousSibling){
+		if (prevDom.previousSibling && prevDom.previousSibling.previousSibling) {
 			old_prev_previousSibling_height = prevDom.previousSibling.previousSibling.getAttribute('style') ? prevDom.previousSibling.previousSibling.getAttribute('style').match(reg)[0] : '';
 			prev_previousSibling_height = this.DomGetWH(prevDom.previousSibling.previousSibling).height - 30;
 		};
-		if(nextDom.nextSibling && nextDom.nextSibling.nextSibling){
+		if (nextDom.nextSibling && nextDom.nextSibling.nextSibling) {
 			old_next_nextSibling_height = nextDom.nextSibling.nextSibling.getAttribute('style') ? nextDom.nextSibling.nextSibling.getAttribute('style').match(reg)[0] : '';
 			next_nextSibling_height = this.DomGetWH(nextDom.nextSibling.nextSibling).height - 30;
 		};
@@ -624,26 +765,26 @@ class OnlineProgramming extends Unit {
 					prevDom.setAttribute('style', `height:calc(33.33% - 5px - ${clientYMove}px)`);
 					nextDom.setAttribute('style', `height:calc(33.33% - 5px + ${clientYMove}px)`);
 				}
-			}else{
-				if(clientYMove > 0){ //向上
-					if(prevDom.previousSibling && prevDom.previousSibling.previousSibling){
+			} else {
+				if (clientYMove > 0) { //向上
+					if (prevDom.previousSibling && prevDom.previousSibling.previousSibling) {
 						if (clientYMove < (prev_height + prev_previousSibling_height)) {
-							if(old_prev_previousSibling_height){
+							if (old_prev_previousSibling_height) {
 								prevDom.previousSibling.previousSibling.setAttribute('style', `height:calc(${old_prev_previousSibling_height} - ${clientYMove - prev_height}px)`);
 								nextDom.setAttribute('style', `height:calc(${old_next_height} + ${clientYMove}px)`);
-							}else{
+							} else {
 								prevDom.previousSibling.previousSibling.setAttribute('style', `height:calc(33.33% - 5px - ${clientYMove - prev_height}px)`);
 								nextDom.setAttribute('style', `height:calc(${old_next_height} + ${clientYMove}px)`);
 							}
 						}
 					}
-				}else{//向下
-					if(nextDom.nextSibling && nextDom.nextSibling.nextSibling){
+				} else {//向下
+					if (nextDom.nextSibling && nextDom.nextSibling.nextSibling) {
 						if ((clientYMove * -1) < (next_height + next_nextSibling_height)) {
-							if(old_next_nextSibling_height){
+							if (old_next_nextSibling_height) {
 								nextDom.nextSibling.nextSibling.setAttribute('style', `height:calc(${old_next_nextSibling_height} - ${Math.abs(clientYMove) - next_height}px)`);
 								prevDom.setAttribute('style', `height:calc(${old_prev_height} - ${clientYMove}px)`);
-							}else{
+							} else {
 								nextDom.nextSibling.nextSibling.setAttribute('style', `height:calc(33.33% - 5px - ${Math.abs(clientYMove) - next_height}px)`);
 								prevDom.setAttribute('style', `height:calc(33.33% - 5px - ${clientYMove}px)`);
 							}

@@ -44,6 +44,11 @@
                         font-weight: 600;
                         top: 6px;
                         left: 60px;
+                        span{
+                            font-size: 12px;
+                            margin-left: 5px;
+                            font-weight: normal;
+                        }
                     }
                     .setting-icon-box{
                         position: absolute;
@@ -153,6 +158,7 @@
         height: 100%;
         background: rgba(0, 0, 0, 0.6);
         z-index: 999;
+        display: none;
         .item-settings-modal{
             width: 520px;
             height: 480px;
@@ -162,6 +168,7 @@
             box-sizing: border-box;
             background: #fff;
             padding: 2px;
+            animation: bounceIn 1000ms both;
             .header{
                 width: 100%;
                 height: 75px;
@@ -182,7 +189,7 @@
                     top: 15px;
                     right: 15px;
                     background: #47cf73;
-                    color: #000;
+                    color: #fff;
                     padding: 10px 16px;
                     border-radius: 4px;
                     border: 3px solid transparent;
@@ -214,7 +221,101 @@
                 box-sizing: border-box;
                 padding: 22px 18px;
                 overflow-y: auto;
+                .setting-box{
+                    width: 100%;
+                    height: 100%;
+                    overflow: hidden;
+                    .setting-type{
+                        width: 100%;
+                        height: 100%;
+                        h4{
+                            font-weight: bold;
+                            font-size: 16px;
+                            margin: 0 0 4px 0;
+                            color: black;
+                            text-transform: none;
+                            line-height: 1.2;
+                        }
+                        .select-box{
+                            margin: 0 0 10px 0;
+                            position: relative;
+                            select{
+                                background: #eaeff0;
+                                font-size: 14px;
+                                color: #616574;
+                                padding: 0 12px;
+                                -webkit-appearance: none;
+                                outline: 0;
+                                z-index: 0;
+                                position: relative;
+                                width: 100%;
+                                border: none;
+                                cursor: pointer;
+                                height: 42px;
+                                line-height: 42px;
+                            }
+                            .up-down-icon{
+                                position: absolute;
+                                right: 0;
+                                top: 10px;
+                                .up{
+                                    position: absolute;
+                                    right: 20px;
+                                    top: 5px;
+                                }
+                            }
+                        }
+                        
+                        .preprocessor{
+                            margin-top: 10px;
+                        }
+                        .externalScripts{
+                            margin-top: 30px;
+                        }
+                    }
+                }
             }
         }
+    }
+}
+
+
+
+@keyframes bounceIn {
+
+    from,
+    20%,
+    40%,
+    60%,
+    80%,
+    to {
+        animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+    }
+
+    0% {
+        opacity: 0;
+        transform: scale3d(0.3, 0.3, 0.3);
+    }
+
+    20% {
+        transform: scale3d(1.1, 1.1, 1.1);
+    }
+
+    40% {
+        transform: scale3d(0.9, 0.9, 0.9);
+    }
+
+    60% {
+        opacity: 1;
+        transform: scale3d(1.03, 1.03, 1.03);
+    }
+
+    80% {
+        transform: scale3d(0.97, 0.97, 0.97);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale3d(1, 1, 1);
     }
 }
