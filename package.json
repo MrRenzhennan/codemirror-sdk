@@ -10,7 +10,8 @@
     "start": "webpack && webpack-dev-server --hot --inline"
   },
   "dependencies": {
-    "codemirror": "^5.43.0"
+    "codemirror": "^5.43.0",
+    "sortablejs": "^1.8.3"
   },
   "engines": {
     "node": ">=8.11.3",

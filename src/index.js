@@ -13,7 +13,7 @@ import 'codemirror/mode/vbscript/vbscript';
 import 'codemirror/mode/css/css';
 import 'codemirror/mode/sass/sass';
 import 'codemirror/mode/xml/xml';
-import 'codemirror/mode/vue/vue';
+// import 'codemirror/mode/vue/vue';
 import 'codemirror/mode/python/python';
 // import 'codemirror/mode/php/php';
 // import 'codemirror/mode/sql/sql';
@@ -102,6 +102,9 @@ import 'codemirror/addon/scroll/annotatescrollbar.js';
 import 'codemirror/addon/search/matchesonscrollbar.js';
 import 'codemirror/addon/search/searchcursor.js';
 import 'codemirror/addon/search/match-highlighter.js';
+
+import Sortable from 'sortablejs'
+console.log(Sortable)
 
 class Unit {
 	constructor() { }
@@ -223,6 +226,27 @@ class Unit {
 		return div;
 	}
 
+	//input 拖拽图标生成
+	CreateMoveIcon() {
+		let div = document.createElement('div');
+		div.className = 'move-input';
+		let move = document.createElement('span');
+		move.className = 'iconfont icon-zhangjie move';
+		div.appendChild(move);
+		return div;
+	}
+
+	// 删除input item icon 生成
+	CreateDeleteIcon(callback){
+		let div = document.createElement('div');
+		div.className = 'delete-input';
+		let move = document.createElement('span');
+		move.className = 'iconfont icon-cha_hover delete';
+		div.appendChild(move);
+		
+		return div;
+	}
+
 }
 
 class OnlineProgramming extends Unit {
@@ -327,7 +351,8 @@ class OnlineProgramming extends Unit {
 					'none',
 					'es6',
 					'typescript',
-					'vue'
+					'vue',
+					'react'
 				],
 				externalScripts: [ //外部链接插件
 					'https://codemirror.net/mode/vue/index.html',
@@ -369,9 +394,9 @@ class OnlineProgramming extends Unit {
 				version: 3,
 				singleLineStringErrors: false
 			},
-			vue:{
-				name: "vue"
-			  }
+			// vue:{
+			// 	name: "vue"
+			//   }
 		};
 		this.editor = {};
 		this.Init();
@@ -397,8 +422,16 @@ class OnlineProgramming extends Unit {
 		div.appendChild(this.SettingDiaLog(this.preprocessor))
 		outermost_layer.appendChild(div);
 
+		//编辑器初始化
 		this.EditorInit();
+		//区域拖拽初始化
 		this.ResizerMove();
+
+		//初始化
+		for(var key in this.preprocessor){
+			this.InputInitMove(document.getElementById(`sortable-${key}`),'.move-input');
+		}
+		
 	}
 
 	//编程实践区
@@ -481,6 +514,7 @@ class OnlineProgramming extends Unit {
 	CreateSleect(_opaction = [], _class = '', callback) {
 		let select = document.createElement('select');
 		select.className = _class;
+		//循环生成 option
 		for (let i = 0; i < _opaction.length; i++) {
 			let option = document.createElement('option');
 			this.DomSetVal(option, _opaction[i]);
@@ -495,6 +529,21 @@ class OnlineProgramming extends Unit {
 			}
 		};
 		return select;
+	}
+
+	//input 生成
+	CreateInput(_class = '',placeholder = 'https://codepen.io/username/pen/aBcDef',callback){
+		let input = document.createElement('input');
+		input.className = _class;
+		input.setAttribute('type','text');
+		input.setAttribute('placeholder',placeholder);
+		let pattern = /^((ftp|http|https):)?\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?$/;
+		input.onchange = (e)=>{
+			let _event = e || window.event;
+			let _target = _event.target || _event.srcElement;
+			console.log(_target.value)
+		};
+		return input;
 	}
 
 	//设置图标按钮生成
@@ -605,12 +654,13 @@ class OnlineProgramming extends Unit {
 			let box = document.createElement('div');
 			box.className = 'setting-type';
 			box.setAttribute('data-type', `${key}`);
-
+			//生成预处理器区域
+			//--start--
 			let preprocessor = document.createElement('h4');
 			preprocessor.className = 'preprocessor';
 			this.DomSetVal(preprocessor, `${key} 预处理器`);
 			box.appendChild(preprocessor);
-
+			
 			let select_box_preprocessor = document.createElement('div');
 			select_box_preprocessor.className = 'select-box';
 			select_box_preprocessor.appendChild(
@@ -618,23 +668,96 @@ class OnlineProgramming extends Unit {
 			);
 			select_box_preprocessor.appendChild(this.CreateUpDownIcon());
 			box.appendChild(select_box_preprocessor);
-
+			//--end--
+			//生成外部链接引用区域
+			//--start--
 			let externalScripts = document.createElement('h4');
 			externalScripts.className = 'externalScripts';
 			this.DomSetVal(externalScripts, `${key} 外部引用`);
 			box.appendChild(externalScripts);
-
+			//生成 input 外部链接区域
 			let select_box_externalScripts = document.createElement('div');
-			select_box_externalScripts.className = 'select-box';
-			select_box_externalScripts.appendChild(
-				this.CreateSleect(_array[key].externalScripts, 'select-externalScripts')
-			);
-			select_box_externalScripts.appendChild(this.CreateUpDownIcon());
+			select_box_externalScripts.className = 'sortable-box';
+			select_box_externalScripts.id = `sortable-${key}`;
+			//初始化2个input框
+			this.SortableItemAdd(select_box_externalScripts);
+			this.SortableItemAdd(select_box_externalScripts);
+			//--end--
+			select_box_externalScripts.appendChild(this.AddInputItem());
+			//将删除事件注册在父元素上
+			select_box_externalScripts.onclick = (e)=>{
+				let _event = e || window.event;
+				let _target = _event.target || _event.srcElement;
+				if(_target.className.includes('delete') || _target.className.includes('delete-input')){
+					if(_target.className.includes('iconfont icon-cha_hover delete')){
+						this.DomDelete(_target.parentNode)
+					};
+					if(_target.className.includes('delete-input')){
+						this.DomDelete(_target)
+					};
+				};
+			};
 			box.appendChild(select_box_externalScripts);
-
 			div.appendChild(box);
 		};
 		return div;
+	}
+
+	//外部链接条目生成  addendChild
+	SortableItemAdd(parentNode = '') {
+		let sortable_box = document.createElement('div');
+		sortable_box.className = 'sortable-item';
+		//生成移动icon
+		sortable_box.appendChild(this.CreateMoveIcon());
+		//生成input
+		sortable_box.appendChild(this.CreateInput());
+		//生成删除icon
+		sortable_box.appendChild(this.CreateDeleteIcon(this.DomDelete));
+
+		parentNode.appendChild(sortable_box)
+	}
+
+	//input 拖拽初始化
+	InputInitMove(el='',_class=''){
+		new Sortable(el, {
+			handle: _class, // handle's class
+			animation: 150
+		});
+	}
+
+	//点击增加 input item
+	AddInputItem(){
+		let div = document.createElement('div');
+		div.className = 'add-input-item';
+		this.DomSetVal(div,'+ 增加其他链接');
+		div.onclick = (e)=>{
+			let _event = e || window.event;
+			let _target = _event.target || _event.srcElement;
+			this.DomClone(_target)
+		}
+		return div;
+	}
+
+	//克隆节点方法
+	DomClone(_target = ''){
+		//父节点
+		let parentNode = _target.parentNode;
+		//需要克隆的节点
+		let clone_dom = _target.parentNode.children[0].cloneNode(true); //true 深度克隆
+		clone_dom.children[1].value = '';//清空input内容
+		parentNode.insertBefore(clone_dom,_target);//obj.insertBefore(new,ref)
+	}
+
+	//删除节点操作
+	DomDelete(_target = ''){
+		console.log(_target)
+		//需要删除的节点
+		let delete_dom = _target.parentNode;
+		//父节点
+		let parentNode = delete_dom.parentNode;
+		if(parentNode.children.length > 3){
+			parentNode.removeChild(delete_dom);
+		}
 	}
 
 	//select change 事件 回调    改变编辑区 编译模式

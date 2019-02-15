@@ -1,321 +1,384 @@
+.online-programming {
+	font-family: 'Lato', 'Lucida Grande', 'Lucida Sans Unicode', Tahoma, Sans-Serif;
+	width: 100%;
+	height: 100%;
+	position: relative;
+	.cm-matchhighlight {
+		background-color: #616486;
+	}
+	.CodeMirror-selection-highlight-scrollbar {
+		background-color: green;
+	}
+	.CodeMirror {
+		font-size: 18px;
+	}
+	.programming-practice-area {
+		width: calc(50% - 30px);
+		height: 100%;
+		float: left;
+		box-sizing: border-box;
+		position: relative;
+		overflow: hidden;
+		.exothecium-box {
+			width: 100%;
+			height: calc(100% - 80px);
+			box-sizing: border-box;
+			.editor_box {
+				width: 100%;
+				padding-top: 30px;
+				box-sizing: border-box;
+				position: relative;
+				//transition: all 0.1s linear 0s;
+				.create-editor-name {
+					width: 100%;
+					height: 30px;
+					background: #000;
+					position: absolute;
+					top: 0px;
+					left: 0;
+					.title-text {
+						position: absolute;
+						color: #c5c8d4;
+						font-size: 18px;
+						font-weight: 600;
+						top: 6px;
+						left: 60px;
+						span {
+							font-size: 12px;
+							margin-left: 5px;
+							font-weight: normal;
+						}
+					}
+					.setting-icon-box {
+						position: absolute;
+						top: 6px;
+						right: 10px;
+						width: 25px;
+						height: 25px;
+						border-radius: 2px;
+						text-align: center;
+						line-height: 22px;
+						background: #36383f;
+						cursor: pointer;
+						.icon-shezhi {
+							color: white;
+							font-size: 12px;
+						}
+					}
+				}
+			}
+		}
+		.button-operation-area {
+			width: 100%;
+			height: 40px;
+			border-top: 1px solid #36383f;
+			background: #000;
+			box-sizing: border-box;
+			button {
+				float: right;
+				padding: 5px;
+				border: none;
+				color: #fff;
+				background: #ff0000;
+				margin-right: 30px;
+				margin-top: 5px;
+			}
+		}
+	}
+	.style-area {
+		width: calc(50% - 30px);
+		height: 100%;
+		float: left;
+		background: #000;
+		box-sizing: border-box;
+		position: relative;
+		overflow: hidden;
+		.exothecium-box {
+			width: 100%;
+			height: calc(100% - 40px);
+			box-sizing: border-box;
+		}
+	}
 
-.online-programming{
-    font-family: 'Lato', 'Lucida Grande', 'Lucida Sans Unicode', Tahoma, Sans-Serif;
-    width: 100%;
-    height: 100%;
-    position: relative;
-    .cm-matchhighlight {
-        background-color: #616486;
-    }
-    .CodeMirror-selection-highlight-scrollbar {
-        background-color: green;
-    }
-    .CodeMirror{
-        font-size: 18px;
-    }
-    .programming-practice-area{
-        width: calc(50% - 30px);
-        height: 100%;
-        float: left;
-        box-sizing: border-box;
-        position: relative;
-        overflow: hidden;
-        .exothecium-box{
-            width: 100%;
-            height: calc(100% - 80px);
-            box-sizing: border-box;
-            .editor_box{
-                width: 100%;
-                padding-top: 30px;
-                box-sizing: border-box;
-                position: relative;
-                //transition: all 0.1s linear 0s;
-                .create-editor-name{
-                    width: 100%;
-                    height: 30px;
-                    background: #000;
-                    position: absolute;
-                    top: 0px;
-                    left: 0;
-                    .title-text{
-                        position: absolute;
-                        color: #c5c8d4;
-                        font-size: 18px;
-                        font-weight: 600;
-                        top: 6px;
-                        left: 60px;
-                        span{
-                            font-size: 12px;
-                            margin-left: 5px;
-                            font-weight: normal;
-                        }
-                    }
-                    .setting-icon-box{
-                        position: absolute;
-                        top: 6px;
-                        right: 10px;
-                        width: 25px;
-                        height: 25px;
-                        border-radius: 2px;
-                        text-align: center;
-                        line-height: 22px;
-                        background: #36383f;
-                        cursor: pointer;
-                        .icon-shezhi{
-                            color: white;
-                           font-size: 12px;
-                        }
-                    }
-                }
-            }
-        }
-        .button-operation-area{
-            width: 100%;
-            height: 40px;
-            border-top: 1px solid #36383f;
-            background: #000;
-            box-sizing: border-box;
-            button {
-                float: right;
-                padding: 5px;
-                border: none;
-                color: #fff;
-                background: #ff0000;
-                margin-right: 30px;
-                margin-top: 5px;
-            }
-        }
-        
-    }
-    .style-area{
-        width: calc(50% - 30px);
-        height: 100%;
-        float: left;
-        background: #000;
-        box-sizing: border-box;
-        position: relative;
-        overflow: hidden;
-        .exothecium-box{
-            width: 100%;
-            height: calc(100% - 40px);
-            box-sizing: border-box;
-        }
-    }
-    
-    // 分割条样式
-    .editor-resizer-col {
-        z-index: 2;
-        width: 20px;
-        border-left: 1px solid rgba(255, 255, 255, 0.1);
-        border-right: 1px solid rgba(0, 0, 0, 0.4);
-        background: #36383f;
-        box-sizing: border-box;
-        height: 100%;
-        float: left;
-    }
-    .col-resize,{
-        cursor: col-resize;
-    }
-    .row-resize{
-        cursor: row-resize;
-    }
-    .editor-resizer-row {
-        z-index: 2;
-        width: 100%;
-        border-top: 1px solid rgba(255, 255, 255, 0.1);
-        border-bottom: 1px solid rgba(0, 0, 0, 0.4);
-        background: #36383f;
-        box-sizing: border-box;
-        height: 5px;
-    }
-    .editor-title{
-        position: relative;
-        width: 100%;
-        height: 40px;
-        background: #000;
-        .title-text{
-            position: absolute;
-            color: #c5c8d4;
-            font-size: 18px;
-            font-weight: 600;
-            top: 8px;
-            left: 30px;
-            width: 100px;
-        }
-        .change-mode{
-            position: absolute;
-            top: 7px;
-            right: 7px;
-            height: 25px;
-            width: 100px;
-            background: #000;
-            color: #fff;
-        }
-    }
-    .setting-dialog{
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.6);
-        z-index: 999;
-        display: none;
-        .item-settings-modal{
-            width: 520px;
-            height: 480px;
-            margin: 0 auto;
-            margin-top: 60px;
-            border-radius: 4px;
-            box-sizing: border-box;
-            background: #fff;
-            padding: 2px;
-            animation: bounceIn 1000ms both;
-            .header{
-                width: 100%;
-                height: 75px;
-                color: #fff;
-                background: #202125;
-                padding: 15px 18px;
-                box-sizing: border-box;
-                border-radius: 3px 3px 0 0;
-                position: relative;
-                h2{
-                    color: white;
-                    margin: 3px auto 0 0;
-                    font-size: 30px;
-                    font-weight: normal;
-                }
-                .close-settings{
-                    position: absolute;
-                    top: 15px;
-                    right: 15px;
-                    background: #47cf73;
-                    color: #fff;
-                    padding: 10px 16px;
-                    border-radius: 4px;
-                    border: 3px solid transparent;
-                    font-size: 15px;
-                    cursor: pointer;
-                }
-            }
-            .settings-tabs{
-                width: 100%;
-                height: 38px;
-                box-sizing: border-box;
-                padding: 0 20px;
-                background: #000;
-                .settings-tab-link{
-                    font-size: 18px;
-                    display: inline-block;
-                    color: #9396a4;
-                    padding: 5px 14px 5px 0;
-                    text-decoration: none;
-                }
-                .active{
-                    color: white;
-                    font-weight: 700;
-                }
-            }
-            .settings{
-                width: 100%;
-                height: calc(100% - 38px - 75px);
-                box-sizing: border-box;
-                padding: 22px 18px;
-                overflow-y: auto;
-                .setting-box{
-                    width: 100%;
-                    height: 100%;
-                    overflow: hidden;
-                    .setting-type{
-                        width: 100%;
-                        height: 100%;
-                        h4{
-                            font-weight: bold;
-                            font-size: 16px;
-                            margin: 0 0 4px 0;
-                            color: black;
-                            text-transform: none;
-                            line-height: 1.2;
-                        }
-                        .select-box{
-                            margin: 0 0 10px 0;
+	// 分割条样式
+	.editor-resizer-col {
+		z-index: 2;
+		width: 20px;
+		border-left: 1px solid rgba(255, 255, 255, 0.1);
+		border-right: 1px solid rgba(0, 0, 0, 0.4);
+		background: #36383f;
+		box-sizing: border-box;
+		height: 100%;
+		float: left;
+	}
+	.col-resize {
+		cursor: col-resize;
+	}
+	.row-resize {
+		cursor: row-resize;
+	}
+	.editor-resizer-row {
+		z-index: 2;
+		width: 100%;
+		border-top: 1px solid rgba(255, 255, 255, 0.1);
+		border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+		background: #36383f;
+		box-sizing: border-box;
+		height: 5px;
+	}
+	.editor-title {
+		position: relative;
+		width: 100%;
+		height: 40px;
+		background: #000;
+		.title-text {
+			position: absolute;
+			color: #c5c8d4;
+			font-size: 18px;
+			font-weight: 600;
+			top: 8px;
+			left: 30px;
+			width: 100px;
+		}
+		.change-mode {
+			position: absolute;
+			top: 7px;
+			right: 7px;
+			height: 25px;
+			width: 100px;
+			background: #000;
+			color: #fff;
+		}
+	}
+	.setting-dialog {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		background: rgba(0, 0, 0, 0.6);
+		z-index: 999;
+		// display: none;
+		.item-settings-modal {
+			width: 520px;
+			height: 480px;
+			margin: 0 auto;
+			margin-top: 60px;
+			border-radius: 4px;
+			box-sizing: border-box;
+			background: #fff;
+			padding: 2px;
+			animation: bounceIn 1000ms both;
+			.header {
+				width: 100%;
+				height: 75px;
+				color: #fff;
+				background: #202125;
+				padding: 15px 18px;
+				box-sizing: border-box;
+				border-radius: 3px 3px 0 0;
+				position: relative;
+				h2 {
+					color: white;
+					margin: 3px auto 0 0;
+					font-size: 30px;
+					font-weight: normal;
+				}
+				.close-settings {
+					position: absolute;
+					top: 15px;
+					right: 15px;
+					background: #47cf73;
+					color: #fff;
+					padding: 10px 16px;
+					border-radius: 4px;
+					border: 3px solid transparent;
+					font-size: 15px;
+					cursor: pointer;
+				}
+			}
+			.settings-tabs {
+				width: 100%;
+				height: 38px;
+				box-sizing: border-box;
+				padding: 0 20px;
+				background: #000;
+				.settings-tab-link {
+					font-size: 18px;
+					display: inline-block;
+					color: #9396a4;
+					padding: 5px 14px 5px 0;
+					text-decoration: none;
+				}
+				.active {
+					color: white;
+					font-weight: 700;
+				}
+			}
+			.settings {
+				width: 100%;
+				height: calc(100% - 38px - 75px);
+				box-sizing: border-box;
+				padding: 22px 18px;
+				overflow-y: auto;
+				.setting-box {
+					width: 100%;
+					height: 100%;
+					overflow: hidden;
+					.setting-type {
+						width: 100%;
+						height: 100%;
+						h4 {
+							font-weight: bold;
+							font-size: 16px;
+							margin: 0 0 4px 0;
+							color: black;
+							text-transform: none;
+							line-height: 1.2;
+						}
+						.select-box {
+							margin: 0 0 10px 0;
+							position: relative;
+							select {
+								background: #eaeff0;
+								font-size: 14px;
+								color: #616574;
+								padding: 0 12px;
+								-webkit-appearance: none;
+								outline: 0;
+								z-index: 0;
+								position: relative;
+								width: 100%;
+								border: none;
+								cursor: pointer;
+								height: 42px;
+								line-height: 42px;
+							}
+							.up-down-icon {
+								position: absolute;
+								right: 0;
+								top: 10px;
+								.up {
+									position: absolute;
+									right: 20px;
+									top: 5px;
+								}
+							}
+						}
+						.preprocessor {
+							margin-top: 10px;
+						}
+						.externalScripts {
+							margin-top: 30px;
+						}
+						.sortable-box {
+                            width: 100%;
+                            padding-bottom: 20px;
                             position: relative;
-                            select{
-                                background: #eaeff0;
-                                font-size: 14px;
-                                color: #616574;
-                                padding: 0 12px;
-                                -webkit-appearance: none;
-                                outline: 0;
-                                z-index: 0;
+                            height: calc(100% - 10px - 19px - 4px - 42px - 30px - 19px - 4px);
+                            box-sizing: border-box;
+                            overflow-y: auto;
+							.sortable-item {
                                 position: relative;
                                 width: 100%;
-                                border: none;
-                                cursor: pointer;
-                                height: 42px;
-                                line-height: 42px;
-                            }
-                            .up-down-icon{
-                                position: absolute;
-                                right: 0;
-                                top: 10px;
-                                .up{
-                                    position: absolute;
-                                    right: 20px;
-                                    top: 5px;
+                                margin-bottom: 10px;
+								.move-input {
+									display: inline-block;
+									height: 35px;
+									cursor: pointer;
+									font-size: 20px;
+									width: 30px;
+									text-align: center;
+                                    vertical-align: middle;
+                                    line-height: 35px;
+                                    .move{
+                                        font-size: 20px;
+                                    }
+								}
+								.delete-input {
+									position: absolute;
+									top: 0;
+									right: 0;
+									width: 20px;
+									height: 17px;
+									cursor: pointer;
+									text-align: center;
+                                    line-height: 14px;
+                                    border-radius: 0 4px 4px 0;
+                                    background: #c5c8d4;
+									.delete {
+										font-size: 12px;
+									}
                                 }
+                                .delete-input:hover{
+                                    background: #000;
+                                    .delete {
+										color: red;
+									}
+                                }
+								input {
+									background: #eaeff0 !important;
+									color: #222;
+									width: calc(100% - 30px - 20px);
+									border-radius: 4px 0 4px 4px;
+									font-size: 13px;
+									-webkit-appearance: none;
+									outline: 0;
+									border: 3px solid #eaedf0;
+									padding: 7px !important;
+									box-sizing: border-box;
+								}
                             }
-                        }
-                        
-                        .preprocessor{
-                            margin-top: 10px;
-                        }
-                        .externalScripts{
-                            margin-top: 30px;
-                        }
-                    }
-                }
-            }
-        }
-    }
+                            .add-input-item{
+                                width: 90px;
+                                margin-left: 30px;
+                                background: #36383f;
+                                font-size: 12px;
+                                color: #fff;
+                                padding: 2px 5px;
+                                border-radius: 2px;
+                                cursor: pointer;
+                            }
+						}
+					}
+				}
+			}
+		}
+	}
 }
 
-
-
 @keyframes bounceIn {
+	from,
+	20%,
+	40%,
+	60%,
+	80%,
+	to {
+		animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+	}
 
-    from,
-    20%,
-    40%,
-    60%,
-    80%,
-    to {
-        animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
-    }
+	0% {
+		opacity: 0;
+		transform: scale3d(0.3, 0.3, 0.3);
+	}
 
-    0% {
-        opacity: 0;
-        transform: scale3d(0.3, 0.3, 0.3);
-    }
+	20% {
+		transform: scale3d(1.1, 1.1, 1.1);
+	}
 
-    20% {
-        transform: scale3d(1.1, 1.1, 1.1);
-    }
+	40% {
+		transform: scale3d(0.9, 0.9, 0.9);
+	}
 
-    40% {
-        transform: scale3d(0.9, 0.9, 0.9);
-    }
+	60% {
+		opacity: 1;
+		transform: scale3d(1.03, 1.03, 1.03);
+	}
 
-    60% {
-        opacity: 1;
-        transform: scale3d(1.03, 1.03, 1.03);
-    }
+	80% {
+		transform: scale3d(0.97, 0.97, 0.97);
+	}
 
-    80% {
-        transform: scale3d(0.97, 0.97, 0.97);
-    }
-
-    to {
-        opacity: 1;
-        transform: scale3d(1, 1, 1);
-    }
+	to {
+		opacity: 1;
+		transform: scale3d(1, 1, 1);
+	}
 }
