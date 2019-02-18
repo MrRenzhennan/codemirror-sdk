@@ -104,7 +104,6 @@ import 'codemirror/addon/search/searchcursor.js';
 import 'codemirror/addon/search/match-highlighter.js';
 
 import Sortable from 'sortablejs'
-console.log(Sortable)
 
 class Unit {
 	constructor() { }
@@ -124,7 +123,10 @@ class Unit {
 	//     }
 	// };
 
-	//获取dom 宽高
+	/**
+	 * 获取dom 宽高
+	 * @param {dom元素} Element _dom 
+	 */
 	DomGetWH(_dom = '') {
 		let dom = _dom;
 		if (dom) {
@@ -134,7 +136,11 @@ class Unit {
 		}
 	}
 
-	//dom赋值
+	/**
+	 * dom赋值
+	 * @param {dom元素} Element _dom 
+	 * @param {内容} String text 
+	 */
 	DomSetVal(dom = '', text = '') {
 		if (dom) {
 			if (dom.innerText) {
@@ -147,7 +153,10 @@ class Unit {
 	}
 
 
-	//dom取值
+	/**
+	 * dom取值
+	 * @param {dom元素} Element _dom 
+	 */
 	DomGetVal(dom = '') {
 		let Text;
 		if (dom) {
@@ -160,7 +169,10 @@ class Unit {
 		return Text;
 	}
 
-	//创建 竖向 区间分隔
+	/**
+	 * 创建 竖向 区间分隔
+	 * @param {class类名} String _class 
+	 */
 	EditorResizerCol(_class = '') {
 		let div = document.createElement('div');
 		div.className = 'editor-resizer-col';
@@ -169,7 +181,10 @@ class Unit {
 	}
 
 
-	//创建 横向向 区间分隔
+	/**
+	 * 创建 横向向 区间分隔
+	 * @param {class类名} String _class 
+	 */
 	EditorResizerRow(_class = '') {
 		let div = document.createElement('div');
 		div.className = 'editor-resizer-row';
@@ -177,7 +192,10 @@ class Unit {
 		return div;
 	}
 
-	//titile 生成    分区名称
+	/**
+	 * titile 生成    分区名称
+	 * @param {内容} String title 
+	 */
 	CreateTitle(title = '编程实践区') {
 		let div = document.createElement('div');
 		div.className = 'editor-title';
@@ -187,7 +205,10 @@ class Unit {
 		return div;
 	}
 
-	//编辑区类型 区域生成  编辑区 模式名称
+	/**
+	 * 编辑区类型 区域生成  编辑区 模式名称
+	 * @param {内容} String name 
+	 */
 	CreateEditorName(name = 'html') {
 		let div = document.createElement('div');
 		div.className = 'create-editor-name';
@@ -206,17 +227,10 @@ class Unit {
 		return div;
 	}
 
-	//按钮生成
-	CreateButton(bute = '', i = 0) {
-		let btn = document.createElement('button');
-		btn.className = `btn_${i + 1}`;
-		btn.setAttribute('style', bute.style ? bute.style : '');
-		btn.onclick = bute.callback ? bute.callback : null;
-		this.DomSetVal(btn, bute.text ? bute.text : '');
-		return btn;
-	}
-
-	//箭头 icon生成
+	/**
+	 * 箭头 icon生成
+	 * @param {} 
+	 */
 	CreateUpDownIcon() {
 		let div = document.createElement('div');
 		div.className = 'up-down-icon';
@@ -226,7 +240,9 @@ class Unit {
 		return div;
 	}
 
-	//input 拖拽图标生成
+	/**
+	 * input 拖拽图标生成
+	 */
 	CreateMoveIcon() {
 		let div = document.createElement('div');
 		div.className = 'move-input';
@@ -236,14 +252,17 @@ class Unit {
 		return div;
 	}
 
-	// 删除input item icon 生成
-	CreateDeleteIcon(callback){
+	/**
+	 * 删除input item icon 生成
+	 * @param {回调函数} Function callback 
+	 */
+	CreateDeleteIcon(callback) {
 		let div = document.createElement('div');
 		div.className = 'delete-input';
 		let move = document.createElement('span');
 		move.className = 'iconfont icon-cha_hover delete';
 		div.appendChild(move);
-		
+
 		return div;
 	}
 
@@ -300,21 +319,15 @@ class OnlineProgramming extends Unit {
 			{
 				id: '', //容器
 				isPaste: false, //是否禁用粘贴
+				currentMode: 'html/css/js',//当前编辑器模式
+				disabledForSelect: false,//是否禁用select
 				button: [
 					{
 						text: '点击运行',
-						callback: () => {
-							console.log('点击运行');
-							this.GetEditorVal();
-						},
 						style: 'background: #ff0000'
 					},
 					{
 						text: '重置编码',
-						callback: () => {
-							console.log('重置编码');
-							this.ResetContent();
-						},
 						style: 'background: #ff6600'
 					}
 				]
@@ -330,8 +343,7 @@ class OnlineProgramming extends Unit {
 					'none'
 				],
 				externalScripts: [ //外部链接插件
-					'https://codemirror.net/mode/vue/index.html',
-					'https://codemirror.net/mode/vue/index.html'
+
 				]
 			},
 			'css': {
@@ -342,8 +354,7 @@ class OnlineProgramming extends Unit {
 					'sass',
 				],
 				externalScripts: [ //外部链接插件
-					'https://codemirror.net/mode/vue/index.html',
-					'https://codemirror.net/mode/vue/index.html'
+
 				]
 			},
 			'js': {
@@ -355,8 +366,7 @@ class OnlineProgramming extends Unit {
 					'react'
 				],
 				externalScripts: [ //外部链接插件
-					'https://codemirror.net/mode/vue/index.html',
-					'https://codemirror.net/mode/vue/index.html'
+
 				]
 			},
 		}
@@ -403,7 +413,9 @@ class OnlineProgramming extends Unit {
 	}
 
 
-	//整体布局
+	/**
+	 * 整体布局
+	 */
 	DomLayout() {
 		let outermost_layer = document.querySelector(`#${this.configuration.id}`);
 		let div = document.createElement('div');
@@ -428,36 +440,88 @@ class OnlineProgramming extends Unit {
 		this.ResizerMove();
 
 		//初始化
-		for(var key in this.preprocessor){
-			this.InputInitMove(document.getElementById(`sortable-${key}`),'.move-input');
+		for (var key in this.preprocessor) {
+			this.InputInitMove(document.getElementById(`sortable-${key}`), '.move-input');
+		};
+
+		//默认模式 加载
+		if (this.configuration.currentMode) {
+			this.SelectEventForChangeMode(this.configuration.currentMode, this)
 		}
-		
+
 	}
 
-	//编程实践区
+	/**
+	 * 编程实践区
+	 */
 	ProgrammingPracticeArea() {
 		let div = document.createElement('div');
 		div.className = 'programming-practice-area';
 		//title 区
 		let CreateTitle = this.CreateTitle('编程实践区');
-		CreateTitle.appendChild(this.CreateSleect(this.option, 'change-mode', this.SelectEventForChangeMode));
+		CreateTitle.appendChild(
+			this.CreateSleect(
+				this.option,
+				'change-mode',
+				this.configuration.currentMode,
+				this.configuration.disabledForSelect,
+				this.SelectEventForChangeMode
+			)
+		);
 		div.appendChild(CreateTitle);
 		//编程区
 		div.appendChild(this.CreateEditor());
 		//底部按扭区
+		div.appendChild(this.ButtonOperationArea());
+
+		return div;
+	}
+
+	/**
+	 * 编程实践底部按扭区
+	 */
+	ButtonOperationArea() {
 		let buttonOperationArea = document.createElement('div');
 		buttonOperationArea.className = 'button-operation-area';
 		for (let i = 0; i < this.configuration.button.length; i++) {
 			let btn = this.CreateButton(this.configuration.button[i], i);
 			buttonOperationArea.appendChild(btn);
-		}
-		div.appendChild(buttonOperationArea);
+		};
+		return buttonOperationArea;
+	}
 
-		return div;
+	/**
+	 * 按钮生成
+	 * @param {this.configuration.button} String bute 
+	 * @param {循环变量} Number i 
+	 */
+	CreateButton(bute = '', i = 0) {
+		let btn = document.createElement('button');
+		btn.className = `btn_${i + 1}`;
+		btn.setAttribute('style', bute.style ? bute.style : '');
+		this.DomSetVal(btn, bute.text ? bute.text : '');
+		return btn;
+	}
+
+	/**
+	 * 按钮事件注册
+	 * @param {外部传入 用于注册方法} callback_object 
+	 */
+	EventForButton(callback_object) {
+		let parentNode = document.querySelector(`#${this.configuration.id} .button-operation-area`);
+		for (let i = 0; i < parentNode.children.length; i++) {
+			for (let k = 0; k < callback_object.length; k++) {
+				if (this.DomGetVal(parentNode.children[i]) == callback_object[i].text) {
+					parentNode.children[i].onclick = callback_object[i].callback
+				}
+			}
+		}
 	}
 
 
-	//样式展示区
+	/**
+	 * 样式展示区
+	 */
 	StyleArea() {
 		let div = document.createElement('div');
 		div.className = 'style-area';
@@ -470,7 +534,10 @@ class OnlineProgramming extends Unit {
 		return div;
 	}
 
-	//编辑区生成
+	/**
+	 * 编辑区生成
+	 * @param {根据_type名称生成编辑区} String _type 
+	 */
 	CreateEditor(_type = 'html/css/js') {
 		//编辑器容器
 		let div = document.createElement('div');
@@ -510,13 +577,25 @@ class OnlineProgramming extends Unit {
 		return div;
 	}
 
-	//select 生成
-	CreateSleect(_opaction = [], _class = '', callback) {
+	/**
+	 * select 生成
+	 * @param {option循环数组} Array _opaction 
+	 * @param {class名称} String _class 
+	 * @param {select 默认值} String current_mode 
+	 * @param {是否禁用Select} String disabledForSelect 
+	 * @param {change 回调函数} Function callback 
+	 */
+	CreateSleect(_opaction = [], _class = '', current_mode = '', disabledForSelect = false, callback) {
 		let select = document.createElement('select');
 		select.className = _class;
+		disabledForSelect ? select.setAttribute('disabled', 'disabled') : '';
 		//循环生成 option
 		for (let i = 0; i < _opaction.length; i++) {
 			let option = document.createElement('option');
+			//默认选中选项
+			if (_opaction[i] == current_mode) {
+				option.setAttribute('selected', '')
+			};
 			this.DomSetVal(option, _opaction[i]);
 			select.appendChild(option);
 		};
@@ -528,25 +607,40 @@ class OnlineProgramming extends Unit {
 				callback(text, this, _target)
 			}
 		};
+
 		return select;
 	}
 
-	//input 生成
-	CreateInput(_class = '',placeholder = 'https://codepen.io/username/pen/aBcDef',callback){
+	/**
+	 * input 生成
+	 * @param {class 类名} String _class 
+	 * @param {placeholder} String placeholder 
+	 * @param {chang 回调函数} Function callback 
+	 */
+	CreateInput(_class = '', placeholder = 'https://codepen.io/username/pen/aBcDef', callback) {
 		let input = document.createElement('input');
 		input.className = _class;
-		input.setAttribute('type','text');
-		input.setAttribute('placeholder',placeholder);
+		input.setAttribute('type', 'text');
+		input.setAttribute('placeholder', placeholder);
 		let pattern = /^((ftp|http|https):)?\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?$/;
-		input.onchange = (e)=>{
+		input.onchange = (e) => {
 			let _event = e || window.event;
 			let _target = _event.target || _event.srcElement;
-			console.log(_target.value)
+			if (pattern.test(_target.value)) {
+				_target.style.borderColor = '#eaedf0';
+				_target.setAttribute('title', '')
+			} else {
+				_target.style.borderColor = 'red';
+				_target.setAttribute('title', '请与所请求的格式保持一致')
+			}
 		};
 		return input;
 	}
 
-	//设置图标按钮生成
+	/**
+	 * 设置图标按钮生成
+	 * @param {data-type 指定值  用于确认点击类型} String name 
+	 */
 	CreateIconForSetting(name = '') {
 		let div = document.createElement('div');
 		div.className = 'setting-icon-box';
@@ -579,7 +673,10 @@ class OnlineProgramming extends Unit {
 		return div;
 	}
 
-	//设置弹框生成
+	/**
+	 * 设置弹框生成
+	 * @param {用于循环生成弹框内容} Array _array 
+	 */
 	SettingDiaLog(_array = {}) {
 		let div = document.createElement('div');
 		div.className = 'setting-dialog';
@@ -611,7 +708,10 @@ class OnlineProgramming extends Unit {
 		return div;
 	};
 
-	//tab选择区生成
+	/**
+	 * tab选择区生成
+	 * @param {循环生成tab} Array _array 
+	 */
 	CreateTabs(_array = []) {
 		let tab = document.createElement('div');
 		tab.className = 'settings-tabs';
@@ -620,6 +720,7 @@ class OnlineProgramming extends Unit {
 			aLink.setAttribute('href', 'javascript:;');
 			aLink.setAttribute('data-type', key);
 			aLink.className = 'settings-tab-link';
+			//点击更换class
 			aLink.onclick = (e) => {
 				let _event = e || window.event;
 				let _target = _event.target || _event.srcElement;
@@ -646,7 +747,10 @@ class OnlineProgramming extends Unit {
 		return tab;
 	}
 
-	//设置区生成
+	/**
+	 * 设置区生成
+	 * @param {用于循环生成弹框内容} Array _array 
+	 */
 	CreateSettings(_array = {}) {
 		let div = document.createElement('div');
 		div.className = 'setting-box';
@@ -660,13 +764,19 @@ class OnlineProgramming extends Unit {
 			preprocessor.className = 'preprocessor';
 			this.DomSetVal(preprocessor, `${key} 预处理器`);
 			box.appendChild(preprocessor);
-			
+
 			let select_box_preprocessor = document.createElement('div');
 			select_box_preprocessor.className = 'select-box';
 			select_box_preprocessor.appendChild(
-				this.CreateSleect(_array[key].preprocessor, 'select-preprocessor', this.SelectEventForPreprocessor)
+				this.CreateSleect(
+					_array[key].preprocessor,
+					'select-preprocessor',
+					'',
+					'',
+					this.SelectEventForPreprocessor
+				)
 			);
-			select_box_preprocessor.appendChild(this.CreateUpDownIcon());
+			//select_box_preprocessor.appendChild(this.CreateUpDownIcon());
 			box.appendChild(select_box_preprocessor);
 			//--end--
 			//生成外部链接引用区域
@@ -683,27 +793,33 @@ class OnlineProgramming extends Unit {
 			this.SortableItemAdd(select_box_externalScripts);
 			this.SortableItemAdd(select_box_externalScripts);
 			//--end--
-			select_box_externalScripts.appendChild(this.AddInputItem());
+
 			//将删除事件注册在父元素上
-			select_box_externalScripts.onclick = (e)=>{
+			select_box_externalScripts.onclick = (e) => {
 				let _event = e || window.event;
 				let _target = _event.target || _event.srcElement;
-				if(_target.className.includes('delete') || _target.className.includes('delete-input')){
-					if(_target.className.includes('iconfont icon-cha_hover delete')){
+				if (_target.className.includes('delete') || _target.className.includes('delete-input')) {
+					if (_target.className.includes('iconfont icon-cha_hover delete')) {
 						this.DomDelete(_target.parentNode)
 					};
-					if(_target.className.includes('delete-input')){
+					if (_target.className.includes('delete-input')) {
 						this.DomDelete(_target)
 					};
 				};
 			};
 			box.appendChild(select_box_externalScripts);
+			//添加  ‘增加外部链接 按钮’
+			box.appendChild(this.AddInputItem());
+
 			div.appendChild(box);
 		};
 		return div;
 	}
 
-	//外部链接条目生成  addendChild
+	/**
+	 * 外部链接条目生成  addendChild
+	 * @param {父节点} Element parentNode 
+	 */
 	SortableItemAdd(parentNode = '') {
 		let sortable_box = document.createElement('div');
 		sortable_box.className = 'sortable-item';
@@ -717,20 +833,26 @@ class OnlineProgramming extends Unit {
 		parentNode.appendChild(sortable_box)
 	}
 
-	//input 拖拽初始化
-	InputInitMove(el='',_class=''){
+	/**
+	 * input 拖拽初始化 Sortable实例化
+	 * @param {拖拽外框节点} Element el 
+	 * @param {指定拖拽icon类名} String _class 
+	 */
+	InputInitMove(el = '', _class = '') {
 		new Sortable(el, {
 			handle: _class, // handle's class
 			animation: 150
 		});
 	}
 
-	//点击增加 input item
-	AddInputItem(){
+	/**
+	 * 点击增加 input item
+	 */
+	AddInputItem() {
 		let div = document.createElement('div');
 		div.className = 'add-input-item';
-		this.DomSetVal(div,'+ 增加其他链接');
-		div.onclick = (e)=>{
+		this.DomSetVal(div, '+ 增加其他链接');
+		div.onclick = (e) => {
 			let _event = e || window.event;
 			let _target = _event.target || _event.srcElement;
 			this.DomClone(_target)
@@ -738,54 +860,107 @@ class OnlineProgramming extends Unit {
 		return div;
 	}
 
-	//克隆节点方法
-	DomClone(_target = ''){
+	/**
+	 * 克隆节点方法
+	 * @param {点击增加外部链接按钮 指向本身target} Element _target 
+	 */
+	DomClone(_target = '') {
 		//父节点
-		let parentNode = _target.parentNode;
+		let parentNode = _target.previousSibling;
 		//需要克隆的节点
-		let clone_dom = _target.parentNode.children[0].cloneNode(true); //true 深度克隆
+		let clone_dom = _target.previousSibling.children[0].cloneNode(true); //true 深度克隆
 		clone_dom.children[1].value = '';//清空input内容
-		parentNode.insertBefore(clone_dom,_target);//obj.insertBefore(new,ref)
+		//parentNode.insertBefore(clone_dom,_target);//obj.insertBefore(new,ref)
+		parentNode.appendChild(clone_dom)
 	}
 
-	//删除节点操作
-	DomDelete(_target = ''){
+	/**
+	 * 删除节点操作
+	 * @param {点击删除 指向本身target} Element _target 
+	 */
+	DomDelete(_target = '') {
 		console.log(_target)
 		//需要删除的节点
 		let delete_dom = _target.parentNode;
 		//父节点
 		let parentNode = delete_dom.parentNode;
-		if(parentNode.children.length > 3){
+		if (parentNode.children.length > 2) {
 			parentNode.removeChild(delete_dom);
 		}
 	}
 
-	//select change 事件 回调    改变编辑区 编译模式
+	/**
+	 * select change 事件 回调    改变编辑区 编译模式
+	 * @param {select 的值} String text 
+	 * @param {由于用于回调 this指向出现问题 索性用于参数传入} Obiect _this 
+	 */
 	SelectEventForChangeMode(text = '', _this = '') {
 		_this.editor = {};
 		_this.ReplactRditor(text);
 	}
 
-	//select change 事件 回调    修改 预处理器 模式
+	/**
+	 * 替换编辑区
+	 * @param {select 的值} String text 
+	 */
+	ReplactRditor(text = '') {
+		let parent = document.querySelector(`#${this.configuration.id} .programming-practice-area`);
+		let old_editor = document.querySelector(`#${this.configuration.id} .programming-practice-area .exothecium-box`);
+		let new_editor = this.CreateEditor(text);
+		parent.replaceChild(new_editor, old_editor);
+		this.EditorInit();
+	}
+
+	/**
+	 * 编辑器初始化
+	 */
+	EditorInit(dom = '', mode = '') {
+		let textNum = document.querySelectorAll(`#${this.configuration.id} .programming-practice-area textarea`);
+		if (textNum && textNum.length > 0) {
+			for (let i = 0; i < textNum.length; i++) {
+				let dom = textNum[i];
+				let mode = textNum[i].getAttribute('mode');
+				for (let key in this.support_language) {
+					if (mode == key) {
+						this.opaction.mode = this.support_language[key];
+					}
+				}
+				this.editor[mode] = CodeMirror.fromTextArea(dom, this.opaction);
+				this.PasteEvent(mode);
+				this.SetSize(mode);
+			}
+		}
+	}
+
+	/**
+	 * select change 事件 回调    修改 预处理器 模式
+	 * @param {select 的值} String text 
+	 * @param {由于用于回调 this指向出现问题 索性用于参数传入} Obiect _this 
+	 * @param {select 本身,用于寻找父元素} Element _target 
+	 */
 	SelectEventForPreprocessor(text = '', _this = '', _target = '') {
 		let parent = document.querySelectorAll(`#${_this.configuration.id} .online-programming .editor_box`);
 		//下面逻辑 只是为了更改 编辑模式后面的文字   和更改 编译模式
-		for(let i = 0; i< parent.length;i++){
-			if(parent[i].getAttribute('mode') == _target.parentNode.parentNode.getAttribute('data-type')){
-				for(let k = 0; k < parent[i].children.length; k++){
-					if(parent[i].children[k].className == 'create-editor-name'){
-						for(let j = 0; j < parent[i].children[k].children.length; j++){
-							if(parent[i].children[k].children[j].className == 'title-text'){
-								_this.DomSetVal(parent[i].children[k].children[j].children[0],`(${text})`);
-								for(let key in _this.support_language){
-									console.log(text,key)
-									if(text == key){
-										_this.editor[parent[i].getAttribute('mode')].setOption("mode",_this.support_language[key]);
+		for (let i = 0; i < parent.length; i++) {
+			if (parent[i].getAttribute('mode') == _target.parentNode.parentNode.getAttribute('data-type')) {
+				for (let k = 0; k < parent[i].children.length; k++) {
+					if (parent[i].children[k].className == 'create-editor-name') {
+						for (let j = 0; j < parent[i].children[k].children.length; j++) {
+							if (parent[i].children[k].children[j].className == 'title-text') {
+								_this.DomSetVal(parent[i].children[k].children[j].children[0], `(${text})`);
+								for (let key in _this.support_language) {
+									if (text == key) {
+										_this.editor[parent[i].getAttribute('mode')].setOption("mode", _this.support_language[key]);
 									};
-									if(text == 'none'){
-										_this.editor[parent[i].getAttribute('mode')].setOption("mode",_this.support_language[parent[i].getAttribute('mode')]);
+									if (text == 'none') {
+										_this.editor[parent[i].getAttribute('mode')].setOption("mode", _this.support_language[parent[i].getAttribute('mode')]);
 									};
-									console.log(_this.editor[parent[i].getAttribute('mode')])
+									//ts 关闭代码错误检测
+									if(text == 'typescript' || text == 'react' || text == 'scss' || text == 'sass' || text == 'less'){
+										_this.editor[parent[i].getAttribute('mode')].setOption("lint", false);
+									}else{
+										_this.editor[parent[i].getAttribute('mode')].setOption("lint", true);
+									}
 									//_this.editor[parent[i].getAttribute('mode')].setValue('');
 								}
 							}
@@ -793,10 +968,13 @@ class OnlineProgramming extends Unit {
 					}
 				}
 			}
+			console.log(_this.editor[parent[i].getAttribute('mode')])
 		}
 	}
 
-	//拖动事件注册
+	/**
+	 * 拖动事件注册
+	 */
 	ResizerMove() {
 		//事件委托
 		let EventParent = document.querySelector(`#${this.configuration.id} .online-programming`);
@@ -813,7 +991,12 @@ class OnlineProgramming extends Unit {
 			};
 		};
 	}
-	//横向拖动
+
+	/**
+	 * 横向拖动
+	 * @param {e} Object _event 
+	 * @param {当前事件执行节点} Element _target 
+	 */
 	ResizerCol(_event, _target) {
 		let prevDom = _target.previousSibling; //获取上一个兄弟节点
 		let nextDom = _target.nextSibling; //获取下一个兄弟节点
@@ -847,7 +1030,12 @@ class OnlineProgramming extends Unit {
 			this.onmouseup = null;
 		};
 	}
-	//竖向拖动
+
+	/**
+	 * 竖向拖动
+	 * @param {e} Object _event 
+	 * @param {当前事件执行节点} Element _target 
+	 */
 	ResizerRow(_event, _target) {
 		let prevDom = _target.previousSibling; //获取上一个兄弟节点
 		let nextDom = _target.nextSibling; //获取下一个兄弟节点
@@ -921,41 +1109,22 @@ class OnlineProgramming extends Unit {
 			this.onmouseup = null;
 		};
 	}
-	//替换编辑区
-	ReplactRditor(text = '') {
-		let parent = document.querySelector(`#${this.configuration.id} .programming-practice-area`);
-		let old_editor = document.querySelector(`#${this.configuration.id} .programming-practice-area .exothecium-box`);
-		let new_editor = this.CreateEditor(text);
-		parent.replaceChild(new_editor, old_editor);
-		this.EditorInit();
-	}
-	//编辑器初始化
-	EditorInit(dom = '', mode = '') {
-		let textNum = document.querySelectorAll(`#${this.configuration.id} .programming-practice-area textarea`);
-		if (textNum && textNum.length > 0) {
-			for (let i = 0; i < textNum.length; i++) {
-				let dom = textNum[i];
-				let mode = textNum[i].getAttribute('mode');
-				for (let key in this.support_language) {
-					if (mode == key) {
-						this.opaction.mode = this.support_language[key];
-					}
-				}
-				this.editor[mode] = CodeMirror.fromTextArea(dom, this.opaction);
-				this.PasteEvent(mode);
-				this.SetSize(mode);
-			}
-		}
-		console.log(this.editor);
-	}
+
+
+
 	//change事件
 	ChangeEvent(callback) {
-		this.EditorInit.on('change', () => {
-			if (callback) {
-				callback();
-			}
-		});
+		console.log(this.editor);
+		for (let key in this.editor) {
+			this.editor[key].on('change', () => {
+				console.log(key)
+				if (callback) {
+					callback();
+				}
+			});
+		}
 	}
+
 	//是否禁用 粘贴功能
 	PasteEvent() {
 		if (this.configuration.isPaste) {
@@ -967,7 +1136,11 @@ class OnlineProgramming extends Unit {
 		}
 	}
 
-	//编辑器大小
+	/**
+	 * 编辑器大小
+	 * @param {*} width 
+	 * @param {*} height 
+	 */
 	SetSize(width = '100%', height = '100%') {
 		for (let key in this.editor) {
 			this.editor[key].setSize(width, height);
@@ -983,8 +1156,28 @@ class OnlineProgramming extends Unit {
 
 	//获取编辑器内容
 	GetEditorVal() {
+		let center_val = [];
 		for (let key in this.editor) {
-			console.log(this.editor[key].getValue());
+			center_val.push(
+				{
+					[key]: this.editor[key].getValue()
+				}
+			)
+		}
+		return center_val;
+	}
+
+	/**
+	 * 编辑器初始内容
+	 * @param {外部传入 编辑器初始值} Array _array 
+	 */
+	SetEditorVal(_array) {
+		for (let key in this.editor) {
+			for (let k = 0; k < _array.length; k++) {
+				if (_array[k].key == key) {
+					this.editor[key].setValue(_array[k].val)
+				}
+			}
 		}
 	}
 
@@ -992,9 +1185,334 @@ class OnlineProgramming extends Unit {
 	Init() {
 		this.DomLayout();
 	}
+
+	//样式展示区初始化 
+	RequestStyleSetVal(val = '') {
+		let parentNode = document.querySelector(`#${this.configuration.id} .style-area .exothecium-box`);
+		let old_iframe = document.querySelector(`#${this.configuration.id} .style-area .exothecium-box iframe`);
+		//如果存在 iframe remove掉
+		if (old_iframe) {
+			parentNode.removeChild(old_iframe)
+		};
+		let iframe = document.createElement("iframe");
+		iframe.setAttribute('frameborder', '0');
+		iframe.setAttribute('width', '100%');
+		iframe.setAttribute('height', '100%');
+		parentNode.appendChild(iframe);
+		let ifrdoc = iframe.contentWindow.document;
+		//编辑器内容
+		let editorCenter = this.FormatStitchingForStyleSetVal(val);
+
+		ifrdoc.designMode = "on"; //文档进入可编辑模式
+		ifrdoc.open(); //打开流
+		ifrdoc.write(editorCenter);
+		ifrdoc.close(); //关闭流
+		ifrdoc.designMode = "off"; //文档进入非可编辑模式
+	}
+
+	//样式展示区 格式拼接
+	FormatStitchingForStyleSetVal(val) {
+		let html;//原始返回的html
+		let css;//原始返回的css
+		let js;//原始返回的js
+		let other;
+		for (let i = 0; i < val.length; i++) {
+			for (let key in val[i]) {
+				if (key == 'html' || key == 'js' || key == 'css') {
+					switch (key) {
+						case 'html':
+							html = val[i][key]
+							break;
+						case 'js':
+							js = val[i][key]
+							break;
+						case 'css':
+							css = val[i][key]
+							break;
+						default:
+							break;
+					}
+				} else {
+					other = val[i][key];
+				}
+			}
+		};
+
+		return this.CenterJoin(html, css, js, other);
+	}
+
+	//编译模式获取
+	GetPreprocessor() {
+		let title_text = document.querySelectorAll(`#${this.configuration.id} .programming-practice-area .exothecium-box .editor_box .create-editor-name .title-text`);
+		let Preprocessor = {}
+		for (let i = 0; i < title_text.length; i++) {
+			let text = this.DomGetVal(title_text[i]).replace('(', '-');
+			let text_new = text.replace(')', '');
+			Preprocessor[text_new.split('-')[0]] = text_new.split('-')[1];
+		};
+		return Preprocessor;
+	}
+
+	//外部链接获取
+	GetExternalScripts() {
+		let parentNode = document.querySelectorAll(`#${this.configuration.id} .setting-dialog .item-settings-modal .sortable-box`);
+		//数据拼接
+		let externalScripts = {};
+		for (let i = 0; i < parentNode.length; i++) {
+			externalScripts[parentNode[i].id.split('-')[1]] = []
+		};
+		let parentNode_input = document.querySelectorAll(`#${this.configuration.id} .setting-dialog .item-settings-modal .sortable-box input`);
+		for (let key in externalScripts) {
+			for (let k = 0; k < parentNode_input.length; k++) {
+				if (parentNode_input[k].parentNode.parentNode.id.split('-')[1] == key) {
+					for (let i = 0; i < parentNode_input[k].parentNode.children.length; i++) {
+						if (parentNode_input[k].parentNode.children[i].tagName.toLowerCase() == 'input') {
+							externalScripts[key].push(parentNode_input[k].parentNode.children[i].value)
+						};
+					};
+				};
+			};
+		};
+		return externalScripts;
+	}
+
+	//样式展示区代码拼接
+	CenterJoin(html, css, js, other) {
+		let center = `
+		<script src="https://cdn.bootcss.com/es5-shim/4.5.12/es5-shim.min.js"></script>
+		<script src="https://cdn.bootcss.com/es5-shim/4.5.12/es5-sham.min.js"></script>
+		<style>
+			html{
+				color:#fff;
+			}
+		</style>
+		`;//拼接后的内容
+		if (html || css || js) {
+			//增加外部链接
+			for (let i = 0; i < this.GetExternalScripts()['css'].length; i++) {
+				if (this.GetExternalScripts()['css'][i]) {
+					center += `
+					<link href="${this.GetExternalScripts()['css'][i]}" rel="stylesheet">
+					`
+				}
+			};
+			for (let i = 0; i < this.GetExternalScripts()['js'].length; i++) {
+				if (this.GetExternalScripts()['js'][i]) {
+					center += `
+						<script src="${this.GetExternalScripts()['js'][i]}"></script>
+						`
+				}
+			};
+
+			switch (this.GetPreprocessor()['css']) {
+				case 'scss' || 'sass':
+					center += `
+					<script src="https://cdn.bootcss.com/sass.js/0.10.13/sass.sync.js"></script>
+					<script>
+						var scss = ${JSON.stringify(css)};
+						var cssString;
+						Sass.compile(scss, function (result) {
+							cssString = result.text;
+							var doc = document;
+							var style = doc.createElement("style");
+							style.setAttribute("type", "text/css");
+							if (style.styleSheet) {// IE
+								style.styleSheet.cssText = cssString;
+							} else {// w3c
+								var cssText = doc.createTextNode(cssString);
+								style.appendChild(cssText);
+							}
+							var heads = doc.getElementsByTagName("head");
+							if (heads.length)
+								heads[0].appendChild(style);
+							else
+								doc.documentElement.appendChild(style);
+						});
+					</script>
+					`;
+					break;
+				case 'less':
+					center += `
+					<script src="https://cdn.bootcss.com/less.js/3.9.0/less.min.js"></script>
+					<script>
+						var cssString;
+						less.render(${JSON.stringify(css)}, function (e, output) {
+						cssString = output.css;
+						var doc = document;
+							var style = doc.createElement("style");
+							style.setAttribute("type", "text/css");
+							if (style.styleSheet) {// IE
+								style.styleSheet.cssText = cssString;
+							} else {// w3c
+								var cssText = doc.createTextNode(cssString);
+								style.appendChild(cssText);
+							}
+							var heads = doc.getElementsByTagName("head");
+							if (heads.length)
+								heads[0].appendChild(style);
+							else
+								doc.documentElement.appendChild(style);
+						});
+					</script>
+					`;
+					break;
+				default:
+					center += `
+					<style>
+						${css}
+					</style>
+					`;
+					break;
+			};
+			switch (this.GetPreprocessor()['html']) {
+				case '':
+					center += `
+							${html}
+					`;
+					break;
+				default:
+					center += `
+							${html}
+					`;
+					break;
+			};
+			switch (this.GetPreprocessor()['js']) {
+				case 'es6':
+					center += `
+					<script src="https://cdn.bootcss.com/babel-core/5.8.38/browser.min.js"></script>
+					<script src="https://cdn.bootcss.com/babel-core/5.8.38/browser-polyfill.min.js"></script>
+					<script type="text/babel">
+							${js}
+					</script>
+					`
+					break;
+				case 'typescript':
+					center += `
+					<script src="https://cdn.bootcss.com/typescript/3.2.2/typescript.min.js"></script>
+					<script src="http://openbjvp.oss-cn-beijing.aliyuncs.com/fedcdn/OnlineCode/typescript.compile.min.js"></script>
+					<script type="text/typescript">
+							${js}
+					</script>
+					`
+					break;
+				case 'vue':
+					center += `
+					<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+					<script>
+							${js}
+					</script>
+					`
+					break;
+				case 'react':
+					center += `
+					<script src="https://cdn.staticfile.org/react/16.4.0/umd/react.development.js"></script>
+					<script src="https://cdn.staticfile.org/react-dom/16.4.0/umd/react-dom.development.js"></script>
+					<script src="https://cdn.staticfile.org/babel-standalone/6.26.0/babel.min.js"></script>
+					<script type="text/babel">
+						${js}
+					</script>
+					`
+					break;
+				default:
+					center += `
+					<script>
+						${js}
+					</script>
+					`
+					break;
+			};
+		};
+
+		if (other) {
+			center = `
+				<script src="https://cdn.bootcss.com/es5-shim/4.5.12/es5-shim.min.js"></script>
+				<script src="https://cdn.bootcss.com/es5-shim/4.5.12/es5-sham.min.js"></script>
+				<style>
+					html{
+						color:#fff;
+					}
+				</style>
+				${val[i][key]}
+			`;
+		};
+		return center;
+	}
+
 }
 
+
+
 var Online_Programming = new OnlineProgramming({
-	id: 'editor-box'
+	id: 'editor-box',
+	isPaste: false,
+	currentMode: 'html/css/js',
+	disabledForSelect: false,
+	button: [
+		{
+			text: '点击运行',
+			style: 'background: #ff0000'
+		},
+		{
+			text: '重置编码',
+			style: 'background: #ff6600'
+		}
+	]
 });
+
+Online_Programming.SetEditorVal(
+	[
+		{
+			key: 'html',
+			val: '<div>123</div>'
+		},
+		{
+			key: 'css',
+			val: 'html{color:#fff;}'
+		},
+		{
+			key: 'js',
+			val: 'console.log("123")'
+		}
+	]
+)
+
+Online_Programming.EventForButton(
+	[
+		{
+			text: '点击运行',
+			callback: function () {
+				console.log('点击运行');
+				let val = Online_Programming.GetEditorVal();
+				console.log(val)
+				Online_Programming.RequestStyleSetVal(val)
+			}
+		},
+		{
+			text: '重置编码',
+			callback: function () {
+				console.log('重置编码');
+				Online_Programming.ResetContent();
+				Online_Programming.SetEditorVal(
+					[
+						{
+							key: 'html',
+							val: '<div>123</div>'
+						},
+						{
+							key: 'css',
+							val: 'html{color:#fff;}'
+						},
+						{
+							key: 'js',
+							val: 'console.log("123")'
+						}
+					]
+				)
+			}
+		}
+	]
+)
+
 console.log(Online_Programming);
+
+Online_Programming.ChangeEvent()
