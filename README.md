@@ -54,10 +54,10 @@ Online_Programming.EventForButton(
 			text: '点击运行',
 			callback: function () {
 				console.log('点击运行');
-        //获取编辑器内容
+				//获取编辑器内容
 				let val = Online_Programming.GetEditorVal();
 				console.log(val)
-        //展示区 显示
+				//展示区 显示
 				Online_Programming.RequestStyleSetVal(val)
 			}
 		},
@@ -65,7 +65,7 @@ Online_Programming.EventForButton(
 			text: '重置编码',
 			callback: function () {
 				console.log('重置编码');
-				Online_Programming.ResetContent();
+				Online_Programming.ResetContent();//重置编码
 				Online_Programming.SetEditorVal(
 					[
 						{
@@ -86,4 +86,5 @@ Online_Programming.EventForButton(
 		}
 	]
 )
+
 ```
