@@ -8,7 +8,7 @@ const HappyPack = require('happypack');
 const os = require('os');
 const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length });
 module.exports = [
-	/*
+	
 	//压缩
 	{
 		mode: 'production',
@@ -18,7 +18,7 @@ module.exports = [
 		output: {
 			path: path.resolve(__dirname, 'dist'),
 			filename: 'js/[name].js',
-			library: 'SDK',
+			//library: 'SDK',
 			libraryTarget: 'umd'
 		},
 		devServer: {
@@ -126,7 +126,7 @@ module.exports = [
 				verbose: true
 			}),
 		]
-	},*/
+	},
 	//不压缩
 	{
 		mode: 'development',
@@ -136,7 +136,7 @@ module.exports = [
 		output: {
 			path: path.resolve(__dirname, 'dist'),
 			filename: 'js/[name].js',
-			library: 'SDK',
+			//library: 'SDK',
 			libraryTarget: 'umd'
 		},
 		devServer: {

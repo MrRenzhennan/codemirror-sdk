@@ -668,7 +668,6 @@ class OnlineProgramming extends Unit {
 				option.setAttribute('selected', '')
 			};
 			if(this.GetBrowserInfo().isIE() && !this.GetBrowserInfo().isIE11()){
-				console.log('<IE11')
 				if(_opaction[i] != 'scss' && _opaction[i] != 'sass' && _opaction[i] != 'less'){
 					this.DomSetVal(option, _opaction[i]);
 					select.appendChild(option);
@@ -958,7 +957,6 @@ class OnlineProgramming extends Unit {
 	 * @param {点击删除 指向本身target} Element _target 
 	 */
 	DomDelete(_target = '') {
-		console.log(_target)
 		//需要删除的节点
 		let delete_dom = _target.parentNode;
 		//父节点
@@ -1047,7 +1045,6 @@ class OnlineProgramming extends Unit {
 					}
 				}
 			}
-			console.log(_this.editor[parent[i].getAttribute('mode')])
 		}
 	}
 
@@ -1146,7 +1143,6 @@ class OnlineProgramming extends Unit {
 				e.returnValue = false;
 			}
 			let clientYMove = diffY - e.clientY;
-			console.log(clientYMove)
 			if (clientYMove < prev_height && (clientYMove * -1) < next_height) {
 				if (old_prev_height && old_next_height) {
 					prevDom.setAttribute('style', `height:calc(${old_prev_height} - ${clientYMove}px)`);
@@ -1193,10 +1189,8 @@ class OnlineProgramming extends Unit {
 
 	//change事件
 	ChangeEvent(callback) {
-		console.log(this.editor);
 		for (let key in this.editor) {
 			this.editor[key].on('change', () => {
-				console.log(key)
 				if (callback) {
 					callback();
 				}
@@ -1270,6 +1264,10 @@ class OnlineProgramming extends Unit {
 	 * sdk初始化
 	 */
 	Init() {
+		
+		if(!this.configuration.id){
+			throw('id不可为空')
+		}
 		this.DomLayout();
 	}
 
@@ -1541,73 +1539,73 @@ class OnlineProgramming extends Unit {
 
 
 
-var Online_Programming = new OnlineProgramming({
-	id: 'editor-box',
-	isPaste: false,
-	currentMode: 'html/css/js',
-	disabledForSelect: false,
-	button: [
-		{
-			text: '点击运行',
-			style: 'background: #ff0000'
-		},
-		{
-			text: '重置编码',
-			style: 'background: #ff6600'
-		}
-	]
-});
+// var Online_Programming = new OnlineProgramming({
+// 	//id: 'editor-box',
+// 	isPaste: false,
+// 	currentMode: 'html/css/js',
+// 	disabledForSelect: false,
+// 	button: [
+// 		{
+// 			text: '点击运行',
+// 			style: 'background: #ff0000'
+// 		},
+// 		{
+// 			text: '重置编码',
+// 			style: 'background: #ff6600'
+// 		}
+// 	]
+// });
 
-Online_Programming.SetEditorVal(
-	[
-		{
-			key: 'html',
-			val: '<div>123</div>'
-		},
-		{
-			key: 'css',
-			val: 'html{color:#fff;}'
-		},
-		{
-			key: 'js',
-			val: 'console.log("123")'
-		}
-	]
-)
+// Online_Programming.SetEditorVal(
+// 	[
+// 		{
+// 			key: 'html',
+// 			val: '<div>123</div>'
+// 		},
+// 		{
+// 			key: 'css',
+// 			val: 'html{color:#fff;}'
+// 		},
+// 		{
+// 			key: 'js',
+// 			val: 'console.log("123")'
+// 		}
+// 	]
+// )
 
-Online_Programming.EventForButton(
-	[
-		{
-			text: '点击运行',
-			callback: function () {
-				console.log('点击运行');
-				let val = Online_Programming.GetEditorVal();
-				console.log(val)
-				Online_Programming.RequestStyleSetVal(val)
-			}
-		},
-		{
-			text: '重置编码',
-			callback: function () {
-				console.log('重置编码');
-				Online_Programming.ResetContent();
-				Online_Programming.SetEditorVal(
-					[
-						{
-							key: 'html',
-							val: '<div>123</div>'
-						},
-						{
-							key: 'css',
-							val: 'html{color:#fff;}'
-						},
-						{
-							key: 'js',
-							val: 'console.log("123")'
-						}
-					]
-				)
-			}
-		}
-	]
-)
+// Online_Programming.EventForButton(
+// 	[
+// 		{
+// 			text: '点击运行',
+// 			callback: function () {
+// 				console.log('点击运行');
+// 				let val = Online_Programming.GetEditorVal();
+// 				console.log(val)
+// 				Online_Programming.RequestStyleSetVal(val)
+// 			}
+// 		},
+// 		{
+// 			text: '重置编码',
+// 			callback: function () {
+// 				console.log('重置编码');
+// 				Online_Programming.ResetContent();
+// 				Online_Programming.SetEditorVal(
+// 					[
+// 						{
+// 							key: 'html',
+// 							val: '<div>123</div>'
+// 						},
+// 						{
+// 							key: 'css',
+// 							val: 'html{color:#fff;}'
+// 						},
+// 						{
+// 							key: 'js',
+// 							val: 'console.log("123")'
+// 						}
+// 					]
+// 				)
+// 			}
+// 		}
+// 	]
+// )
