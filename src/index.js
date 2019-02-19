@@ -129,69 +129,99 @@ class Unit {
 	GetBrowserInfo() {
 		const version = {
 			isAndroid() {
-				return navigator.userAgent.toLowerCase().indexOf('android')!==-1;
+				return navigator.userAgent.toLowerCase().indexOf('android') !== -1;
 			},
-		
+
 			isIOS() {
 				return /iPhone/i.test(navigator.userAgent) || /iPad/i.test(navigator.userAgent) || /iPod/i.test(navigator.userAgent);
 			},
-		
+
 			isWindows() {
 				return navigator.platform.toLowerCase().indexOf('win') !== -1;
 			},
-		
+
 			isMac() {
 				return navigator.platform.toLowerCase().indexOf('mac') !== -1;
 			},
-		
+
 			isLinux() {
 				return navigator.platform.toLowerCase().indexOf('linux') !== -1;
 			},
-		
+
 			isMobileBrowser() {
 				return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 			},
 			isWeChat() {
 				return /MicroMessenger/i.test(navigator.userAgent);
 			},
-		
+
 			isChrome() {
 				return /Chrome/i.test(navigator.userAgent);
 			},
-		
+
 			isFirefox() {
 				return /Firefox/i.test(navigator.userAgent);
 			},
-		
+
 			isSafari() {
 				return /Safari/i.test(navigator.userAgent) && !/Chrome/i.test(navigator.userAgent);
 			},
-		
+
 			isIE() {
 				return navigator.userAgent.indexOf('MSIE') !== -1 || /Trident.*rv[ :]*11\./.test(navigator.userAgent);
 			},
-		
+
 			isIE7() {
 				return navigator.userAgent.indexOf('MSIE 7.') !== -1;
 			},
-		
+
 			isIE8() {
 				return navigator.userAgent.indexOf('MSIE 8.') !== -1;
 			},
-		
+
 			isIE9() {
 				return navigator.userAgent.indexOf('MSIE 9.') !== -1;
 			},
-		
+
 			isIE10() {
 				return navigator.userAgent.indexOf('MSIE 10.') !== -1;
 			},
-		
+
 			isIE11() {
 				return /Trident.*rv[ :]*11\./.test(navigator.userAgent);
 			}
 		};
 		return version;
+	}
+
+
+	/**
+	 * 动态生成 script 引入外部链接
+	 * @param {*} _src 
+	 * @param {*} callback 
+	 */
+	LoadScripts(_src, callback = function () { }) {
+		//添加script属性，并添加到head中
+		let script = document.createElement('script');
+		script.type = 'text/javascript';
+		script.src = _src;
+		//重点！！！！script加载成功
+		script.onload = function () {
+			script.onload = null;
+			script.onerror = null;
+			callback({
+				message: _src + '依赖加载成功！'
+			});
+		};
+		script.onerror = function () {
+			script.onload = null;
+			script.onerror = null;
+			callback({
+				message: _src + '依赖未加载成功！'
+			});
+		};
+		let head = document.getElementsByTagName('head')[0];
+		(head || document.body).appendChild(script);
 	}
 
 	/**
@@ -376,7 +406,7 @@ class OnlineProgramming extends Unit {
 			gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter', 'CodeMirror-lint-markers'],
 			scrollbarStyle: 'simple', //overlay
 			styleActiveLine: true, //选中行 高亮
-			lint: true, //错误检测
+			lint: false, //错误检测
 			matchBrackets: true, //括号匹配
 			autoCloseBrackets: true, //自动闭合括号
 			matchTags: { bothTags: true }, //html标签匹配
@@ -483,6 +513,32 @@ class OnlineProgramming extends Unit {
 		this.Init();
 	}
 
+	/**
+	 * 动态写入 <script> 支持代码检测
+	 */
+	DynamicWriteScript() {
+		let _src = [
+			'https://cdn.bootcss.com/jshint/2.9.7/jshint.min.js',
+			'https://cdn.bootcss.com/jsonlint/1.6.0/jsonlint.min.js',
+			'https://unpkg.com/csslint@1.0.5/dist/csslint.js',
+		];
+		let _src_length = _src.length;
+		//循环加载 script
+		while (_src.length > 0) {
+			//shift() 方法用于把数组的第一个元素从其中删除，并返回第一个元素的值。
+			this.LoadScripts(_src.shift(), (t) => {
+				//console.log(t)
+				_src_length--
+				//依赖 全部 加载完成  启动lint检测
+				if (_src_length == 0) {
+					for (let key in this.editor) {
+						this.editor[key].setOption('lint', true)
+					}
+				}
+			});
+		}
+	}
+
 
 	/**
 	 * 整体布局
@@ -504,6 +560,10 @@ class OnlineProgramming extends Unit {
 		//弹框
 		div.appendChild(this.SettingDiaLog(this.preprocessor))
 		outermost_layer.appendChild(div);
+
+
+		//动态写<script>
+		this.DynamicWriteScript();
 
 		//编辑器初始化
 		this.EditorInit();
@@ -667,12 +727,12 @@ class OnlineProgramming extends Unit {
 			if (_opaction[i] == current_mode) {
 				option.setAttribute('selected', '')
 			};
-			if(this.GetBrowserInfo().isIE() && !this.GetBrowserInfo().isIE11()){
-				if(_opaction[i] != 'scss' && _opaction[i] != 'sass' && _opaction[i] != 'less'){
+			if (this.GetBrowserInfo().isIE() && !this.GetBrowserInfo().isIE11()) {
+				if (_opaction[i] != 'scss' && _opaction[i] != 'sass' && _opaction[i] != 'less') {
 					this.DomSetVal(option, _opaction[i]);
 					select.appendChild(option);
 				}
-			}else{
+			} else {
 				this.DomSetVal(option, _opaction[i]);
 				select.appendChild(option);
 			}
@@ -1033,9 +1093,9 @@ class OnlineProgramming extends Unit {
 										_this.editor[parent[i].getAttribute('mode')].setOption("mode", _this.support_language[parent[i].getAttribute('mode')]);
 									};
 									//ts 关闭代码错误检测
-									if(text == 'typescript' || text == 'react' || text == 'scss' || text == 'sass' || text == 'less'){
+									if (text == 'typescript' || text == 'react' || text == 'scss' || text == 'sass' || text == 'less') {
 										_this.editor[parent[i].getAttribute('mode')].setOption("lint", false);
-									}else{
+									} else {
 										_this.editor[parent[i].getAttribute('mode')].setOption("lint", true);
 									}
 									//_this.editor[parent[i].getAttribute('mode')].setValue('');
@@ -1152,31 +1212,31 @@ class OnlineProgramming extends Unit {
 					nextDom.setAttribute('style', `height:calc(33.33% - 5px + ${clientYMove}px)`);
 				}
 			} else {
-				if (clientYMove > 0) { //向上
-					if (prevDom.previousSibling && prevDom.previousSibling.previousSibling) {
-						if (clientYMove < (prev_height + prev_previousSibling_height)) {
-							if (old_prev_previousSibling_height) {
-								prevDom.previousSibling.previousSibling.setAttribute('style', `height:calc(${old_prev_previousSibling_height} - ${clientYMove - prev_height}px)`);
-								nextDom.setAttribute('style', `height:calc(${old_next_height} + ${clientYMove}px)`);
-							} else {
-								prevDom.previousSibling.previousSibling.setAttribute('style', `height:calc(33.33% - 5px - ${clientYMove - prev_height}px)`);
-								nextDom.setAttribute('style', `height:calc(${old_next_height} + ${clientYMove}px)`);
-							}
-						}
-					}
-				} else {//向下
-					if (nextDom.nextSibling && nextDom.nextSibling.nextSibling) {
-						if ((clientYMove * -1) < (next_height + next_nextSibling_height)) {
-							if (old_next_nextSibling_height) {
-								nextDom.nextSibling.nextSibling.setAttribute('style', `height:calc(${old_next_nextSibling_height} - ${Math.abs(clientYMove) - next_height}px)`);
-								prevDom.setAttribute('style', `height:calc(${old_prev_height} - ${clientYMove}px)`);
-							} else {
-								nextDom.nextSibling.nextSibling.setAttribute('style', `height:calc(33.33% - 5px - ${Math.abs(clientYMove) - next_height}px)`);
-								prevDom.setAttribute('style', `height:calc(33.33% - 5px - ${clientYMove}px)`);
-							}
-						}
-					}
-				}
+				// if (clientYMove > 0) { //向上
+				// 	if (prevDom.previousSibling && prevDom.previousSibling.previousSibling) {
+				// 		if (clientYMove < (prev_height + prev_previousSibling_height)) {
+				// 			if (old_prev_previousSibling_height) {
+				// 				prevDom.previousSibling.previousSibling.setAttribute('style', `height:calc(${old_prev_previousSibling_height} - ${clientYMove - prev_height}px)`);
+				// 				nextDom.setAttribute('style', `height:calc(${old_next_height} + ${clientYMove}px)`);
+				// 			} else {
+				// 				prevDom.previousSibling.previousSibling.setAttribute('style', `height:calc(33.33% - 5px - ${clientYMove - prev_height}px)`);
+				// 				nextDom.setAttribute('style', `height:calc(${old_next_height} + ${clientYMove}px)`);
+				// 			}
+				// 		}
+				// 	}
+				// } else {//向下
+				// 	if (nextDom.nextSibling && nextDom.nextSibling.nextSibling) {
+				// 		if ((clientYMove * -1) < (next_height + next_nextSibling_height)) {
+				// 			if (old_next_nextSibling_height) {
+				// 				nextDom.nextSibling.nextSibling.setAttribute('style', `height:calc(${old_next_nextSibling_height} - ${Math.abs(clientYMove) - next_height}px)`);
+				// 				prevDom.setAttribute('style', `height:calc(${old_prev_height} - ${clientYMove}px)`);
+				// 			} else {
+				// 				nextDom.nextSibling.nextSibling.setAttribute('style', `height:calc(33.33% - 5px - ${Math.abs(clientYMove) - next_height}px)`);
+				// 				prevDom.setAttribute('style', `height:calc(33.33% - 5px - ${clientYMove}px)`);
+				// 			}
+				// 		}
+				// 	}
+				// }
 			}
 		};
 		document.onmouseup = function (event) {
@@ -1264,9 +1324,9 @@ class OnlineProgramming extends Unit {
 	 * sdk初始化
 	 */
 	Init() {
-		
-		if(!this.configuration.id){
-			throw('id不可为空')
+
+		if (!this.configuration.id) {
+			throw ('id不可为空')
 		}
 		this.DomLayout();
 	}
@@ -1537,7 +1597,7 @@ class OnlineProgramming extends Unit {
 	/********END */
 }
 
-export {OnlineProgramming}
+export { OnlineProgramming }
 
 
 // var Online_Programming = new OnlineProgramming({
