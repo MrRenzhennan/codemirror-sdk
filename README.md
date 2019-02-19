@@ -7,6 +7,9 @@ IE9 +
 ```
 ## Use
 ```node
+npm install Online-Programming --save  
+or
+yarn add Online-Programming
 
 ```
 
