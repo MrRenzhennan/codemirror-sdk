@@ -124,6 +124,77 @@ class Unit {
 	// };
 
 	/**
+	 * 设备类型判断
+	 */
+	GetBrowserInfo() {
+		const version = {
+			isAndroid() {
+				return navigator.userAgent.toLowerCase().indexOf('android')!==-1;
+			},
+		
+			isIOS() {
+				return /iPhone/i.test(navigator.userAgent) || /iPad/i.test(navigator.userAgent) || /iPod/i.test(navigator.userAgent);
+			},
+		
+			isWindows() {
+				return navigator.platform.toLowerCase().indexOf('win') !== -1;
+			},
+		
+			isMac() {
+				return navigator.platform.toLowerCase().indexOf('mac') !== -1;
+			},
+		
+			isLinux() {
+				return navigator.platform.toLowerCase().indexOf('linux') !== -1;
+			},
+		
+			isMobileBrowser() {
+				return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+			},
+			isWeChat() {
+				return /MicroMessenger/i.test(navigator.userAgent);
+			},
+		
+			isChrome() {
+				return /Chrome/i.test(navigator.userAgent);
+			},
+		
+			isFirefox() {
+				return /Firefox/i.test(navigator.userAgent);
+			},
+		
+			isSafari() {
+				return /Safari/i.test(navigator.userAgent) && !/Chrome/i.test(navigator.userAgent);
+			},
+		
+			isIE() {
+				return navigator.userAgent.indexOf('MSIE') !== -1 || /Trident.*rv[ :]*11\./.test(navigator.userAgent);
+			},
+		
+			isIE7() {
+				return navigator.userAgent.indexOf('MSIE 7.') !== -1;
+			},
+		
+			isIE8() {
+				return navigator.userAgent.indexOf('MSIE 8.') !== -1;
+			},
+		
+			isIE9() {
+				return navigator.userAgent.indexOf('MSIE 9.') !== -1;
+			},
+		
+			isIE10() {
+				return navigator.userAgent.indexOf('MSIE 10.') !== -1;
+			},
+		
+			isIE11() {
+				return /Trident.*rv[ :]*11\./.test(navigator.userAgent);
+			}
+		};
+		return version;
+	}
+
+	/**
 	 * 获取dom 宽高
 	 * @param {dom元素} Element _dom 
 	 */
@@ -596,8 +667,16 @@ class OnlineProgramming extends Unit {
 			if (_opaction[i] == current_mode) {
 				option.setAttribute('selected', '')
 			};
-			this.DomSetVal(option, _opaction[i]);
-			select.appendChild(option);
+			if(this.GetBrowserInfo().isIE() && !this.GetBrowserInfo().isIE11()){
+				console.log('<IE11')
+				if(_opaction[i] != 'scss' && _opaction[i] != 'sass' && _opaction[i] != 'less'){
+					this.DomSetVal(option, _opaction[i]);
+					select.appendChild(option);
+				}
+			}else{
+				this.DomSetVal(option, _opaction[i]);
+				select.appendChild(option);
+			}
 		};
 		select.onchange = (e) => {
 			let text = this.DomGetVal(select.options[select.selectedIndex]);
@@ -1125,7 +1204,9 @@ class OnlineProgramming extends Unit {
 		}
 	}
 
-	//是否禁用 粘贴功能
+	/**
+	 * 是否禁用 粘贴功能
+	 */
 	PasteEvent() {
 		if (this.configuration.isPaste) {
 			for (let key in this.editor) {
@@ -1147,14 +1228,18 @@ class OnlineProgramming extends Unit {
 		}
 	}
 
-	//重置内容
+	/**
+	 * 重置内容
+	 */
 	ResetContent() {
 		for (let key in this.editor) {
 			this.editor[key].setValue('');
 		}
 	}
 
-	//获取编辑器内容
+	/**
+	 * 获取编辑器内容
+	 */
 	GetEditorVal() {
 		let center_val = [];
 		for (let key in this.editor) {
@@ -1181,12 +1266,17 @@ class OnlineProgramming extends Unit {
 		}
 	}
 
-	//初始化
+	/**
+	 * sdk初始化
+	 */
 	Init() {
 		this.DomLayout();
 	}
 
-	//样式展示区初始化 
+	/**
+	 * 样式展示区初始化 
+	 * @param {外部传入内容} Object val 
+	 */
 	RequestStyleSetVal(val = '') {
 		let parentNode = document.querySelector(`#${this.configuration.id} .style-area .exothecium-box`);
 		let old_iframe = document.querySelector(`#${this.configuration.id} .style-area .exothecium-box iframe`);
@@ -1210,7 +1300,9 @@ class OnlineProgramming extends Unit {
 		ifrdoc.designMode = "off"; //文档进入非可编辑模式
 	}
 
-	//样式展示区 格式拼接
+	/**
+	 * 样式展示区 格式拼接
+	 */
 	FormatStitchingForStyleSetVal(val) {
 		let html;//原始返回的html
 		let css;//原始返回的css
@@ -1241,7 +1333,9 @@ class OnlineProgramming extends Unit {
 		return this.CenterJoin(html, css, js, other);
 	}
 
-	//编译模式获取
+	/**
+	 * 编译模式获取
+	 */
 	GetPreprocessor() {
 		let title_text = document.querySelectorAll(`#${this.configuration.id} .programming-practice-area .exothecium-box .editor_box .create-editor-name .title-text`);
 		let Preprocessor = {}
@@ -1253,7 +1347,9 @@ class OnlineProgramming extends Unit {
 		return Preprocessor;
 	}
 
-	//外部链接获取
+	/**
+	 * 外部链接获取
+	 */
 	GetExternalScripts() {
 		let parentNode = document.querySelectorAll(`#${this.configuration.id} .setting-dialog .item-settings-modal .sortable-box`);
 		//数据拼接
@@ -1276,7 +1372,9 @@ class OnlineProgramming extends Unit {
 		return externalScripts;
 	}
 
-	//样式展示区代码拼接
+	/**
+	 * 样式展示区代码拼接
+	 */
 	CenterJoin(html, css, js, other) {
 		let center = `
 		<script src="https://cdn.bootcss.com/es5-shim/4.5.12/es5-shim.min.js"></script>
@@ -1438,6 +1536,7 @@ class OnlineProgramming extends Unit {
 		return center;
 	}
 
+	/********END */
 }
 
 
@@ -1512,7 +1611,3 @@ Online_Programming.EventForButton(
 		}
 	]
 )
-
-console.log(Online_Programming);
-
-Online_Programming.ChangeEvent()
