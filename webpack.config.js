@@ -8,7 +8,7 @@ const HappyPack = require('happypack');
 const os = require('os');
 const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length });
 module.exports = [
-	
+	///*
 	//压缩
 	{
 		mode: 'production',
@@ -127,6 +127,7 @@ module.exports = [
 			}),
 		]
 	},
+	//*/
 	//不压缩
 	{
 		mode: 'development',

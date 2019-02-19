@@ -1537,10 +1537,11 @@ class OnlineProgramming extends Unit {
 	/********END */
 }
 
+export {OnlineProgramming}
 
 
 // var Online_Programming = new OnlineProgramming({
-// 	//id: 'editor-box',
+// 	id: 'editor-box',
 // 	isPaste: false,
 // 	currentMode: 'html/css/js',
 // 	disabledForSelect: false,
