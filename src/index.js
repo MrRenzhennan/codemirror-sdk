@@ -391,10 +391,12 @@ class Unit {
 			let span = document.createElement('span');
 			//this.DomSetVal(span, `(none)`);
 			text.appendChild(span);
-			if (name != 'html') {
-				//添加设置按钮
-				div.appendChild(this.CreateIconForSetting(name))
-			}
+			if (this.configuration.iconSettingIsShow && this.DataTypeDetection().isBoolean(this.configuration.iconSettingIsShow)) {
+				if (name != 'html') {
+					//添加设置按钮
+					div.appendChild(this.CreateIconForSetting(name))
+				};
+			};
 		}
 		return div;
 	}
@@ -507,17 +509,10 @@ class OnlineProgramming extends Unit {
 				currentMode: 'html/css/js',//当前编辑器模式
 				disabledForSelect: false,//是否禁用select
 				disabledForInput: false,//是否禁用input
+				styleAreaIsShow: true,//是否生成样式展示区
+				iconSettingIsShow: true,//是否生成设置按钮
 				externalLink: [],//外部链接 支持链接
-				button: [
-					{
-						text: '点击运行',
-						style: 'background: #ff0000'
-					},
-					{
-						text: '重置编码',
-						style: 'background: #ff6600'
-					}
-				]
+				button: [],//底部按钮
 			},
 			configuration
 		);
@@ -622,12 +617,18 @@ class OnlineProgramming extends Unit {
 		div.appendChild(this.ProgrammingPracticeArea());
 		//竖向分区
 		div.appendChild(this.EditorResizerCol('col-resize'));
-		//样式展示区
-		div.appendChild(this.StyleArea());
-		//竖向分区
-		div.appendChild(this.EditorResizerCol());
-		//弹框
-		div.appendChild(this.SettingDiaLog(this.preprocessor))
+
+		if (this.configuration.styleAreaIsShow && this.DataTypeDetection().isBoolean(this.configuration.styleAreaIsShow)) {
+			//样式展示区
+			div.appendChild(this.StyleArea());
+			//竖向分区
+			div.appendChild(this.EditorResizerCol());
+		};
+		if (this.configuration.iconSettingIsShow && this.DataTypeDetection().isBoolean(this.configuration.iconSettingIsShow)) {
+			//弹框
+			div.appendChild(this.SettingDiaLog(this.preprocessor))
+		};
+
 		outermost_layer.appendChild(div);
 
 
@@ -636,8 +637,11 @@ class OnlineProgramming extends Unit {
 
 		//编辑器初始化
 		this.EditorInit();
-		//区域拖拽初始化
-		this.ResizerMove();
+
+		if (this.configuration.styleAreaIsShow && this.DataTypeDetection().isBoolean(this.configuration.styleAreaIsShow)) {
+			//区域拖拽初始化
+			this.ResizerMove();
+		};
 
 		//初始化 input 拖拽排序
 		for (var key in this.preprocessor) {
@@ -659,6 +663,9 @@ class OnlineProgramming extends Unit {
 	ProgrammingPracticeArea() {
 		let div = document.createElement('div');
 		div.className = 'programming-practice-area';
+		if (!this.configuration.styleAreaIsShow && this.DataTypeDetection().isBoolean(this.configuration.styleAreaIsShow)) {
+			div.style.width = 'calc(100% - 40px)'
+		};
 		//title 区
 		let CreateTitle = this.CreateTitle('编程实践区');
 		CreateTitle.appendChild(
@@ -685,9 +692,11 @@ class OnlineProgramming extends Unit {
 	ButtonOperationArea() {
 		let buttonOperationArea = document.createElement('div');
 		buttonOperationArea.className = 'button-operation-area';
-		for (let i = 0; i < this.configuration.button.length; i++) {
-			let btn = this.CreateButton(this.configuration.button[i], i);
-			buttonOperationArea.appendChild(btn);
+		if (this.configuration.button && this.DataTypeDetection().isArray(this.configuration.button)) {
+			for (let i = 0; i < this.configuration.button.length; i++) {
+				let btn = this.CreateButton(this.configuration.button[i], i);
+				buttonOperationArea.appendChild(btn);
+			};
 		};
 		return buttonOperationArea;
 	}
@@ -1106,17 +1115,30 @@ class OnlineProgramming extends Unit {
 	SearchScreen(_target) {
 		let key = _target.getAttribute('data-type');
 		let val = _target.value;
-		let oldArray = this.configuration.externalLink;
+		//深拷贝 JSON.parse JSON.stringify 方法 实现
+		let oldArray = JSON.parse(JSON.stringify(this.configuration.externalLink));
 		let parentNode = _target.parentNode.parentNode;
 		if (oldArray[key] && this.DataTypeDetection().isArray(oldArray[key])) {
 			//筛选符合条件的数据
-			let findTrue = oldArray[key].filter(function (item) {
+			let findTrue = oldArray[key].filter( (item) => {
 				if (item.name.includes(val)) {
-					return item;
-				}
+					if(this.GetBrowserInfo().isIE9()){
+						return item;
+					}else{
+						//replace 将以前的标签替换掉 split 以val分割字符串   join 加入标签合并字符串
+						item.name = item.name.replace(/<[^>]+>/gim,'').split(val).join('<span style="color:red;">' + val + '</span>');
+						return item;
+					};
+				};
 			});
 			this.CreateCenterForSearch(parentNode, findTrue);
-			this.SearchHeightChange(_target, 'onfocus')
+			this.SearchHeightChange(_target, 'onfocus');
+			//oldArray还原
+			// oldArray = oldArray[key].filter((item) => {
+			// 	//replace 将以前的标签替换掉
+			// 	item.name = item.name.replace(/<[^>]+>/gim, '');
+			// 	return item;
+			// });
 		};
 
 	}
@@ -1145,7 +1167,13 @@ class OnlineProgramming extends Unit {
 				top.className = 'item-center-top';
 				let name = document.createElement('div');
 				name.className = 'item-center-name';
-				this.DomSetVal(name, _array[i].name);
+				//name.setAttribute('data-name',_array[i].name.replace(/<[^>]+>/gim, ''));
+				if(this.GetBrowserInfo().isIE9()){
+					this.DomSetVal(name, _array[i].name);
+				}else{
+					name.innerHTML = _array[i].name;
+				};
+
 				let version = document.createElement('div');
 				version.className = 'item-center-version';
 				this.DomSetVal(version, _array[i].version);
@@ -1205,7 +1233,7 @@ class OnlineProgramming extends Unit {
 		let setting_type = _targetParent.parentNode.parentNode;//setting-type 元素    为了循环children获取input
 		let inputArray = this.GetInpoutAll(setting_type).inputArray;//input 集合
 		let sortable_box = this.GetInpoutAll(setting_type).sortable_box;//克隆节点 父元素
-		if(inputArray && sortable_box){
+		if (inputArray && sortable_box) {
 			this.InputSetVal(inputArray, link, sortable_box);
 		};
 		this.ToCloseLint(link, 'js');
@@ -1215,7 +1243,7 @@ class OnlineProgramming extends Unit {
 	 * 获取input
 	 * @param {input 父元素} setting_type 
 	 */
-	GetInpoutAll(setting_type){
+	GetInpoutAll(setting_type) {
 		let inputArray = [];//input 集合
 		let sortable_box;//克隆节点 父元素
 		if (setting_type) {
@@ -1233,7 +1261,7 @@ class OnlineProgramming extends Unit {
 				}
 			};
 		};
-		return {inputArray,sortable_box};
+		return { inputArray, sortable_box };
 	}
 
 	/**
@@ -1431,28 +1459,28 @@ class OnlineProgramming extends Unit {
 			}
 		};
 		//更改 编译模式
-		if(text == ''){
-			_this.editor[_target.parentNode.parentNode.getAttribute('data-type')].setOption("mode",_this.support_language[_target.parentNode.parentNode.getAttribute('data-type')]);
-		}else{
-			if(_this.support_language[text]){
-				if(_this.editor[_target.parentNode.parentNode.getAttribute('data-type')].options.mode != _this.support_language[text]){
+		if (text == '') {
+			_this.editor[_target.parentNode.parentNode.getAttribute('data-type')].setOption("mode", _this.support_language[_target.parentNode.parentNode.getAttribute('data-type')]);
+		} else {
+			if (_this.support_language[text]) {
+				if (_this.editor[_target.parentNode.parentNode.getAttribute('data-type')].options.mode != _this.support_language[text]) {
 					_this.editor[_target.parentNode.parentNode.getAttribute('data-type')].setOption("mode", _this.support_language[text]);
 				}
 			}
 		};
 		//是否关闭代码检测
-		if(_target.parentNode.parentNode.getAttribute('data-type') == 'js' || _target.parentNode.parentNode.getAttribute('data-type') == 'css'){
-			if(text == ''){
+		if (_target.parentNode.parentNode.getAttribute('data-type') == 'js' || _target.parentNode.parentNode.getAttribute('data-type') == 'css') {
+			if (text == '') {
 				_this.editor[_target.parentNode.parentNode.getAttribute('data-type')].setOption("lint", true)
-			}else{
+			} else {
 				_this.editor[_target.parentNode.parentNode.getAttribute('data-type')].setOption("lint", false)
 			};
 			//react 关闭检测
-			if(_target.parentNode.parentNode.getAttribute('data-type') == 'js'){
-				if(_this.GetInpoutAll(_target.parentNode.parentNode).inputArray && _this.DataTypeDetection().isArray(_this.GetInpoutAll(_target.parentNode.parentNode).inputArray)){
-					for(let i = 0;i<_this.GetInpoutAll(_target.parentNode.parentNode).inputArray.length;i++){
-						if(_this.GetInpoutAll(_target.parentNode.parentNode).inputArray[i].value && _this.GetInpoutAll(_target.parentNode.parentNode).inputArray[i].value.includes('react')){
-							_this.ToCloseLint(_this.GetInpoutAll(_target.parentNode.parentNode).inputArray[i].value,'js');
+			if (_target.parentNode.parentNode.getAttribute('data-type') == 'js') {
+				if (_this.GetInpoutAll(_target.parentNode.parentNode).inputArray && _this.DataTypeDetection().isArray(_this.GetInpoutAll(_target.parentNode.parentNode).inputArray)) {
+					for (let i = 0; i < _this.GetInpoutAll(_target.parentNode.parentNode).inputArray.length; i++) {
+						if (_this.GetInpoutAll(_target.parentNode.parentNode).inputArray[i].value && _this.GetInpoutAll(_target.parentNode.parentNode).inputArray[i].value.includes('react')) {
+							_this.ToCloseLint(_this.GetInpoutAll(_target.parentNode.parentNode).inputArray[i].value, 'js');
 							return;
 						};
 					}
@@ -1695,6 +1723,9 @@ class OnlineProgramming extends Unit {
 			return;
 		};
 		let parentNode = document.querySelector(`#${this.configuration.id} .style-area .exothecium-box`);
+		if (!parentNode || !this.DataTypeDetection().isDocument(parentNode)) {
+			return;
+		};
 		let old_iframe = document.querySelector(`#${this.configuration.id} .style-area .exothecium-box iframe`);
 		//如果存在 iframe remove掉
 		if (old_iframe) {
@@ -1983,8 +2014,10 @@ export { OnlineProgramming }
 // 	id: 'editor-box', //容器ID
 // 	isPaste: false,//是否 禁用粘贴
 // 	currentMode: 'html/css/js',//编辑器 默认 表现形势
-// 	disabledForSelect: false,//是否禁用 select -->是否可以切换 编辑器模式
+// 	disabledForSelect: true,//是否禁用 select -->是否可以切换 编辑器模式
 // 	disabledForInput: true,//是否禁用 input  -->是否 可以 允许 用户 增加 外部链接
+// 	styleAreaIsShow: true,//是否生成样式展示区
+// 	iconSettingIsShow: true,//是否生成设置按钮
 // 	externalLink: { //支持外部链接
 // 		'js': [
 // 			{
@@ -2021,7 +2054,7 @@ export { OnlineProgramming }
 // 			}
 // 		]
 // 	},
-// 	button: [ //底部按钮表现形势
+// 	button: [ //底部按钮表现形势    如果不传  则 不显示
 // 		{
 // 			text: '点击运行',
 // 			style: 'background: #ff0000'
