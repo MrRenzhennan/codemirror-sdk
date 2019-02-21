@@ -391,8 +391,10 @@ class Unit {
 			let span = document.createElement('span');
 			//this.DomSetVal(span, `(none)`);
 			text.appendChild(span);
-			//添加设置按钮
-			div.appendChild(this.CreateIconForSetting(name))
+			if (name != 'html') {
+				//添加设置按钮
+				div.appendChild(this.CreateIconForSetting(name))
+			}
 		}
 		return div;
 	}
@@ -523,24 +525,11 @@ class OnlineProgramming extends Unit {
 		this.option = ['html/css/js', 'java', 'c#', 'pathon2', 'python3'];
 		//支持的 编译模式
 		this.preprocessor = {
-			'html': {
-				preprocessor: [ //编译模式
-					''
-				],
-				externalScripts: [ //外部链接插件
-
-				]
-			},
+			// 'html': {
+			// 	preprocessor: [''],//编译模式
+			// },
 			'css': {
-				preprocessor: [ //编译模式
-					'',
-					'scss',
-					'less',
-					'sass',
-				],
-				externalScripts: [ //外部链接插件
-
-				]
+				preprocessor: ['', 'scss', 'less', 'sass',],//编译模式
 			},
 			'js': {
 				preprocessor: [ //编译模式
@@ -550,9 +539,6 @@ class OnlineProgramming extends Unit {
 					// 'vue',
 					// 'react'
 				],
-				externalScripts: [ //外部链接插件
-
-				]
 			},
 		};
 		//语法支持
@@ -611,7 +597,6 @@ class OnlineProgramming extends Unit {
 		while (_src.length > 0) {
 			//shift() 方法用于把数组的第一个元素从其中删除，并返回第一个元素的值。
 			this.LoadScripts(_src.shift(), (t) => {
-				//console.log(t)
 				_src_length--
 				//依赖 全部 加载完成  启动lint检测
 				if (_src_length == 0) {
@@ -817,6 +802,7 @@ class OnlineProgramming extends Unit {
 			if (_opaction[i] == current_mode) {
 				option.setAttribute('selected', '')
 			};
+			//  < ie 11   禁用 scss sass less
 			if (this.GetBrowserInfo().isIE() && !this.GetBrowserInfo().isIE11()) {
 				if (_opaction[i] != 'scss' && _opaction[i] != 'sass' && _opaction[i] != 'less') {
 					this.DomSetVal(option, _opaction[i]);
@@ -1086,7 +1072,7 @@ class OnlineProgramming extends Unit {
 			let _target = _event.target || _event.srcElement;
 			setTimeout(() => {
 				this.SearchHeightChange(_target, 'onblur');
-			}, 300)
+			}, 150)
 		};
 		div.appendChild(input);
 
@@ -1217,6 +1203,19 @@ class OnlineProgramming extends Unit {
 		};
 
 		let setting_type = _targetParent.parentNode.parentNode;//setting-type 元素    为了循环children获取input
+		let inputArray = this.GetInpoutAll(setting_type).inputArray;//input 集合
+		let sortable_box = this.GetInpoutAll(setting_type).sortable_box;//克隆节点 父元素
+		if(inputArray && sortable_box){
+			this.InputSetVal(inputArray, link, sortable_box);
+		};
+		this.ToCloseLint(link, 'js');
+	}
+
+	/**
+	 * 获取input
+	 * @param {input 父元素} setting_type 
+	 */
+	GetInpoutAll(setting_type){
 		let inputArray = [];//input 集合
 		let sortable_box;//克隆节点 父元素
 		if (setting_type) {
@@ -1233,8 +1232,8 @@ class OnlineProgramming extends Unit {
 					}
 				}
 			};
-			this.InputSetVal(inputArray, link, sortable_box)
 		};
+		return {inputArray,sortable_box};
 	}
 
 	/**
@@ -1261,6 +1260,19 @@ class OnlineProgramming extends Unit {
 				this.DomClone(sortable_box, link)
 			};
 		};
+	}
+
+	/**
+	 * 是否关闭代码检测
+	 * @param {*} text 
+	 * @param {*} type 
+	 */
+	ToCloseLint(text, type) {
+		if (text.includes('react')) {
+			this.editor[type].setOption('lint', false)
+		} else {
+			this.editor[type].setOption('lint', true)
+		}
 	}
 
 	/**
@@ -1343,6 +1355,12 @@ class OnlineProgramming extends Unit {
 			let parentNode = delete_dom.parentNode;
 			if (parentNode.children.length > 2) {
 				parentNode.removeChild(delete_dom);
+			} else {//如果剩余两个input 清空val
+				for (let i = 0; i < delete_dom.children.length; i++) {
+					if (delete_dom.children[i].tagName.toLowerCase() == 'input') {
+						delete_dom.children[i].value = '';
+					}
+				}
 			}
 		}
 	}
@@ -1398,7 +1416,7 @@ class OnlineProgramming extends Unit {
 	 */
 	SelectEventForPreprocessor(text = '', _this = '', _target = '') {
 		let parent = document.querySelectorAll(`#${_this.configuration.id} .online-programming .editor_box`);
-		//下面逻辑 只是为了更改 编辑模式后面的文字   和更改 编译模式
+		//下面逻辑 只是为了更改 编辑模式后面的文字
 		for (let i = 0; i < parent.length; i++) {
 			if (parent[i].getAttribute('mode') == _target.parentNode.parentNode.getAttribute('data-type')) {
 				for (let k = 0; k < parent[i].children.length; k++) {
@@ -1406,27 +1424,41 @@ class OnlineProgramming extends Unit {
 						for (let j = 0; j < parent[i].children[k].children.length; j++) {
 							if (parent[i].children[k].children[j].className == 'title-text') {
 								_this.DomSetVal(parent[i].children[k].children[j].children[0], (text ? `(${text})` : ''));
-								for (let key in _this.support_language) {
-									if (text == key) {
-										_this.editor[parent[i].getAttribute('mode')].setOption("mode", _this.support_language[key]);
-									};
-									if (text == 'none') {
-										_this.editor[parent[i].getAttribute('mode')].setOption("mode", _this.support_language[parent[i].getAttribute('mode')]);
-									};
-									//ts 关闭代码错误检测
-									if (text == 'typescript' || text == 'react' || text == 'scss' || text == 'sass' || text == 'less') {
-										_this.editor[parent[i].getAttribute('mode')].setOption("lint", false);
-									} else {
-										_this.editor[parent[i].getAttribute('mode')].setOption("lint", true);
-									}
-									//_this.editor[parent[i].getAttribute('mode')].setValue('');
-								}
 							}
 						}
 					}
 				}
 			}
-		}
+		};
+		//更改 编译模式
+		if(text == ''){
+			_this.editor[_target.parentNode.parentNode.getAttribute('data-type')].setOption("mode",_this.support_language[_target.parentNode.parentNode.getAttribute('data-type')]);
+		}else{
+			if(_this.support_language[text]){
+				if(_this.editor[_target.parentNode.parentNode.getAttribute('data-type')].options.mode != _this.support_language[text]){
+					_this.editor[_target.parentNode.parentNode.getAttribute('data-type')].setOption("mode", _this.support_language[text]);
+				}
+			}
+		};
+		//是否关闭代码检测
+		if(_target.parentNode.parentNode.getAttribute('data-type') == 'js' || _target.parentNode.parentNode.getAttribute('data-type') == 'css'){
+			if(text == ''){
+				_this.editor[_target.parentNode.parentNode.getAttribute('data-type')].setOption("lint", true)
+			}else{
+				_this.editor[_target.parentNode.parentNode.getAttribute('data-type')].setOption("lint", false)
+			};
+			//react 关闭检测
+			if(_target.parentNode.parentNode.getAttribute('data-type') == 'js'){
+				if(_this.GetInpoutAll(_target.parentNode.parentNode).inputArray && _this.DataTypeDetection().isArray(_this.GetInpoutAll(_target.parentNode.parentNode).inputArray)){
+					for(let i = 0;i<_this.GetInpoutAll(_target.parentNode.parentNode).inputArray.length;i++){
+						if(_this.GetInpoutAll(_target.parentNode.parentNode).inputArray[i].value && _this.GetInpoutAll(_target.parentNode.parentNode).inputArray[i].value.includes('react')){
+							_this.ToCloseLint(_this.GetInpoutAll(_target.parentNode.parentNode).inputArray[i].value,'js');
+							return;
+						};
+					}
+				}
+			}
+		};
 	}
 
 	/**
@@ -1881,30 +1913,47 @@ class OnlineProgramming extends Unit {
 					</script>
 					`
 					break;
-				case 'vue':
-					center += `
-					<script src="https://cdn.jsdelivr.net/npm/vue"></script>
-					<script>
-							${js}
-					</script>
-					`
-					break;
-				case 'react':
-					center += `
-					<script src="https://cdn.staticfile.org/react/16.4.0/umd/react.development.js"></script>
-					<script src="https://cdn.staticfile.org/react-dom/16.4.0/umd/react-dom.development.js"></script>
-					<script src="https://cdn.staticfile.org/babel-standalone/6.26.0/babel.min.js"></script>
-					<script type="text/babel">
-						${js}
-					</script>
-					`
-					break;
+				// case 'vue':
+				// 	center += `
+				// 	<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+				// 	<script>
+				// 			${js}
+				// 	</script>
+				// 	`
+				// 	break;
+				// case 'react':
+				// 	center += `
+				// 	<script src="https://cdn.staticfile.org/react/16.4.0/umd/react.development.js"></script>
+				// 	<script src="https://cdn.staticfile.org/react-dom/16.4.0/umd/react-dom.development.js"></script>
+				// 	<script src="https://cdn.staticfile.org/babel-standalone/6.26.0/babel.min.js"></script>
+				// 	<script type="text/babel">
+				// 		${js}
+				// 	</script>
+				// 	`
+				// 	break;
 				default:
-					center += `
-					<script>
-						${js}
-					</script>
-					`
+					let isBabel = [];
+					for (let i = 0; i < _GetExternalScripts['js'].length; i++) {
+						if (_GetExternalScripts['js'][i].includes('react')) {
+							isBabel.push(1);
+						} else {
+							isBabel.push(2);
+						}
+					};
+					if (!isBabel.includes(1)) {
+						center += `
+						<script>
+							${js}
+						</script>
+						`
+					} else {
+						center += `
+						<script src="https://cdn.staticfile.org/babel-standalone/6.26.0/babel.min.js"></script>
+						<script type="text/babel">
+							${js}
+						</script>
+						`
+					};
 					break;
 			};
 		};
@@ -1930,113 +1979,113 @@ class OnlineProgramming extends Unit {
 export { OnlineProgramming }
 
 
-var Online_Programming = new OnlineProgramming({
-	id: 'editor-box',
-	isPaste: false,
-	currentMode: 'html/css/js',
-	disabledForSelect: false,
-	disabledForInput: true,
-	externalLink: {
-		'js': [
-			{
-				name: 'vue',
-				version: '2.0',
-				link: 'https://cdn.bootcss.com/vue/2.6.4/vue.js'
-			},
-			{
-				name: 'react',
-				version: '16.04',
-				link: 'https://cdn.staticfile.org/react/16.4.0/umd/react.development.js'
-			},
-			{
-				name: 'react-dom',
-				version: '16.04',
-				link: 'https://cdn.staticfile.org/react-dom/16.4.0/umd/react-dom.development.js'
-			},
-			{
-				name: 'jquery',
-				version: '3.3.1',
-				link: 'https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js'
-			},
-			{
-				name: 'bootstrap',
-				version: '3.0.0',
-				link: 'https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js'
-			}
-		],
-		'css': [
-			{
-				name: 'bootstrap',
-				version: '3.0.0',
-				link: 'https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css'
-			}
-		]
-	},
-	button: [
-		{
-			text: '点击运行',
-			style: 'background: #ff0000'
-		},
-		{
-			text: '重置编码',
-			style: 'background: #ff6600'
-		}
-	]
-});
+// var Online_Programming = new OnlineProgramming({
+// 	id: 'editor-box',
+// 	isPaste: false,
+// 	currentMode: 'html/css/js',
+// 	disabledForSelect: false,
+// 	disabledForInput: true,
+// 	externalLink: {
+// 		'js': [
+// 			{
+// 				name: 'vue',
+// 				version: '2.0',
+// 				link: 'https://cdn.bootcss.com/vue/2.6.4/vue.js'
+// 			},
+// 			{
+// 				name: 'react',
+// 				version: '16.04',
+// 				link: 'https://cdn.staticfile.org/react/16.4.0/umd/react.development.js'
+// 			},
+// 			{
+// 				name: 'react-dom',
+// 				version: '16.04',
+// 				link: 'https://cdn.staticfile.org/react-dom/16.4.0/umd/react-dom.development.js'
+// 			},
+// 			{
+// 				name: 'jquery',
+// 				version: '3.3.1',
+// 				link: 'https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js'
+// 			},
+// 			{
+// 				name: 'bootstrap',
+// 				version: '3.0.0',
+// 				link: 'https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js'
+// 			}
+// 		],
+// 		'css': [
+// 			{
+// 				name: 'bootstrap',
+// 				version: '3.0.0',
+// 				link: 'https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css'
+// 			}
+// 		]
+// 	},
+// 	button: [
+// 		{
+// 			text: '点击运行',
+// 			style: 'background: #ff0000'
+// 		},
+// 		{
+// 			text: '重置编码',
+// 			style: 'background: #ff6600'
+// 		}
+// 	]
+// });
 
-Online_Programming.SetEditorVal(
-	[
-		{
-			key: 'html',
-			val: '<div>123</div>'
-		},
-		{
-			key: 'css',
-			val: 'html{color:#fff;}'
-		},
-		{
-			key: 'js',
-			val: 'console.log("123")'
-		}
-	]
-)
+// Online_Programming.SetEditorVal(
+// 	[
+// 		{
+// 			key: 'html',
+// 			val: '<div>123</div>'
+// 		},
+// 		{
+// 			key: 'css',
+// 			val: 'html{color:#fff;}'
+// 		},
+// 		{
+// 			key: 'js',
+// 			val: 'console.log("123")'
+// 		}
+// 	]
+// )
 
-Online_Programming.EventForButton(
-	[
-		{
-			text: '点击运行',
-			callback: function () {
-				console.log('点击运行');
-				let val = Online_Programming.GetEditorVal();
-				console.log(val)
-				Online_Programming.RequestStyleSetVal(val)
-			}
-		},
-		{
-			text: '重置编码',
-			callback: function () {
-				console.log('重置编码');
-				Online_Programming.ResetContent();
-				Online_Programming.SetEditorVal(
-					[
-						{
-							key: 'html',
-							val: '<div>123</div>'
-						},
-						{
-							key: 'css',
-							val: 'html{color:#fff;}'
-						},
-						{
-							key: 'js',
-							val: 'console.log("123")'
-						}
-					]
-				)
-			}
-		}
-	]
-)
+// Online_Programming.EventForButton(
+// 	[
+// 		{
+// 			text: '点击运行',
+// 			callback: function () {
+// 				console.log('点击运行');
+// 				let val = Online_Programming.GetEditorVal();
+// 				console.log(val)
+// 				Online_Programming.RequestStyleSetVal(val)
+// 			}
+// 		},
+// 		{
+// 			text: '重置编码',
+// 			callback: function () {
+// 				console.log('重置编码');
+// 				Online_Programming.ResetContent();
+// 				Online_Programming.SetEditorVal(
+// 					[
+// 						{
+// 							key: 'html',
+// 							val: '<div>123</div>'
+// 						},
+// 						{
+// 							key: 'css',
+// 							val: 'html{color:#fff;}'
+// 						},
+// 						{
+// 							key: 'js',
+// 							val: 'console.log("123")'
+// 						}
+// 					]
+// 				)
+// 			}
+// 		}
+// 	]
+// )
 
 
-console.log(Online_Programming)
+// console.log(Online_Programming)
