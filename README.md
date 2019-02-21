@@ -18,6 +18,19 @@ yarn add Online-Programming
 yarn install
 yarn start
 ```
+## extraKeys
+```js
+Tab //智能提示
+Ctrl-/: //注释
+F11: //全屏 退出全屏
+Ctrl-J:  //跳转匹配标签
+Ctrl-F / Cmd-F //开始搜索    (Ctrl-F  输入内容  回车)
+Ctrl-G / Cmd-G //找下一个  (Ctrl-F 匹配内容后   Ctrl-G查找下一个)
+Shift-Ctrl-G / Shift-Cmd-G //找到上一个   (Ctrl-F 匹配内容后  Shift-Ctrl-G查找上一个)
+Shift-Ctrl-F / Cmd-Option-F //更换  (Shift-Ctrl-F 出現搜索框  輸入要替換内容  回車)
+Shift-Ctrl-R / Shift-Cmd-Option-F //全部替换
+ALT-G //跳到指定位置  10：80
+```
 
 ## Options
 ```js
