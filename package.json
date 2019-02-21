@@ -6,6 +6,7 @@
   "author": "renzhennan <rzn0725@outlook.com>",
   "license": "MIT",
   "bugs": "https://github.com/MrRenzhennan/Online-Programming/issues",
+  "private": false,
   "scripts": {
     "start": "webpack && webpack-dev-server --hot --inline"
   },

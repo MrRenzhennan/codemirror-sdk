@@ -1998,7 +1998,7 @@ class OnlineProgramming extends Unit {
 						color:#fff;
 					}
 				</style>
-				${val[i][key]}
+				${other}
 			`;
 		};
 		return center;
@@ -2014,7 +2014,7 @@ export { OnlineProgramming }
 // 	id: 'editor-box', //容器ID
 // 	isPaste: false,//是否 禁用粘贴
 // 	currentMode: 'html/css/js',//编辑器 默认 表现形势
-// 	disabledForSelect: true,//是否禁用 select -->是否可以切换 编辑器模式
+// 	disabledForSelect: false,//是否禁用 select -->是否可以切换 编辑器模式
 // 	disabledForInput: true,//是否禁用 input  -->是否 可以 允许 用户 增加 外部链接
 // 	styleAreaIsShow: true,//是否生成样式展示区
 // 	iconSettingIsShow: true,//是否生成设置按钮

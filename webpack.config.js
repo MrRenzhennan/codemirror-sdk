@@ -18,8 +18,9 @@ module.exports = [
 		output: {
 			path: path.resolve(__dirname, 'dist'),
 			filename: 'js/[name].js',
-			//library: 'SDK',
-			libraryTarget: 'umd'
+			library: 'OnlineProgramming',
+			libraryTarget: 'umd',
+			umdNamedDefine:true
 		},
 		devServer: {
 			contentBase: path.join(__dirname, 'dist'),
@@ -137,8 +138,9 @@ module.exports = [
 		output: {
 			path: path.resolve(__dirname, 'dist'),
 			filename: 'js/[name].js',
-			//library: 'SDK',
-			libraryTarget: 'umd'
+			library: 'OnlineProgramming',
+			libraryTarget: 'umd',
+			umdNamedDefine:true
 		},
 		devServer: {
 			contentBase: path.join(__dirname, 'dist'),
