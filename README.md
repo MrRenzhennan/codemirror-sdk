@@ -7,9 +7,14 @@ IE9 +
 ```
 ## Use
 ```node
+vue:
 npm install Online-Programming --save  
 or
 yarn add Online-Programming
+
+Browser:
+<link rel="stylesheet" href="./open-online-programming/dist/css/sdk.min.css">
+<script src="./open-online-programming/dist/js/sdk.min.js"></script>
 
 ```
 
