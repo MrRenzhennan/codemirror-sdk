@@ -18,15 +18,32 @@ yarn add Online-Programming
 yarn install
 yarn start
 ```
+## extraKeys
+```js
+Tab //智能提示
+Ctrl-/: //注释
+F11: //全屏 退出全屏
+Ctrl-J:  //跳转匹配标签
+Ctrl-F / Cmd-F //开始搜索    (Ctrl-F  输入内容  回车)
+Ctrl-G / Cmd-G //找下一个  (Ctrl-F 匹配内容后   Ctrl-G查找下一个)
+Shift-Ctrl-G / Shift-Cmd-G //找到上一个   (Ctrl-F 匹配内容后  Shift-Ctrl-G查找上一个)
+Shift-Ctrl-F / Cmd-Option-F //更换  (Shift-Ctrl-F 出現搜索框  輸入要替換内容  回車)
+Shift-Ctrl-R / Shift-Cmd-Option-F //全部替换
+ALT-G //跳到指定位置  10：80
+```
 
 ## Options
 ```js
+
+
 var Online_Programming = new OnlineProgramming({
 	id: 'editor-box', //容器ID
 	isPaste: false,//是否 禁用粘贴
 	currentMode: 'html/css/js',//编辑器 默认 表现形势
-	disabledForSelect: false,//是否禁用 select -->是否可以切换 编辑器模式
+	disabledForSelect: true,//是否禁用 select -->是否可以切换 编辑器模式
 	disabledForInput: true,//是否禁用 input  -->是否 可以 允许 用户 增加 外部链接
+	styleAreaIsShow: true,//是否生成样式展示区
+	iconSettingIsShow: true,//是否生成设置按钮
 	externalLink: { //支持外部链接
 		'js': [
 			{
@@ -63,7 +80,7 @@ var Online_Programming = new OnlineProgramming({
 			}
 		]
 	},
-	button: [ //底部按钮表现形势
+	button: [ //底部按钮表现形势    如果不传  则 不显示
 		{
 			text: '点击运行',
 			style: 'background: #ff0000'
