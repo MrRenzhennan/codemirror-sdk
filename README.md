@@ -12,12 +12,14 @@ or
 yarn add Online-Programming
 
 import 'codemirror-sdk/dist/css/sdk.min.css'
-let codemirrorSdk = require('codemirror-sdk');
+let codemirrorSdk = require('codemirror-sdk').codemirrorSDK;
+var Online_Programming = new codemirrorSdk({});
+
 
 Browser:
 <link rel="stylesheet" href="./open-online-programming/dist/css/sdk.min.css">
 <script src="./open-online-programming/dist/js/sdk.min.js"></script>
-
+var Online_Programming = new codemirrorSDK.OnlineProgramming({})
 ```
 
 ## start
