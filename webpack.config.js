@@ -18,7 +18,7 @@ module.exports = [
 		output: {
 			path: path.resolve(__dirname, 'dist'),
 			filename: 'js/[name].js',
-			library: 'OnlineProgramming',
+			library: 'codemirrorSDK',
 			libraryTarget: 'umd',
 			umdNamedDefine:true
 		},
@@ -106,9 +106,9 @@ module.exports = [
 				filename: 'css/[name].css',
 				chunkFilename: '[id].css'
 			}),
-			new HtmlWebpackPlugin({
-				template: path.join(__dirname) + '/src/index.html'
-			}),
+			// new HtmlWebpackPlugin({
+			// 	template: path.join(__dirname) + '/src/index.html'
+			// }),
 			new optimizeCss({
 				cssProcessor: require('cssnano'), //引入cssnano配置压缩选项
 				cssProcessorOptions: {
@@ -130,6 +130,7 @@ module.exports = [
 	},
 	//*/
 	//不压缩
+	/*
 	{
 		mode: 'development',
 		entry: {
@@ -241,4 +242,5 @@ module.exports = [
 			}),
 		]
 	}
+	*/
 ];
