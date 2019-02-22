@@ -1,13 +1,13 @@
 {
   "name": "codemirror-sdk",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "main": "index.js",
-  "repository": "https://github.com/MrRenzhennan/Online-Programming.git",
+  "repository": "https://github.com/MrRenzhennan/codemirror-sdk.git",
   "author": "renzhennan <rzn0725@outlook.com>",
   "license": "MIT",
-  "bugs": "https://github.com/MrRenzhennan/Online-Programming/issues",
+  "bugs": "https://github.com/MrRenzhennan/codemirror-sdk/issues",
   "private": false,
-  "keywords": "codemirror",
+  "keywords": ["codemirror","sdk"],
   "scripts": {
     "start": "webpack && webpack-dev-server --hot --inline"
   },
