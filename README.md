@@ -1,4 +1,4 @@
-# Online-Programming
+# codemirror-sdk
 基于CodeMirror 封装 在线编程
 
 ## Browser
@@ -7,10 +7,12 @@ IE9 +
 ```
 ## Use
 ```node
-vue:
 npm install Online-Programming --save  
 or
 yarn add Online-Programming
+
+import 'codemirror-sdk/dist/css/sdk.min.css'
+let codemirrorSdk = require('codemirror-sdk');
 
 Browser:
 <link rel="stylesheet" href="./open-online-programming/dist/css/sdk.min.css">
