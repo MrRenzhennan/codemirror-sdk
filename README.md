@@ -7,9 +7,9 @@ IE9 +
 ```
 ## Use
 ```node
-npm install Online-Programming --save  
+npm install codemirror-sdk --save  
 or
-yarn add Online-Programming
+yarn add codemirror-sdk
 
 import 'codemirror-sdk/dist/css/sdk.min.css'
 let codemirrorSdk = require('codemirror-sdk').codemirrorSDK;
@@ -27,6 +27,8 @@ var Online_Programming = new codemirrorSDK.OnlineProgramming({})
 yarn install
 yarn start
 ```
+
+
 ## extraKeys
 ```js
 Tab //智能提示
@@ -43,8 +45,6 @@ ALT-G //跳到指定位置  10：80
 
 ## Options
 ```js
-
-
 var Online_Programming = new codemirrorSDK.OnlineProgramming({
 	id: 'editor-box', //容器ID
 	isPaste: false,//是否 禁用粘贴
