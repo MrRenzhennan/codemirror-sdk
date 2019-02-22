@@ -43,7 +43,7 @@ ALT-G //跳到指定位置  10：80
 ```js
 
 
-var Online_Programming = new OnlineProgramming({
+var Online_Programming = new codemirrorSDK.OnlineProgramming({
 	id: 'editor-box', //容器ID
 	isPaste: false,//是否 禁用粘贴
 	currentMode: 'html/css/js',//编辑器 默认 表现形势
