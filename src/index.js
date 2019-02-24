@@ -609,6 +609,9 @@ class OnlineProgramming extends Unit {
 	 */
 	DomLayout() {
 		let outermost_layer = document.querySelector(`#${this.configuration.id}`);
+		if(!outermost_layer || this.DataTypeDetection().isDocument(outermost_layer)){
+			throw (`未能检测到id--${this.configuration.id}`);
+		};
 		let div = document.createElement('div');
 		div.className = 'online-programming';
 		//竖向分区
@@ -668,15 +671,18 @@ class OnlineProgramming extends Unit {
 		};
 		//title 区
 		let CreateTitle = this.CreateTitle('编程实践区');
-		CreateTitle.appendChild(
-			this.CreateSleect(
-				this.option,
-				'change-mode',
-				this.configuration.currentMode,
-				this.configuration.disabledForSelect,
-				this.SelectEventForChangeMode
-			)
-		);
+		if(!this.configuration.disabledForSelect && this.DataTypeDetection().isBoolean(this.configuration.disabledForSelect)){
+			CreateTitle.appendChild(
+				this.CreateSleect(
+					this.option,
+					'change-mode',
+					this.configuration.currentMode,
+					this.configuration.disabledForSelect,
+					this.SelectEventForChangeMode
+				)
+			);
+		};
+		
 		div.appendChild(CreateTitle);
 		//编程区
 		div.appendChild(this.CreateEditor());
