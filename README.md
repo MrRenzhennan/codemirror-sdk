@@ -47,6 +47,7 @@ ALT-G //跳到指定位置  10：80
 ```js
 var Online_Programming = new codemirrorSDK.OnlineProgramming({
 	id: 'editor-box', //容器ID
+	readOnly: false,//禁用编辑器
 	isPaste: false,//是否 禁用粘贴
 	currentMode: 'html/css/js',//编辑器 默认 表现形势
 	disabledForSelect: true,//是否禁用 select -->是否可以切换 编辑器模式
