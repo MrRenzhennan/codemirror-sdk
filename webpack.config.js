@@ -139,7 +139,7 @@ module.exports = [
 		output: {
 			path: path.resolve(__dirname, 'dist'),
 			filename: 'js/[name].js',
-			library: 'OnlineProgramming',
+			library: 'codemirrorSDK',
 			libraryTarget: 'umd',
 			umdNamedDefine:true
 		},
