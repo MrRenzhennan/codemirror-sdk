@@ -855,25 +855,25 @@ class OnlineProgramming extends Unit {
 			//默认选中选项
 			if (_opaction[i] == current_mode) {
 				option.setAttribute('selected', '');
-			}
+			};
 			//  < ie 11   禁用 scss sass less
 			if (this.GetBrowserInfo().isIE() && !this.GetBrowserInfo().isIE11()) {
 				if (_opaction[i] != 'scss' && _opaction[i] != 'sass' && _opaction[i] != 'less') {
 					this.DomSetVal(option, _opaction[i]);
 					select.appendChild(option);
-				}
+				};
 			} else {
 				this.DomSetVal(option, _opaction[i]);
 				select.appendChild(option);
-			}
-		}
+			};
+		};
 		select.onchange = (e) => {
 			let text = this.DomGetVal(select.options[select.selectedIndex]);
 			let _event = e || window.event;
 			let _target = _event.target || _event.srcElement;
 			if (callback && this.DataTypeDetection().isFunction(callback)) {
 				callback(text, this, _target);
-			}
+			};
 		};
 
 		return select;
@@ -1886,8 +1886,8 @@ class OnlineProgramming extends Unit {
 		ifrdoc.write('<meta http-equiv="Expires" content="0">');
 		ifrdoc.write('<title></title>');
 		ifrdoc.write('<!--[if IE 9]>');
-		ifrdoc.write('<script src="https://cdn.bootcss.com/es5-shim/4.5.12/es5-shim.min.js"></script>');
-		ifrdoc.write('<script src="https://cdn.bootcss.com/es5-shim/4.5.12/es5-sham.min.js"></script>');
+		ifrdoc.write('<script src="http://fedcdn.open.com.cn/fedcdn/OnlineCode/es5-shim.min.js"></script>');
+		ifrdoc.write('<script src="http://fedcdn.open.com.cn/fedcdn/OnlineCode/es5-sham.min.js"></script>');
 		ifrdoc.write('<![endif]-->');
 		ifrdoc.write('<style>html{color:#fff;}</style>');
 		ifrdoc.write('</head>');
@@ -1911,7 +1911,7 @@ class OnlineProgramming extends Unit {
 		for (let i = 0; i < val.length; i++) {
 			if (!this.DataTypeDetection().isObject(val[i])) {
 				return;
-			}
+			};
 			for (let key in val[i]) {
 				if (key == 'html' || key == 'js' || key == 'css') {
 					switch (key) {
@@ -1926,12 +1926,12 @@ class OnlineProgramming extends Unit {
 							break;
 						default:
 							break;
-					}
+					};
 				} else {
 					other = val[i][key];
-				}
-			}
-		}
+				};
+			};
+		};
 
 		return this.CenterJoin(html, css, js, other);
 	}
@@ -1941,8 +1941,7 @@ class OnlineProgramming extends Unit {
 	 */
 	GetPreprocessor() {
 		let title_text = document.querySelectorAll(
-			`#${this.configuration
-				.id} .programming-practice-area .exothecium-box .editor_box .create-editor-name .title-text`
+			`#${this.configuration.id} .programming-practice-area .exothecium-box .editor_box .create-editor-name .title-text`
 		);
 		let Preprocessor = {};
 		for (let i = 0; i < title_text.length; i++) {
@@ -1989,6 +1988,7 @@ class OnlineProgramming extends Unit {
 	 */
 	CenterJoin(html, css, js, other) {
 		let center = ``; //拼接后的内容
+
 		if (html || css || js) {
 			let _GetExternalScripts = this.GetExternalScripts();
 			//增加外部链接
@@ -1997,15 +1997,15 @@ class OnlineProgramming extends Unit {
 					center += `
 					<link href="${_GetExternalScripts['css'][i]}" rel="stylesheet">
 					`;
-				}
-			}
+				};
+			};
 
 			let _GetPreprocessor = this.GetPreprocessor();
 			switch (_GetPreprocessor['css']) {
 				case 'scss':
 				case 'sass':
 					center += `
-					<script src="https://cdn.bootcss.com/sass.js/0.10.13/sass.sync.js"></script>
+					<script src="http://fedcdn.open.com.cn/fedcdn/OnlineCode/sass.sync.js"></script>
 					<script>
 						var scss = ${JSON.stringify(css)};
 						var cssString;
@@ -2031,7 +2031,7 @@ class OnlineProgramming extends Unit {
 					break;
 				case 'less':
 					center += `
-					<script src="https://cdn.bootcss.com/less.js/3.9.0/less.min.js"></script>
+					<script src="http://fedcdn.open.com.cn/fedcdn/OnlineCode/less.min.js"></script>
 					<script>
 						var cssString;
 						less.render(${JSON.stringify(css)}, function (e, output) {
@@ -2061,9 +2061,10 @@ class OnlineProgramming extends Unit {
 					</style>
 					`;
 					break;
-			}
+			};
 
 			switch (_GetPreprocessor['html']) {
+				//预留以后HTML其他操作
 				case '':
 					center += `
 							${html}
@@ -2074,7 +2075,46 @@ class OnlineProgramming extends Unit {
 							${html}
 					`;
 					break;
-			}
+			};
+
+			switch (_GetPreprocessor['js']) {
+				case 'es6':
+					center += `
+					<script src="http://fedcdn.open.com.cn/fedcdn/OnlineCode/browser.min.js"></script>
+					<script src="http://fedcdn.open.com.cn/fedcdn/OnlineCode/browser-polyfill.min.js"></script>
+					`;
+					break;
+				case 'typescript':
+					center += `
+					<script src="http://fedcdn.open.com.cn/fedcdn/OnlineCode/typescript.min.js"></script>
+					<script src="http://fedcdn.open.com.cn/fedcdn/OnlineCode/typescript.compile.min.js"></script>
+					`;
+					break;
+				default:
+					// let isBabel = [];
+					// for (let i = 0; i < _GetExternalScripts['js'].length; i++) {
+					// 	if (_GetExternalScripts['js'][i].includes('react')) {
+					// 		isBabel.push(1);
+					// 	} else {
+					// 		isBabel.push(2);
+					// 	}
+					// }
+					// //没有选择 react
+					// if (!isBabel.includes(1)) {
+					// 	center += `
+					// 	<script type="text/javascript">
+					// 		${js}
+					// 	</script>
+					// 	`;
+					// } else {
+					// 	center += `
+					// 	<script type="text/babel">
+					// 		${js}
+					// 	</script>
+					// 	`;
+					// }
+					break;
+			};
 
 			//增加外部链接
 			for (let i = 0; i < _GetExternalScripts['js'].length; i++) {
@@ -2083,57 +2123,29 @@ class OnlineProgramming extends Unit {
 						<script src="${_GetExternalScripts['js'][i]}"></script>
 						`;
 				}
-			}
+			};
 
-			switch (_GetPreprocessor['js']) {
-				case 'es6':
-					center += `
-					<script src="https://cdn.bootcss.com/babel-core/5.8.38/browser.min.js"></script>
-					<script src="https://cdn.bootcss.com/babel-core/5.8.38/browser-polyfill.min.js"></script>
+			if (_GetPreprocessor['js'] == 'es6') {
+				center += `
 					<script type="text/babel">
 							${js}
 					</script>
 					`;
-					break;
-				case 'typescript':
-					center += `
-					<script src="https://cdn.bootcss.com/typescript/3.2.2/typescript.min.js"></script>
-					<script src="http://openbjvp.oss-cn-beijing.aliyuncs.com/fedcdn/OnlineCode/typescript.compile.min.js"></script>
+			} else if (_GetPreprocessor['js'] == 'typescript') {
+				center += `
 					<script type="text/typescript">
 							${js}
 					</script>
 					`;
-					break;
-				default:
-					let isBabel = [];
-					for (let i = 0; i < _GetExternalScripts['js'].length; i++) {
-						if (_GetExternalScripts['js'][i].includes('react')) {
-							isBabel.push(1);
-						} else {
-							isBabel.push(2);
-						}
-					}
-					//没有选择 react
-					if (!isBabel.includes(1)) {
-						center += `
-						<script type="text/javascript">
-							${js}
-						</script>
-						`;
-					} else {
-						//<script src="https://cdn.staticfile.org/babel-standalone/6.26.0/babel.min.js"></script>
-						//<script src="https://cdn.bootcss.com/core-js/2.6.5/core.min.js"></script>
-						center += `
-						<script type="text/babel">
-							${js}
-						</script>
-						`;
-					}
-					break;
-			}
+			} else {
+				center += `
+					<script type="text/javascript">
+						${js}
+					</script>
+				`;
+			};
 
-			
-		}
+		};
 
 		if (other) {
 			center = `				
@@ -2144,7 +2156,8 @@ class OnlineProgramming extends Unit {
 				</style>
 				${other}
 			`;
-		}
+		};
+
 		return center;
 	}
 
