@@ -24,6 +24,8 @@ module.exports = [
 		},
 		devServer: {
 			contentBase: path.join(__dirname, 'dist'),
+			host:'0.0.0.0',
+			//openPage: '/dist',
 			compress: true, //gzip
 			port: 9000,
 			hot: true

@@ -5,7 +5,6 @@ import 'codemirror/lib/codemirror.css';
 import './font/iconfont.css';
 import './index.scss';
 
-
 // mode -->语法高亮
 import 'codemirror/mode/htmlmixed/htmlmixed';
 import 'codemirror/mode/javascript/javascript';
@@ -103,7 +102,7 @@ import 'codemirror/addon/search/matchesonscrollbar.js';
 import 'codemirror/addon/search/searchcursor.js';
 import 'codemirror/addon/search/match-highlighter.js';
 
-import Sortable from 'sortablejs'
+import Sortable from 'sortablejs';
 
 class Unit {
 	constructor() { }
@@ -133,7 +132,11 @@ class Unit {
 			},
 
 			isIOS() {
-				return /iPhone/i.test(navigator.userAgent) || /iPad/i.test(navigator.userAgent) || /iPod/i.test(navigator.userAgent);
+				return (
+					/iPhone/i.test(navigator.userAgent) ||
+					/iPad/i.test(navigator.userAgent) ||
+					/iPod/i.test(navigator.userAgent)
+				);
 			},
 
 			isWindows() {
@@ -202,15 +205,15 @@ class Unit {
 		const detection = {
 			//object
 			isObject(o) {
-				return Object.prototype.toString.call(o) == "[object Object]";
+				return Object.prototype.toString.call(o) == '[object Object]';
 			},
 			//Array
 			isArray(o) {
-				return Object.prototype.toString.call(o) == "[object Array]";
+				return Object.prototype.toString.call(o) == '[object Array]';
 			},
 			//Null
 			isNULL(o) {
-				return Object.prototype.toString.call(o) == "[object Null]";
+				return Object.prototype.toString.call(o) == '[object Null]';
 			},
 			//dom
 			isDocument(o) {
@@ -221,29 +224,29 @@ class Unit {
 					//instanceof 运算符用来测试一个对象在其原型链中是否存在一个构造函数的 prototype 属性
 					_r = o instanceof HTMLElement;
 				} else {
-					_r = (o && typeof o === 'object' && o.nodeType === 1 && typeof o.nodeName === 'string')
+					_r = o && typeof o === 'object' && o.nodeType === 1 && typeof o.nodeName === 'string';
 				}
 				return _r;
 			},
 			//String
 			isString(o) {
-				return Object.prototype.toString.call(o) == "[object String]";
+				return Object.prototype.toString.call(o) == '[object String]';
 			},
 			//Number
 			isNumber(o) {
-				return Object.prototype.toString.call(o) == "[object Number]";
+				return Object.prototype.toString.call(o) == '[object Number]';
 			},
 			//Boolean
 			isBoolean(o) {
-				return Object.prototype.toString.call(o) == "[object Boolean]";
+				return Object.prototype.toString.call(o) == '[object Boolean]';
 			},
 			//Undefined
 			isUndefined(o) {
-				return Object.prototype.toString.call(o) == "[object Undefined]";
+				return Object.prototype.toString.call(o) == '[object Undefined]';
 			},
 			//Function
 			isFunction(o) {
-				return Object.prototype.toString.call(o) == "[object Function]";
+				return Object.prototype.toString.call(o) == '[object Function]';
 			}
 		};
 
@@ -268,7 +271,7 @@ class Unit {
 				callback({
 					message: _src + '依赖加载成功！'
 				});
-			};
+			}
 		};
 		script.onerror = () => {
 			script.onload = null;
@@ -278,7 +281,6 @@ class Unit {
 					message: _src + '依赖未加载成功！'
 				});
 			}
-
 		};
 		let head = document.getElementsByTagName('head')[0];
 		(head || document.body).appendChild(script);
@@ -313,7 +315,6 @@ class Unit {
 		return dom;
 	}
 
-
 	/**
 	 * dom取值
 	 * @param {dom元素} Element _dom 
@@ -343,7 +344,6 @@ class Unit {
 		return div;
 	}
 
-
 	/**
 	 * 创建 横向向 区间分隔
 	 * @param {class类名} String _class 
@@ -367,7 +367,7 @@ class Unit {
 		let text = document.createElement('div');
 		text.className = 'title-text';
 		if (this.DataTypeDetection().isString(title)) {
-			this.DomSetVal(text, title)
+			this.DomSetVal(text, title);
 		}
 		div.appendChild(text);
 		return div;
@@ -384,19 +384,22 @@ class Unit {
 		text.className = 'title-text';
 		if (this.DataTypeDetection().isString(name)) {
 			this.DomSetVal(text, name);
-		};
+		}
 		div.appendChild(text);
 		if (name == 'html' || name == 'js' || name == 'css') {
 			//添加当前编译模式
 			let span = document.createElement('span');
 			//this.DomSetVal(span, `(none)`);
 			text.appendChild(span);
-			if (this.configuration.iconSettingIsShow && this.DataTypeDetection().isBoolean(this.configuration.iconSettingIsShow)) {
+			if (
+				this.configuration.iconSettingIsShow &&
+				this.DataTypeDetection().isBoolean(this.configuration.iconSettingIsShow)
+			) {
 				if (name != 'html') {
 					//添加设置按钮
-					div.appendChild(this.CreateIconForSetting(name))
-				};
-			};
+					div.appendChild(this.CreateIconForSetting(name));
+				}
+			}
 		}
 		return div;
 	}
@@ -452,7 +455,6 @@ class Unit {
 
 		return div;
 	}
-
 }
 
 class OnlineProgramming extends Unit {
@@ -486,7 +488,7 @@ class OnlineProgramming extends Unit {
 				},
 				'Ctrl-J': 'toMatchingTag' //跳转匹配标签
 			},
-			readOnly: false,//禁用编辑器
+			readOnly: false, //禁用编辑器
 			lineNumbers: true, //显示行号
 			lineWrapping: true,
 			foldGutter: true, //代码折叠
@@ -506,15 +508,16 @@ class OnlineProgramming extends Unit {
 		this.configuration = Object.assign(
 			{
 				id: '', //容器
-				readOnly: false,//禁用编辑器
+				readOnly: false, //禁用编辑器
 				isPaste: false, //是否禁用粘贴
-				currentMode: 'html/css/js',//当前编辑器模式
-				disabledForSelect: false,//是否禁用select
-				disabledForInput: false,//是否禁用input
-				styleAreaIsShow: true,//是否生成样式展示区
-				iconSettingIsShow: true,//是否生成设置按钮
-				externalLink: [],//外部链接 支持链接
-				button: [ //底部按钮表现形势    如果不传  则 不显示
+				currentMode: 'html/css/js', //当前编辑器模式
+				disabledForSelect: false, //是否禁用select
+				disabledForInput: false, //是否禁用input
+				styleAreaIsShow: true, //是否生成样式展示区
+				iconSettingIsShow: true, //是否生成设置按钮
+				externalLink: [], //外部链接 支持链接
+				button: [
+					//底部按钮表现形势    如果不传  则 不显示
 					{
 						text: '自定义按钮',
 						style: 'background: #ff0000'
@@ -530,18 +533,19 @@ class OnlineProgramming extends Unit {
 			// 'html': {
 			// 	preprocessor: [''],//编译模式
 			// },
-			'css': {
-				preprocessor: ['', 'scss', 'less', 'sass',],//编译模式
+			css: {
+				preprocessor: ['', 'scss', 'less', 'sass'] //编译模式
 			},
-			'js': {
-				preprocessor: [ //编译模式
+			js: {
+				preprocessor: [
+					//编译模式
 					'',
 					'es6',
-					'typescript',
+					'typescript'
 					// 'vue',
 					// 'react'
-				],
-			},
+				]
+			}
 		};
 		//语法支持
 		this.support_language = {
@@ -576,7 +580,7 @@ class OnlineProgramming extends Unit {
 				name: 'python',
 				version: 3,
 				singleLineStringErrors: false
-			},
+			}
 			// vue:{
 			// 	name: "vue"
 			//   }
@@ -592,24 +596,23 @@ class OnlineProgramming extends Unit {
 		let _src = [
 			'https://cdn.bootcss.com/jshint/2.9.7/jshint.min.js',
 			'https://cdn.bootcss.com/jsonlint/1.6.0/jsonlint.min.js',
-			'https://unpkg.com/csslint@1.0.5/dist/csslint.js',
+			'https://unpkg.com/csslint@1.0.5/dist/csslint.js'
 		];
 		let _src_length = _src.length;
 		//循环加载 script
 		while (_src.length > 0) {
 			//shift() 方法用于把数组的第一个元素从其中删除，并返回第一个元素的值。
 			this.LoadScripts(_src.shift(), (t) => {
-				_src_length--
+				_src_length--;
 				//依赖 全部 加载完成  启动lint检测
 				if (_src_length == 0) {
 					for (let key in this.editor) {
-						this.editor[key].setOption('lint', true)
+						this.editor[key].setOption('lint', true);
 					}
 				}
 			});
 		}
 	}
-
 
 	/**
 	 * 整体布局
@@ -617,8 +620,8 @@ class OnlineProgramming extends Unit {
 	DomLayout() {
 		let outermost_layer = document.querySelector(`#${this.configuration.id}`);
 		if (!outermost_layer || !this.DataTypeDetection().isDocument(outermost_layer)) {
-			throw (`未能检测到id--${this.configuration.id}`);
-		};
+			throw `未能检测到id--${this.configuration.id}`;
+		}
 		let div = document.createElement('div');
 		div.className = 'online-programming';
 		//竖向分区
@@ -628,19 +631,24 @@ class OnlineProgramming extends Unit {
 		//竖向分区
 		div.appendChild(this.EditorResizerCol('col-resize'));
 
-		if (this.configuration.styleAreaIsShow && this.DataTypeDetection().isBoolean(this.configuration.styleAreaIsShow)) {
+		if (
+			this.configuration.styleAreaIsShow &&
+			this.DataTypeDetection().isBoolean(this.configuration.styleAreaIsShow)
+		) {
 			//样式展示区
 			div.appendChild(this.StyleArea());
 			//竖向分区
 			div.appendChild(this.EditorResizerCol());
-		};
-		if (this.configuration.iconSettingIsShow && this.DataTypeDetection().isBoolean(this.configuration.iconSettingIsShow)) {
+		}
+		if (
+			this.configuration.iconSettingIsShow &&
+			this.DataTypeDetection().isBoolean(this.configuration.iconSettingIsShow)
+		) {
 			//弹框
-			div.appendChild(this.SettingDiaLog(this.preprocessor))
-		};
+			div.appendChild(this.SettingDiaLog(this.preprocessor));
+		}
 
 		outermost_layer.appendChild(div);
-
 
 		//动态写<script>
 		this.DynamicWriteScript();
@@ -648,31 +656,31 @@ class OnlineProgramming extends Unit {
 		//编辑器初始化
 		this.EditorInit();
 
-		if (this.configuration.styleAreaIsShow && this.DataTypeDetection().isBoolean(this.configuration.styleAreaIsShow)) {
+		if (
+			this.configuration.styleAreaIsShow &&
+			this.DataTypeDetection().isBoolean(this.configuration.styleAreaIsShow)
+		) {
 			//区域拖拽初始化
 			this.ResizerMove();
-		};
+		}
 
 		//初始化 input 拖拽排序
 		for (var key in this.preprocessor) {
 			if (document.querySelector(`#${this.configuration.id} .sortable-${key}`)) {
 				this.InputInitMove(document.querySelector(`#${this.configuration.id} .sortable-${key}`), '.move-input');
 			}
-		};
+		}
 
 		//默认模式 加载
 		if (this.configuration.currentMode && this.DataTypeDetection().isString(this.configuration.currentMode)) {
-			this.SelectEventForChangeMode(this.configuration.currentMode, this)
+			this.SelectEventForChangeMode(this.configuration.currentMode, this);
 		}
-
 
 		//输入框 还原
 		let rest = setTimeout(() => {
-			this.InputOrSelectRevivification()
+			this.InputOrSelectRevivification();
 			clearTimeout(rest);
 		}, 300);
-
-
 	}
 
 	/**
@@ -681,12 +689,18 @@ class OnlineProgramming extends Unit {
 	ProgrammingPracticeArea() {
 		let div = document.createElement('div');
 		div.className = 'programming-practice-area';
-		if (!this.configuration.styleAreaIsShow && this.DataTypeDetection().isBoolean(this.configuration.styleAreaIsShow)) {
-			div.style.width = 'calc(100% - 40px)'
-		};
+		if (
+			!this.configuration.styleAreaIsShow &&
+			this.DataTypeDetection().isBoolean(this.configuration.styleAreaIsShow)
+		) {
+			div.style.width = 'calc(100% - 40px)';
+		}
 		//title 区
 		let CreateTitle = this.CreateTitle('编程实践区');
-		if (!this.configuration.disabledForSelect && this.DataTypeDetection().isBoolean(this.configuration.disabledForSelect)) {
+		if (
+			!this.configuration.disabledForSelect &&
+			this.DataTypeDetection().isBoolean(this.configuration.disabledForSelect)
+		) {
 			CreateTitle.appendChild(
 				this.CreateSleect(
 					this.option,
@@ -696,7 +710,7 @@ class OnlineProgramming extends Unit {
 					this.SelectEventForChangeMode
 				)
 			);
-		};
+		}
 
 		div.appendChild(CreateTitle);
 		//编程区
@@ -717,8 +731,8 @@ class OnlineProgramming extends Unit {
 			for (let i = 0; i < this.configuration.button.length; i++) {
 				let btn = this.CreateButton(this.configuration.button[i], i);
 				buttonOperationArea.appendChild(btn);
-			};
-		};
+			}
+		}
 		return buttonOperationArea;
 	}
 
@@ -745,15 +759,17 @@ class OnlineProgramming extends Unit {
 			for (let i = 0; i < parentNode.children.length; i++) {
 				for (let k = 0; k < callback_object.length; k++) {
 					if (this.DomGetVal(parentNode.children[i]) == callback_object[i].text) {
-						if (callback_object[i].callback && this.DataTypeDetection().isFunction(callback_object[i].callback)) {
-							parentNode.children[i].onclick = callback_object[i].callback
-						};
-					};
-				};
-			};
-		};
+						if (
+							callback_object[i].callback &&
+							this.DataTypeDetection().isFunction(callback_object[i].callback)
+						) {
+							parentNode.children[i].onclick = callback_object[i].callback;
+						}
+					}
+				}
+			}
+		}
 	}
-
 
 	/**
 	 * 样式展示区
@@ -766,7 +782,7 @@ class OnlineProgramming extends Unit {
 		let div_c = document.createElement('div');
 		div_c.className = 'exothecium-box';
 
-		let iframe = document.createElement("iframe");
+		let iframe = document.createElement('iframe');
 		iframe.setAttribute('frameborder', '0');
 		iframe.setAttribute('width', '100%');
 		iframe.setAttribute('height', '100%');
@@ -792,7 +808,7 @@ class OnlineProgramming extends Unit {
 		} else {
 			_num = 1;
 			text = [_type];
-		};
+		}
 
 		for (let i = 0; i < text.length; i++) {
 			let editor_box = document.createElement('div');
@@ -835,11 +851,11 @@ class OnlineProgramming extends Unit {
 		//循环生成 option
 		for (let i = 0; i < _opaction.length; i++) {
 			let option = document.createElement('option');
-			option.setAttribute('value', _opaction[i])
+			option.setAttribute('value', _opaction[i]);
 			//默认选中选项
 			if (_opaction[i] == current_mode) {
-				option.setAttribute('selected', '')
-			};
+				option.setAttribute('selected', '');
+			}
 			//  < ie 11   禁用 scss sass less
 			if (this.GetBrowserInfo().isIE() && !this.GetBrowserInfo().isIE11()) {
 				if (_opaction[i] != 'scss' && _opaction[i] != 'sass' && _opaction[i] != 'less') {
@@ -850,13 +866,13 @@ class OnlineProgramming extends Unit {
 				this.DomSetVal(option, _opaction[i]);
 				select.appendChild(option);
 			}
-		};
+		}
 		select.onchange = (e) => {
 			let text = this.DomGetVal(select.options[select.selectedIndex]);
 			let _event = e || window.event;
 			let _target = _event.target || _event.srcElement;
 			if (callback && this.DataTypeDetection().isFunction(callback)) {
-				callback(text, this, _target)
+				callback(text, this, _target);
 			}
 		};
 
@@ -875,19 +891,22 @@ class OnlineProgramming extends Unit {
 		input.setAttribute('type', 'text');
 		input.setAttribute('placeholder', placeholder);
 		input.setAttribute('autocomplete', 'off');
-		if (this.configuration.disabledForInput && this.DataTypeDetection().isBoolean(this.configuration.disabledForInput)) {
+		if (
+			this.configuration.disabledForInput &&
+			this.DataTypeDetection().isBoolean(this.configuration.disabledForInput)
+		) {
 			input.setAttribute('disabled', 'disabled');
-		};
+		}
 		let pattern = /^((ftp|http|https):)?\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?$/;
 		input.onchange = (e) => {
 			let _event = e || window.event;
 			let _target = _event.target || _event.srcElement;
 			if (pattern.test(_target.value)) {
 				_target.style.borderColor = '#eaedf0';
-				_target.setAttribute('title', '')
+				_target.setAttribute('title', '');
 			} else {
 				_target.style.borderColor = 'red';
-				_target.setAttribute('title', '请与所请求的格式保持一致')
+				_target.setAttribute('title', '请与所请求的格式保持一致');
 			}
 		};
 		return input;
@@ -902,7 +921,7 @@ class OnlineProgramming extends Unit {
 		div.className = 'setting-icon-box';
 		div.setAttribute('data-type', name);
 		div.onclick = (e) => {
-			document.querySelector('.setting-dialog').setAttribute('style', 'display:block')
+			document.querySelector('.setting-dialog').setAttribute('style', 'display:block');
 			let _event = e || window.event;
 			let _target = _event.target || _event.srcElement;
 			//tab选区
@@ -915,11 +934,11 @@ class OnlineProgramming extends Unit {
 				_target.getAttribute('data-type') == tabChildren[i].getAttribute('data-type')
 					? (tabChildren[i].className += ' active')
 					: (tabChildren[i].className = 'settings-tab-link');
-			};
+			}
 			for (let i = 0; i < createSettingsChildren.length; i++) {
 				_target.getAttribute('data-type') == createSettingsChildren[i].getAttribute('data-type')
-					? (createSettingsChildren[i].setAttribute('style', 'display:block'))
-					: (createSettingsChildren[i].setAttribute('style', 'display:none'));
+					? createSettingsChildren[i].setAttribute('style', 'display:block')
+					: createSettingsChildren[i].setAttribute('style', 'display:none');
 			}
 		};
 		let span = document.createElement('span');
@@ -941,14 +960,14 @@ class OnlineProgramming extends Unit {
 		let header = document.createElement('div');
 		header.className = 'header';
 		let h2 = document.createElement('h2');
-		this.DomSetVal(h2, '设置')
+		this.DomSetVal(h2, '设置');
 		//关闭按钮
 		let btn = document.createElement('input');
 		btn.setAttribute('type', 'button');
-		btn.setAttribute('value', '关闭')
+		btn.setAttribute('value', '关闭');
 		btn.className = 'close-settings';
 		btn.onclick = () => {
-			document.querySelector('.setting-dialog').setAttribute('style', 'display:none')
+			document.querySelector('.setting-dialog').setAttribute('style', 'display:none');
 		};
 		header.appendChild(h2);
 		header.appendChild(btn);
@@ -962,7 +981,7 @@ class OnlineProgramming extends Unit {
 		div_c.appendChild(settings);
 		div.appendChild(div_c);
 		return div;
-	};
+	}
 
 	/**
 	 * tab选择区生成
@@ -980,26 +999,27 @@ class OnlineProgramming extends Unit {
 			aLink.onclick = (e) => {
 				let _event = e || window.event;
 				let _target = _event.target || _event.srcElement;
-				let createSettingsChildren = document.querySelector('.item-settings-modal .settings .setting-box').children;//设置区
+				let createSettingsChildren = document.querySelector('.item-settings-modal .settings .setting-box')
+					.children; //设置区
 				for (let i = 0; i < _target.parentNode.children.length; i++) {
 					if (_target !== _target.parentNode.children[i]) {
 						_target.parentNode.children[i].className.includes('active')
 							? (_target.parentNode.children[i].className = 'settings-tab-link')
 							: '';
 					}
-				};
+				}
 				_target.className.includes('active') ? '' : (_target.className += ' active');
 				for (let i = 0; i < createSettingsChildren.length; i++) {
 					if (_target.getAttribute('data-type') == createSettingsChildren[i].getAttribute('data-type')) {
-						createSettingsChildren[i].setAttribute('style', 'display:block')
+						createSettingsChildren[i].setAttribute('style', 'display:block');
 					} else {
-						createSettingsChildren[i].setAttribute('style', 'display:none')
+						createSettingsChildren[i].setAttribute('style', 'display:none');
 					}
 				}
 			};
-			this.DomSetVal(aLink, key)
-			tab.appendChild(aLink)
-		};
+			this.DomSetVal(aLink, key);
+			tab.appendChild(aLink);
+		}
 		return tab;
 	}
 
@@ -1046,13 +1066,12 @@ class OnlineProgramming extends Unit {
 			box.appendChild(this.CreateSearchForExternalScripts(key));
 			//搜索内容
 			if (key != 'html') {
-
 				this.CreateCenterForSearch(box, this.configuration.externalLink[key]);
 			}
 			//生成 input/select 外部链接区域
 			let select_box_externalScripts = document.createElement('div');
 			select_box_externalScripts.className = `sortable-box select-box sortable-${key}`;
-			select_box_externalScripts.setAttribute('data-type', `sortable-${key}`)
+			select_box_externalScripts.setAttribute('data-type', `sortable-${key}`);
 			//初始化2个input框
 			this.SortableItemAdd(select_box_externalScripts);
 			this.SortableItemAdd(select_box_externalScripts);
@@ -1062,24 +1081,27 @@ class OnlineProgramming extends Unit {
 				let _target = _event.target || _event.srcElement;
 				if (_target.className.includes('delete') || _target.className.includes('delete-input')) {
 					if (_target.className.includes('iconfont icon-cha_hover delete')) {
-						this.DomDelete(_target.parentNode)
-					};
+						this.DomDelete(_target.parentNode);
+					}
 					if (_target.className.includes('delete-input')) {
-						this.DomDelete(_target)
-					};
-				};
+						this.DomDelete(_target);
+					}
+				}
 			};
 			//--end--
 
 			box.appendChild(select_box_externalScripts);
 
 			//添加  ‘增加外部链接 按钮’
-			if (!this.configuration.disabledForInput && !this.DataTypeDetection().isBoolean(this.configuration.disabledForInput)) {
+			if (
+				!this.configuration.disabledForInput &&
+				!this.DataTypeDetection().isBoolean(this.configuration.disabledForInput)
+			) {
 				box.appendChild(this.AddInputItem());
 			}
 
 			div.appendChild(box);
-		};
+		}
 		return div;
 	}
 
@@ -1122,12 +1144,12 @@ class OnlineProgramming extends Unit {
 			let _target = _event.target || _event.srcElement;
 			setTimeout(() => {
 				this.SearchHeightChange(_target, 'onblur');
-			}, 300)
+			}, 300);
 		};
 		div.appendChild(input);
 
 		return div;
-	};
+	}
 
 	/**
 	 * 搜索内容 高度变化
@@ -1167,10 +1189,13 @@ class OnlineProgramming extends Unit {
 						return item;
 					} else {
 						//replace 将以前的标签替换掉 split 以val分割字符串   join 加入标签合并字符串
-						item.name = item.name.replace(/<[^>]+>/gim, '').split(val).join('<span style="color:red;">' + val + '</span>');
+						item.name = item.name
+							.replace(/<[^>]+>/gim, '')
+							.split(val)
+							.join('<span style="color:red;">' + val + '</span>');
 						return item;
-					};
-				};
+					}
+				}
 			});
 			if (findTrue && this.DataTypeDetection().isArray(findTrue) && findTrue.length > 0) {
 				this.CreateCenterForSearch(parentNode, findTrue);
@@ -1187,8 +1212,7 @@ class OnlineProgramming extends Unit {
 			// 	item.name = item.name.replace(/<[^>]+>/gim, '');
 			// 	return item;
 			// });
-		};
-
+		}
 	}
 
 	/**
@@ -1200,22 +1224,24 @@ class OnlineProgramming extends Unit {
 		if (_parentNode && this.DataTypeDetection().isDocument(_parentNode) && _parentNode.children.length > 0) {
 			for (let i = 0; i < _parentNode.children.length; i++) {
 				if (_parentNode.children[i].className.includes('seach-list-box')) {
-					_parentNode.removeChild(_parentNode.children[i])
+					_parentNode.removeChild(_parentNode.children[i]);
 				}
 			}
-		};
+		}
 		if (_array && this.DataTypeDetection().isArray(_array)) {
 			let div = document.createElement('div');
 			div.className = 'seach-list-box';
 			div.onclick = (e) => {
 				let _event = e || window.event;
 				let _target = _event.target || _event.srcElement;
-				if (_target.className.includes('item-center-name')
-					|| _target.className.includes('item-center-version')
-					|| _target.className.includes('item-center-top')
-					|| _target.className.includes('item-center-link')
-					|| _target.className.includes('seach-item')) {
-					this.SearchCenterChoose(_target)
+				if (
+					_target.className.includes('item-center-name') ||
+					_target.className.includes('item-center-version') ||
+					_target.className.includes('item-center-top') ||
+					_target.className.includes('item-center-link') ||
+					_target.className.includes('seach-item')
+				) {
+					this.SearchCenterChoose(_target);
 				}
 			};
 			//div.onclick();
@@ -1232,7 +1258,7 @@ class OnlineProgramming extends Unit {
 					this.DomSetVal(name, _array[i].name);
 				} else {
 					name.innerHTML = _array[i].name;
-				};
+				}
 
 				let version = document.createElement('div');
 				version.className = 'item-center-version';
@@ -1245,19 +1271,12 @@ class OnlineProgramming extends Unit {
 				this.DomSetVal(link, _array[i].link);
 				item.appendChild(top);
 				item.appendChild(link);
-				//item 事件注册
-				// item.onclick = (e) => {
-				// 	console.log(e)
-				// 	let _event = e || window.event;
-				// 	let _target = _event.target || _event.srcElement;
-				// 	this.SearchCenterChoose(_target)
-				// };
 				div.appendChild(item);
-			};
-			if (_parentNode && this.DataTypeDetection().isDocument(_parentNode)) {
-				_parentNode.appendChild(div)
 			}
-		};
+			if (_parentNode && this.DataTypeDetection().isDocument(_parentNode)) {
+				_parentNode.appendChild(div);
+			}
+		}
 	}
 
 	/**
@@ -1265,37 +1284,37 @@ class OnlineProgramming extends Unit {
 	 * @param {点击 dom} _target 
 	 */
 	SearchCenterChoose(_target) {
-		let _targetParent;//父元素 seach-item
+		let _targetParent; //父元素 seach-item
 		//点击在name上 || 点击在version
 		if (_target.className.includes('item-center-name') || _target.className.includes('item-center-version')) {
 			_targetParent = _target.parentNode.parentNode;
-		};
+		}
 		//点击在item-center-top
 		if (_target.className.includes('item-center-top')) {
 			_targetParent = _target.parentNode;
-		};
+		}
 		//点击在link
 		if (_target.className.includes('item-center-link')) {
 			_targetParent = _target.parentNode;
-		};
+		}
 		//点击在seach-item
 		if (_target.className.includes('seach-item')) {
 			_targetParent = _target;
-		};
-		let link;//取出 dom text    链接
+		}
+		let link; //取出 dom text    链接
 		if (_targetParent && _targetParent.children.length > 0) {
 			for (let k = 0; k < _targetParent.children.length; k++) {
 				if (_targetParent.children[k].className.includes('item-center-link')) {
-					link = this.DomGetVal(_targetParent.children[k])
-				};
-			};
-		};
-		let setting_type = _targetParent.parentNode.parentNode;//setting-type 元素    为了循环children获取input
-		let inputArray = this.GetInpoutAll(setting_type).inputArray;//input 集合
-		let sortable_box = this.GetInpoutAll(setting_type).sortable_box;//克隆节点 父元素
+					link = this.DomGetVal(_targetParent.children[k]);
+				}
+			}
+		}
+		let setting_type = _targetParent.parentNode.parentNode; //setting-type 元素    为了循环children获取input
+		let inputArray = this.GetInpoutAll(setting_type).inputArray; //input 集合
+		let sortable_box = this.GetInpoutAll(setting_type).sortable_box; //克隆节点 父元素
 		if (inputArray && sortable_box) {
 			this.InputSetVal(inputArray, link, sortable_box);
-		};
+		}
 		this.ToCloseLint(link, 'js', setting_type);
 	}
 
@@ -1304,8 +1323,8 @@ class OnlineProgramming extends Unit {
 	 * @param {input 父元素} setting_type 
 	 */
 	GetInpoutAll(setting_type) {
-		let inputArray = [];//input 集合
-		let sortable_box;//克隆节点 父元素
+		let inputArray = []; //input 集合
+		let sortable_box; //克隆节点 父元素
 		if (setting_type) {
 			for (let i = 0; i < setting_type.children.length; i++) {
 				if (setting_type.children[i].className.includes('sortable-box')) {
@@ -1314,13 +1333,13 @@ class OnlineProgramming extends Unit {
 						for (let b = 0; b < setting_type.children[i].children[a].children.length; b++) {
 							//获取input
 							if (setting_type.children[i].children[a].children[b].tagName.toLowerCase() == 'input') {
-								inputArray.push(setting_type.children[i].children[a].children[b])
+								inputArray.push(setting_type.children[i].children[a].children[b]);
 							}
 						}
 					}
 				}
-			};
-		};
+			}
+		}
 		return { inputArray, sortable_box };
 	}
 
@@ -1333,21 +1352,23 @@ class OnlineProgramming extends Unit {
 	InputSetVal(inputArray = [], link = '', sortable_box = '') {
 		let valHaveAll = false;
 		for (let i = 0; i < inputArray.length; i++) {
-			if (!inputArray[i].value) { //如果 没有值  赋值 link
+			if (!inputArray[i].value) {
+				//如果 没有值  赋值 link
 				inputArray[i].value = link;
 				valHaveAll = false;
 				return; //赋值 跳出循环
-			} else { //如果 都有值  
+			} else {
+				//如果 都有值
 				valHaveAll = true;
 			}
-		};
+		}
 		//都有值   要增加input
 		if (valHaveAll) {
 			if (sortable_box && this.DataTypeDetection().isDocument(sortable_box)) {
 				//克隆节点 赋值
-				this.DomClone(sortable_box, link)
-			};
-		};
+				this.DomClone(sortable_box, link);
+			}
+		}
 	}
 
 	/**
@@ -1363,14 +1384,17 @@ class OnlineProgramming extends Unit {
 			//如果为react  则 改变处理器为 es6
 			if (setting_type && this.DataTypeDetection().isDocument(setting_type)) {
 				for (let i = 0; i < setting_type.children.length; i++) {
-					if (setting_type.children[i].className.includes('select-box') && !setting_type.children[i].className.includes('sortable-box')) {
-						setting_type.children[i].children[0].value = 'es6'
-						this.SelectEventForPreprocessor('es6', this, setting_type.children[i].children[0])
+					if (
+						setting_type.children[i].className.includes('select-box') &&
+						!setting_type.children[i].className.includes('sortable-box')
+					) {
+						setting_type.children[i].children[0].value = 'es6';
+						this.SelectEventForPreprocessor('es6', this, setting_type.children[i].children[0]);
 					}
 				}
 			}
 		} else {
-			this.editor[type].setOption('lint', true)
+			this.editor[type].setOption('lint', true);
 		}
 	}
 
@@ -1389,7 +1413,7 @@ class OnlineProgramming extends Unit {
 			//生成删除icon
 			sortable_box.appendChild(this.CreateDeleteIcon(this.DomDelete));
 
-			parentNode.appendChild(sortable_box)
+			parentNode.appendChild(sortable_box);
 		}
 	}
 
@@ -1415,8 +1439,8 @@ class OnlineProgramming extends Unit {
 		div.onclick = (e) => {
 			let _event = e || window.event;
 			let _target = _event.target || _event.srcElement;
-			this.DomClone(_target.previousSibling)
-		}
+			this.DomClone(_target.previousSibling);
+		};
 		return div;
 	}
 
@@ -1434,11 +1458,11 @@ class OnlineProgramming extends Unit {
 
 			//parentNode.insertBefore(clone_dom,_target);//obj.insertBefore(new,ref)
 			if (val && this.DataTypeDetection().isString(val)) {
-				clone_dom.children[1].value = val;//克隆input赋值
+				clone_dom.children[1].value = val; //克隆input赋值
 			} else {
-				clone_dom.children[1].value = '';//清空input内容
+				clone_dom.children[1].value = ''; //清空input内容
 			}
-			parentNode.appendChild(clone_dom)
+			parentNode.appendChild(clone_dom);
 		}
 	}
 
@@ -1454,7 +1478,8 @@ class OnlineProgramming extends Unit {
 			let parentNode = delete_dom.parentNode;
 			if (parentNode.children.length > 2) {
 				parentNode.removeChild(delete_dom);
-			} else {//如果剩余两个input 清空val
+			} else {
+				//如果剩余两个input 清空val
 				for (let i = 0; i < delete_dom.children.length; i++) {
 					if (delete_dom.children[i].tagName.toLowerCase() == 'input') {
 						delete_dom.children[i].value = '';
@@ -1502,7 +1527,7 @@ class OnlineProgramming extends Unit {
 				}
 				this.editor[mode] = CodeMirror.fromTextArea(dom, this.opaction);
 				this.PasteEvent(mode);
-				this.ReadOnlyForEditor()
+				this.ReadOnlyForEditor();
 				this.SetSize(mode);
 			}
 		}
@@ -1515,7 +1540,6 @@ class OnlineProgramming extends Unit {
 	 * @param {select 本身,用于寻找父元素} Element _target 
 	 */
 	SelectEventForPreprocessor(text = '', _this = '', _target = '') {
-		console.log('text=', text, '_this=', _this, '_target=', _target)
 		let parent = document.querySelectorAll(`#${_this.configuration.id} .online-programming .editor_box`);
 		//下面逻辑 只是为了更改 编辑模式后面的文字
 		for (let i = 0; i < parent.length; i++) {
@@ -1524,42 +1548,63 @@ class OnlineProgramming extends Unit {
 					if (parent[i].children[k].className == 'create-editor-name') {
 						for (let j = 0; j < parent[i].children[k].children.length; j++) {
 							if (parent[i].children[k].children[j].className == 'title-text') {
-								_this.DomSetVal(parent[i].children[k].children[j].children[0], (text ? `(${text})` : ''));
+								_this.DomSetVal(parent[i].children[k].children[j].children[0], text ? `(${text})` : '');
 							}
 						}
 					}
 				}
 			}
-		};
+		}
 		//更改 编译模式
 		if (text == '') {
-			_this.editor[_target.parentNode.parentNode.getAttribute('data-type')].setOption("mode", _this.support_language[_target.parentNode.parentNode.getAttribute('data-type')]);
+			_this.editor[_target.parentNode.parentNode.getAttribute('data-type')].setOption(
+				'mode',
+				_this.support_language[_target.parentNode.parentNode.getAttribute('data-type')]
+			);
 		} else {
 			if (_this.support_language[text]) {
-				if (_this.editor[_target.parentNode.parentNode.getAttribute('data-type')].options.mode != _this.support_language[text]) {
-					_this.editor[_target.parentNode.parentNode.getAttribute('data-type')].setOption("mode", _this.support_language[text]);
+				if (
+					_this.editor[_target.parentNode.parentNode.getAttribute('data-type')].options.mode !=
+					_this.support_language[text]
+				) {
+					_this.editor[_target.parentNode.parentNode.getAttribute('data-type')].setOption(
+						'mode',
+						_this.support_language[text]
+					);
 				}
 			}
-		};
+		}
 		//是否关闭代码检测
-		if (_target.parentNode.parentNode.getAttribute('data-type') == 'js' || _target.parentNode.parentNode.getAttribute('data-type') == 'css') {
+		if (
+			_target.parentNode.parentNode.getAttribute('data-type') == 'js' ||
+			_target.parentNode.parentNode.getAttribute('data-type') == 'css'
+		) {
 			if (text == '') {
-				_this.editor[_target.parentNode.parentNode.getAttribute('data-type')].setOption("lint", true)
+				_this.editor[_target.parentNode.parentNode.getAttribute('data-type')].setOption('lint', true);
 			} else {
-				_this.editor[_target.parentNode.parentNode.getAttribute('data-type')].setOption("lint", false)
-			};
+				_this.editor[_target.parentNode.parentNode.getAttribute('data-type')].setOption('lint', false);
+			}
 			//react 关闭检测
 			if (_target.parentNode.parentNode.getAttribute('data-type') == 'js') {
-				if (_this.GetInpoutAll(_target.parentNode.parentNode).inputArray && _this.DataTypeDetection().isArray(_this.GetInpoutAll(_target.parentNode.parentNode).inputArray)) {
+				if (
+					_this.GetInpoutAll(_target.parentNode.parentNode).inputArray &&
+					_this.DataTypeDetection().isArray(_this.GetInpoutAll(_target.parentNode.parentNode).inputArray)
+				) {
 					for (let i = 0; i < _this.GetInpoutAll(_target.parentNode.parentNode).inputArray.length; i++) {
-						if (_this.GetInpoutAll(_target.parentNode.parentNode).inputArray[i].value && _this.GetInpoutAll(_target.parentNode.parentNode).inputArray[i].value.includes('react')) {
-							_this.ToCloseLint(_this.GetInpoutAll(_target.parentNode.parentNode).inputArray[i].value, 'js');
+						if (
+							_this.GetInpoutAll(_target.parentNode.parentNode).inputArray[i].value &&
+							_this.GetInpoutAll(_target.parentNode.parentNode).inputArray[i].value.includes('react')
+						) {
+							_this.ToCloseLint(
+								_this.GetInpoutAll(_target.parentNode.parentNode).inputArray[i].value,
+								'js'
+							);
 							return;
-						};
+						}
 					}
 				}
 			}
-		};
+		}
 	}
 
 	/**
@@ -1573,12 +1618,12 @@ class OnlineProgramming extends Unit {
 			let _target = _event.target || _event.srcElement;
 			//横向拖动
 			if (_target.getAttribute('class') && _target.getAttribute('class').includes('col-resize')) {
-				this.ResizerCol(_event, _target)
-			};
+				this.ResizerCol(_event, _target);
+			}
 			//竖向拖动
 			if (_target.getAttribute('class') && _target.getAttribute('class').includes('row-resize')) {
-				this.ResizerRow(_event, _target)
-			};
+				this.ResizerRow(_event, _target);
+			}
 		};
 	}
 
@@ -1604,7 +1649,7 @@ class OnlineProgramming extends Unit {
 				e.returnValue = false;
 			}
 			let clientXMove = diffX - e.clientX;
-			if (clientXMove < prev_width && (clientXMove * -1) < next_width) {
+			if (clientXMove < prev_width && clientXMove * -1 < next_width) {
 				if (old_prev_width && old_next_width) {
 					prevDom.setAttribute('style', `width:calc(${old_prev_width} - ${clientXMove}px)`);
 					nextDom.setAttribute('style', `width:calc(${old_next_width} + ${clientXMove}px)`);
@@ -1613,7 +1658,6 @@ class OnlineProgramming extends Unit {
 					nextDom.setAttribute('style', `width:calc(50% - 30px + ${clientXMove}px)`);
 				}
 			}
-
 		};
 		document.onmouseup = function (event) {
 			this.onmousemove = null;
@@ -1657,7 +1701,7 @@ class OnlineProgramming extends Unit {
 				e.returnValue = false;
 			}
 			let clientYMove = diffY - e.clientY;
-			if (clientYMove < prev_height && (clientYMove * -1) < next_height) {
+			if (clientYMove < prev_height && clientYMove * -1 < next_height) {
 				if (old_prev_height && old_next_height) {
 					prevDom.setAttribute('style', `height:calc(${old_prev_height} - ${clientYMove}px)`);
 					nextDom.setAttribute('style', `height:calc(${old_next_height} + ${clientYMove}px)`);
@@ -1699,8 +1743,6 @@ class OnlineProgramming extends Unit {
 		};
 	}
 
-
-
 	//change事件
 	ChangeEvent(callback) {
 		for (let key in this.editor) {
@@ -1718,7 +1760,7 @@ class OnlineProgramming extends Unit {
 	ReadOnlyForEditor() {
 		if (this.configuration.readOnly && this.DataTypeDetection().isBoolean(this.configuration.readOnly)) {
 			for (let key in this.editor) {
-				this.editor[key].setOption('readOnly', true)
+				this.editor[key].setOption('readOnly', true);
 			}
 		}
 	}
@@ -1753,11 +1795,11 @@ class OnlineProgramming extends Unit {
 	ResetContent() {
 		for (let key in this.editor) {
 			this.editor[key].setValue('');
-		};
+		}
 		this.SettingInputValNone();
 	}
 
-	//设置框 input val 置空 
+	//设置框 input val 置空
 	SettingInputValNone() {
 		let inputAll = document.querySelectorAll(`#${this.configuration.id} .setting-dialog .sortable-box input`);
 		for (let i = 0; i < inputAll.length; i++) {
@@ -1771,11 +1813,9 @@ class OnlineProgramming extends Unit {
 	GetEditorVal() {
 		let center_val = [];
 		for (let key in this.editor) {
-			center_val.push(
-				{
-					[key]: this.editor[key].getValue()
-				}
-			)
+			center_val.push({
+				[key]: this.editor[key].getValue()
+			});
 		}
 		return center_val;
 	}
@@ -1789,7 +1829,7 @@ class OnlineProgramming extends Unit {
 			for (let key in this.editor) {
 				for (let k = 0; k < _array.length; k++) {
 					if (_array[k].key == key) {
-						this.editor[key].setValue(_array[k].val)
+						this.editor[key].setValue(_array[k].val);
 					}
 				}
 			}
@@ -1800,9 +1840,8 @@ class OnlineProgramming extends Unit {
 	 * sdk初始化
 	 */
 	Init() {
-
 		if (!this.configuration.id || !this.DataTypeDetection().isString(this.configuration.id)) {
-			throw ('id不可为空')
+			throw 'id不可为空';
 		}
 		this.DomLayout();
 	}
@@ -1814,7 +1853,7 @@ class OnlineProgramming extends Unit {
 	RequestStyleSetVal(val = '') {
 		if (!val || !this.DataTypeDetection().isArray(val)) {
 			return;
-		};
+		}
 		// let parentNode = document.querySelector(`#${this.configuration.id} .style-area .exothecium-box`);
 		// if (!parentNode || !this.DataTypeDetection().isDocument(parentNode)) {
 		// 	return;
@@ -1824,7 +1863,6 @@ class OnlineProgramming extends Unit {
 		// if (old_iframe) {
 		// 	parentNode.removeChild(old_iframe)
 		// };
-
 
 		// let iframe = document.createElement("iframe");
 		// iframe.setAttribute('frameborder', '0');
@@ -1859,32 +1897,32 @@ class OnlineProgramming extends Unit {
 		ifrdoc.write('</html>');
 		ifrdoc.close(); //关闭流
 		ifrdoc.contenEditable = false;
-		ifrdoc.designMode = "off"; //文档进入非可编辑模式
+		ifrdoc.designMode = 'off'; //文档进入非可编辑模式
 	}
 
 	/**
 	 * 样式展示区 格式拼接
 	 */
 	FormatStitchingForStyleSetVal(val) {
-		let html;//原始返回的html
-		let css;//原始返回的css
-		let js;//原始返回的js
+		let html; //原始返回的html
+		let css; //原始返回的css
+		let js; //原始返回的js
 		let other;
 		for (let i = 0; i < val.length; i++) {
 			if (!this.DataTypeDetection().isObject(val[i])) {
-				return
-			};
+				return;
+			}
 			for (let key in val[i]) {
 				if (key == 'html' || key == 'js' || key == 'css') {
 					switch (key) {
 						case 'html':
-							html = val[i][key]
+							html = val[i][key];
 							break;
 						case 'js':
-							js = val[i][key]
+							js = val[i][key];
 							break;
 						case 'css':
-							css = val[i][key]
+							css = val[i][key];
 							break;
 						default:
 							break;
@@ -1893,7 +1931,7 @@ class OnlineProgramming extends Unit {
 					other = val[i][key];
 				}
 			}
-		};
+		}
 
 		return this.CenterJoin(html, css, js, other);
 	}
@@ -1902,13 +1940,16 @@ class OnlineProgramming extends Unit {
 	 * 编译模式获取
 	 */
 	GetPreprocessor() {
-		let title_text = document.querySelectorAll(`#${this.configuration.id} .programming-practice-area .exothecium-box .editor_box .create-editor-name .title-text`);
-		let Preprocessor = {}
+		let title_text = document.querySelectorAll(
+			`#${this.configuration
+				.id} .programming-practice-area .exothecium-box .editor_box .create-editor-name .title-text`
+		);
+		let Preprocessor = {};
 		for (let i = 0; i < title_text.length; i++) {
 			let text = this.DomGetVal(title_text[i]).replace('(', '-');
 			let text_new = text.replace(')', '');
 			Preprocessor[text_new.split('-')[0]] = text_new.split('-')[1] ? text_new.split('-')[1] : '';
-		};
+		}
 		return Preprocessor;
 	}
 
@@ -1916,24 +1957,30 @@ class OnlineProgramming extends Unit {
 	 * 外部链接获取
 	 */
 	GetExternalScripts() {
-		let parentNode = document.querySelectorAll(`#${this.configuration.id} .setting-dialog .item-settings-modal .sortable-box.select-box`);
+		let parentNode = document.querySelectorAll(
+			`#${this.configuration.id} .setting-dialog .item-settings-modal .sortable-box.select-box`
+		);
 		//数据拼接
 		let externalScripts = {};
 		for (let i = 0; i < parentNode.length; i++) {
-			externalScripts[parentNode[i].getAttribute('data-type').split('-')[1]] = []
-		};
-		let select_input_externalScripts = document.querySelectorAll(`#${this.configuration.id} .setting-dialog .item-settings-modal .sortable-box .select-input-externalScripts`);
+			externalScripts[parentNode[i].getAttribute('data-type').split('-')[1]] = [];
+		}
+		let select_input_externalScripts = document.querySelectorAll(
+			`#${this.configuration.id} .setting-dialog .item-settings-modal .sortable-box .select-input-externalScripts`
+		);
 		for (let key in externalScripts) {
 			for (let k = 0; k < select_input_externalScripts.length; k++) {
-				if (select_input_externalScripts[k].parentNode.parentNode.getAttribute('data-type').split('-')[1] == key) {
+				if (
+					select_input_externalScripts[k].parentNode.parentNode.getAttribute('data-type').split('-')[1] == key
+				) {
 					for (let i = 0; i < select_input_externalScripts[k].parentNode.children.length; i++) {
 						if (select_input_externalScripts[k].parentNode.children[i].tagName.toLowerCase() == 'input') {
-							externalScripts[key].push(select_input_externalScripts[k].parentNode.children[i].value)
+							externalScripts[key].push(select_input_externalScripts[k].parentNode.children[i].value);
 						}
-					};
-				};
-			};
-		};
+					}
+				}
+			}
+		}
 		return externalScripts;
 	}
 
@@ -1941,7 +1988,7 @@ class OnlineProgramming extends Unit {
 	 * 样式展示区代码拼接
 	 */
 	CenterJoin(html, css, js, other) {
-		let center = ``;//拼接后的内容
+		let center = ``; //拼接后的内容
 		if (html || css || js) {
 			let _GetExternalScripts = this.GetExternalScripts();
 			//增加外部链接
@@ -1949,9 +1996,9 @@ class OnlineProgramming extends Unit {
 				if (_GetExternalScripts['css'][i]) {
 					center += `
 					<link href="${_GetExternalScripts['css'][i]}" rel="stylesheet">
-					`
+					`;
 				}
-			};
+			}
 
 			let _GetPreprocessor = this.GetPreprocessor();
 			switch (_GetPreprocessor['css']) {
@@ -2013,7 +2060,7 @@ class OnlineProgramming extends Unit {
 					</style>
 					`;
 					break;
-			};
+			}
 
 			switch (_GetPreprocessor['html']) {
 				case '':
@@ -2026,7 +2073,7 @@ class OnlineProgramming extends Unit {
 							${html}
 					`;
 					break;
-			};
+			}
 
 			switch (_GetPreprocessor['js']) {
 				case 'es6':
@@ -2036,7 +2083,7 @@ class OnlineProgramming extends Unit {
 					<script type="text/babel">
 							${js}
 					</script>
-					`
+					`;
 					break;
 				case 'typescript':
 					center += `
@@ -2045,26 +2092,8 @@ class OnlineProgramming extends Unit {
 					<script type="text/typescript">
 							${js}
 					</script>
-					`
+					`;
 					break;
-				// case 'vue':
-				// 	center += `
-				// 	<script src="https://cdn.jsdelivr.net/npm/vue"></script>
-				// 	<script>
-				// 			${js}
-				// 	</script>
-				// 	`
-				// 	break;
-				// case 'react':
-				// 	center += `
-				// 	<script src="https://cdn.staticfile.org/react/16.4.0/umd/react.development.js"></script>
-				// 	<script src="https://cdn.staticfile.org/react-dom/16.4.0/umd/react-dom.development.js"></script>
-				// 	<script src="https://cdn.staticfile.org/babel-standalone/6.26.0/babel.min.js"></script>
-				// 	<script type="text/babel">
-				// 		${js}
-				// 	</script>
-				// 	`
-				// 	break;
 				default:
 					let isBabel = [];
 					for (let i = 0; i < _GetExternalScripts['js'].length; i++) {
@@ -2073,14 +2102,14 @@ class OnlineProgramming extends Unit {
 						} else {
 							isBabel.push(2);
 						}
-					};
+					}
 					//没有选择 react
 					if (!isBabel.includes(1)) {
 						center += `
 						<script type="text/javascript">
 							${js}
 						</script>
-						`
+						`;
 					} else {
 						//<script src="https://cdn.staticfile.org/babel-standalone/6.26.0/babel.min.js"></script>
 						//<script src="https://cdn.bootcss.com/core-js/2.6.5/core.min.js"></script>
@@ -2088,21 +2117,20 @@ class OnlineProgramming extends Unit {
 						<script type="text/babel">
 							${js}
 						</script>
-						`
-					};
+						`;
+					}
 					break;
-			};
+			}
 
 			//增加外部链接
 			for (let i = 0; i < _GetExternalScripts['js'].length; i++) {
 				if (_GetExternalScripts['js'][i]) {
 					center += `
 						<script src="${_GetExternalScripts['js'][i]}"></script>
-						`
+						`;
 				}
-			};
-
-		};
+			}
+		}
 
 		if (other) {
 			center = `				
@@ -2113,10 +2141,9 @@ class OnlineProgramming extends Unit {
 				</style>
 				${other}
 			`;
-		};
+		}
 		return center;
 	}
-
 
 	/**
 	 * 经测试发现 IE 页面刷新 input select 值保持不变
@@ -2128,10 +2155,10 @@ class OnlineProgramming extends Unit {
 		let selectAll = document.querySelectorAll(`#${this.configuration.id} .item-settings-modal .setting-box select`);
 		for (let i = 0; i < inputAll.length; i++) {
 			inputAll[i].value = '';
-		};
+		}
 		for (let s = 0; s < selectAll.length; s++) {
 			selectAll[s].selectedIndex = 0;
-		};
+		}
 		//编辑区
 		let selectChangeMode = document.querySelector(`#${this.configuration.id} .editor-title select`);
 		if (this.configuration.currentMode && this.DataTypeDetection().isString(this.configuration.currentMode)) {
@@ -2142,4 +2169,4 @@ class OnlineProgramming extends Unit {
 	/********END */
 }
 
-export { OnlineProgramming }
+export { OnlineProgramming };
