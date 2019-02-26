@@ -1095,7 +1095,7 @@ class OnlineProgramming extends Unit {
 			//添加  ‘增加外部链接 按钮’
 			if (
 				!this.configuration.disabledForInput &&
-				!this.DataTypeDetection().isBoolean(this.configuration.disabledForInput)
+				this.DataTypeDetection().isBoolean(this.configuration.disabledForInput)
 			) {
 				box.appendChild(this.AddInputItem());
 			}
