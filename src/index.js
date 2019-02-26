@@ -2076,6 +2076,15 @@ class OnlineProgramming extends Unit {
 					break;
 			}
 
+			//增加外部链接
+			for (let i = 0; i < _GetExternalScripts['js'].length; i++) {
+				if (_GetExternalScripts['js'][i]) {
+					center += `
+						<script src="${_GetExternalScripts['js'][i]}"></script>
+						`;
+				}
+			}
+
 			switch (_GetPreprocessor['js']) {
 				case 'es6':
 					center += `
@@ -2123,14 +2132,7 @@ class OnlineProgramming extends Unit {
 					break;
 			}
 
-			//增加外部链接
-			for (let i = 0; i < _GetExternalScripts['js'].length; i++) {
-				if (_GetExternalScripts['js'][i]) {
-					center += `
-						<script src="${_GetExternalScripts['js'][i]}"></script>
-						`;
-				}
-			}
+			
 		}
 
 		if (other) {
