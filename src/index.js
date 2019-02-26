@@ -534,7 +534,7 @@ class OnlineProgramming extends Unit {
 			// 	preprocessor: [''],//编译模式
 			// },
 			css: {
-				preprocessor: ['', 'scss', 'less', 'sass'] //编译模式
+				preprocessor: ['', 'scss', 'less'] //编译模式
 			},
 			js: {
 				preprocessor: [
@@ -2002,7 +2002,8 @@ class OnlineProgramming extends Unit {
 
 			let _GetPreprocessor = this.GetPreprocessor();
 			switch (_GetPreprocessor['css']) {
-				case 'scss' || 'sass':
+				case 'scss':
+				case 'sass':
 					center += `
 					<script src="https://cdn.bootcss.com/sass.js/0.10.13/sass.sync.js"></script>
 					<script>
