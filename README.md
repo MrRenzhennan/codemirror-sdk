@@ -12,10 +12,11 @@ IE9 +
 **注意** 后台语言 只能通过接口后台编译
 ```
 vue:
+//在html
 <div id="app">
   {{ message }}
 </div>
-
+//在js中
 var app = new Vue({
   el: '#app',
   data: {
@@ -24,9 +25,10 @@ var app = new Vue({
 })
 
 react:
+//html中
 <div id="root">
 </div>
-
+//js中
 ReactDOM.render(
   <h1>Hello, world!</h1>,
   document.getElementById('root')
