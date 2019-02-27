@@ -7,9 +7,9 @@ IE9 +
 ```
 ## 支持情况
 目前编辑器 支持前端语言在线编译（scss less es6 typescript vue react）  
-**注意：**vue react 只能以下面例子方式运行  
+**注意** vue react 只能以下面例子方式运行  
 后台语言支持 java python2 pyton3  
-**注意：**后台语言 只能通过接口后台编译
+**注意** 后台语言 只能通过接口后台编译
 ```
 vue:
 <div id="app">
