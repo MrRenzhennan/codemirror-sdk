@@ -217,7 +217,6 @@ class Unit {
 			},
 			//dom
 			isDocument(o) {
-				//let _r = (Object.prototype.toString.call(o) == "[object Document]") || (Object.prototype.toString.call(o) == "[object HTMLDocument]")
 				let _r;
 				//在Chrome,Opera中HTMLElement的类型为function
 				if (typeof HTMLElement === 'object') {
@@ -389,7 +388,6 @@ class Unit {
 		if (name == 'html' || name == 'js' || name == 'css') {
 			//添加当前编译模式
 			let span = document.createElement('span');
-			//this.DomSetVal(span, `(none)`);
 			text.appendChild(span);
 			if (
 				this.configuration.iconSettingIsShow &&
@@ -542,8 +540,6 @@ class OnlineProgramming extends Unit {
 					'',
 					'es6',
 					'typescript'
-					// 'vue',
-					// 'react'
 				]
 			}
 		};
@@ -594,9 +590,9 @@ class OnlineProgramming extends Unit {
 	 */
 	DynamicWriteScript() {
 		let _src = [
-			'https://cdn.bootcss.com/jshint/2.9.7/jshint.min.js',
-			'https://cdn.bootcss.com/jsonlint/1.6.0/jsonlint.min.js',
-			'https://unpkg.com/csslint@1.0.5/dist/csslint.js'
+			'http://fedcdn.open.com.cn/fedcdn/OnlineCode/jshint.min.js',
+			'http://fedcdn.open.com.cn/fedcdn/OnlineCode/jsonlint.min.js',
+			'http://fedcdn.open.com.cn/fedcdn/OnlineCode/csslint.js'
 		];
 		let _src_length = _src.length;
 		//循环加载 script
@@ -1053,7 +1049,6 @@ class OnlineProgramming extends Unit {
 					this.SelectEventForPreprocessor
 				)
 			);
-			//select_box_preprocessor.appendChild(this.CreateUpDownIcon());
 			box.appendChild(select_box_preprocessor);
 			//--end--
 			//生成外部链接引用区域
@@ -1131,13 +1126,8 @@ class OnlineProgramming extends Unit {
 			} else {
 				this.SearchHeightChange(_target, 'onblur');
 			}
-			//this.SearchScreen(_target);
 		};
-		// input.onfocus = (e) => {
-		// 	let _event = e || window.event;
-		// 	let _target = _event.target || _event.srcElement;
-		// 	this.SearchHeightChange(_target, 'onfocus');
-		// };
+
 		input.onblur = (e) => {
 			let _event = e || window.event;
 			_event.preventDefault();
@@ -1194,25 +1184,16 @@ class OnlineProgramming extends Unit {
 							.split(val)
 							.join('<span style="color:red;">' + val + '</span>');
 						return item;
-					}
-				}
+					};
+				};
 			});
 			if (findTrue && this.DataTypeDetection().isArray(findTrue) && findTrue.length > 0) {
 				this.CreateCenterForSearch(parentNode, findTrue);
 				this.SearchHeightChange(_target, 'onfocus');
 			} else {
 				this.SearchHeightChange(_target, 'onblur');
-			}
-			// this.CreateCenterForSearch(parentNode, findTrue);
-			// this.SearchHeightChange(_target, 'onfocus');
-
-			//oldArray还原
-			// oldArray = oldArray[key].filter((item) => {
-			// 	//replace 将以前的标签替换掉
-			// 	item.name = item.name.replace(/<[^>]+>/gim, '');
-			// 	return item;
-			// });
-		}
+			};
+		};
 	}
 
 	/**
@@ -1253,7 +1234,6 @@ class OnlineProgramming extends Unit {
 				top.className = 'item-center-top';
 				let name = document.createElement('div');
 				name.className = 'item-center-name';
-				//name.setAttribute('data-name',_array[i].name.replace(/<[^>]+>/gim, ''));
 				if (this.GetBrowserInfo().isIE9()) {
 					this.DomSetVal(name, _array[i].name);
 				} else {
@@ -1456,7 +1436,6 @@ class OnlineProgramming extends Unit {
 			//需要克隆的节点
 			let clone_dom = _target.children[0].cloneNode(true); //true 深度克隆
 
-			//parentNode.insertBefore(clone_dom,_target);//obj.insertBefore(new,ref)
 			if (val && this.DataTypeDetection().isString(val)) {
 				clone_dom.children[1].value = val; //克隆input赋值
 			} else {
@@ -1853,27 +1832,12 @@ class OnlineProgramming extends Unit {
 	RequestStyleSetVal(val = '') {
 		if (!val || !this.DataTypeDetection().isArray(val)) {
 			return;
-		}
-		// let parentNode = document.querySelector(`#${this.configuration.id} .style-area .exothecium-box`);
-		// if (!parentNode || !this.DataTypeDetection().isDocument(parentNode)) {
-		// 	return;
-		// };
-		// let old_iframe = document.querySelector(`#${this.configuration.id} .style-area .exothecium-box iframe`);
-		// //如果存在 iframe remove掉
-		// if (old_iframe) {
-		// 	parentNode.removeChild(old_iframe)
-		// };
+		};
 
-		// let iframe = document.createElement("iframe");
-		// iframe.setAttribute('frameborder', '0');
-		// iframe.setAttribute('width', '100%');
-		// iframe.setAttribute('height', '100%');
-		// parentNode.appendChild(iframe);
 		let iframe = document.querySelector(`#${this.configuration.id} .style-area .exothecium-box iframe`);
 		let ifrdoc = document.all ? iframe.contentWindow.document : iframe.contentDocument;
 		//编辑器内容
 		let editorCenter = this.FormatStitchingForStyleSetVal(val);
-		//ifrdoc.designMode = "on"; //文档进入可编辑模式
 		ifrdoc.open(); //打开流
 		ifrdoc.write('<!DOCTYPE html>');
 		ifrdoc.write('<html lang="en">');
@@ -2064,7 +2028,7 @@ class OnlineProgramming extends Unit {
 			};
 
 			switch (_GetPreprocessor['html']) {
-				//预留以后HTML其他操作
+				//TODO:预留以后HTML其他操作
 				case '':
 					center += `
 							${html}
@@ -2091,28 +2055,6 @@ class OnlineProgramming extends Unit {
 					`;
 					break;
 				default:
-					// let isBabel = [];
-					// for (let i = 0; i < _GetExternalScripts['js'].length; i++) {
-					// 	if (_GetExternalScripts['js'][i].includes('react')) {
-					// 		isBabel.push(1);
-					// 	} else {
-					// 		isBabel.push(2);
-					// 	}
-					// }
-					// //没有选择 react
-					// if (!isBabel.includes(1)) {
-					// 	center += `
-					// 	<script type="text/javascript">
-					// 		${js}
-					// 	</script>
-					// 	`;
-					// } else {
-					// 	center += `
-					// 	<script type="text/babel">
-					// 		${js}
-					// 	</script>
-					// 	`;
-					// }
 					break;
 			};
 
