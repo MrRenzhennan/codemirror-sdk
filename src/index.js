@@ -525,7 +525,7 @@ class OnlineProgramming extends Unit {
 			configuration
 		);
 		//支持的语言
-		this.option = ['html/css/js', 'java', 'c#', 'pathon2', 'python3'];
+		this.option = ['html/css/js', 'java', 'python2', 'python3'];
 		//支持的 编译模式
 		this.preprocessor = {
 			// 'html': {
