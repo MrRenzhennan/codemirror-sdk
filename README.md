@@ -44,6 +44,103 @@ ALT-G //跳到指定位置  10：80
 ```
 
 ## Options
+#### id
+[String] 容器ID
+#### readOnly
+[boolean] 编辑器是否可输入
+#### isPaste
+[boolean] 编辑器是否可粘贴
+#### currentMode
+[string] 编辑器初始语言
+#### disabledForSelect
+[boolean] 是否可以切换语言
+#### disabledForInput
+[boolean] 是否禁用 外部链接输入框
+#### styleAreaIsShow
+[boolean] 是否生成样式展示区
+#### iconSettingIsShow
+[boolean] 是否生成设置按钮
+#### externalLink
+[object] 外部链接可选范围
+#### button
+[array] 底部按钮表现形势    如果不传  则 不显示
+## Api
+#### SetEditorVal()
+编辑器赋值  
+参数：
+```
+eg:
+SetEditorVal(
+	[
+		{
+			key: 'html',
+			val: '<div>123</div>'
+		},
+		{
+			key: 'css',
+			val: 'html{color:#fff;}'
+		},
+		{
+			key: 'js',
+			val: 'console.log("123")'
+		}
+	]
+)
+
+SetEditorVal(
+	[
+		{
+			key: 'java',
+			val: 'value'
+		}
+	]
+)
+```
+#### GetEditorVal()
+获取编辑器内容
+```
+获取内容格式
+[
+	{
+		html: '<div>123</div>'
+	},
+	{
+		css: 'html{color:#fff;}'
+	},
+	{
+		js: 'console.log("123")'
+	}
+]
+
+[
+	{
+		java: 'value'
+	}
+]
+```
+#### ResetContent()
+重置代码
+#### RequestStyleSetVal()
+展示区 展示  
+参数:array  
+**注意：传入参数数据格式 要和获取内容返回的数据格式保持一致**  
+`html css js 语言可以直接展示，后端语言需要调用接口编译后 修改对应语言的val展示`
+```
+[
+	{
+		html: '<div>123</div>'
+	},
+	{
+		css: 'html{color:#fff;}'
+	},
+	{
+		js: 'console.log("123")'
+	}
+]
+```
+
+
+## 我们举一个大栗子
 ```js
 var Online_Programming = new codemirrorSDK.OnlineProgramming({
 	id: 'editor-box', //容器ID
