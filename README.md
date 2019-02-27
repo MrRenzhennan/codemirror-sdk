@@ -17,8 +17,9 @@ var Online_Programming = new codemirrorSdk({});
 
 
 Browser:
-<link rel="stylesheet" href="./open-online-programming/dist/css/sdk.min.css">
-<script src="./open-online-programming/dist/js/sdk.min.js"></script>
+/按自己目录位置确定
+<link rel="stylesheet" href="/dist/css/sdk.min.css">
+<script src="/dist/js/sdk.min.js"></script>
 var Online_Programming = new codemirrorSDK.OnlineProgramming({})
 ```
 
@@ -45,25 +46,93 @@ ALT-G //跳到指定位置  10：80
 
 ## Options
 #### id
-[String] 容器ID
+[String] 容器ID  
+**必须参数**
+`id:'test'`
+
 #### readOnly
-[boolean] 编辑器是否可输入
+[boolean] 编辑器是否可输入  
+`readOnly:true`
+
 #### isPaste
-[boolean] 编辑器是否可粘贴
+[boolean] 编辑器是否可粘贴  
+`isPaste:true`
+
 #### currentMode
-[string] 编辑器初始语言
+[string] 编辑器初始语言  
+`currentMode:'java'`  
+
 #### disabledForSelect
-[boolean] 是否可以切换语言
+[boolean] 是否可以切换语言  
+`disabledForSelect:true`
+
 #### disabledForInput
-[boolean] 是否禁用 外部链接输入框
+[boolean] 是否禁用 外部链接输入框  
+`disabledForInput:false`
+
 #### styleAreaIsShow
-[boolean] 是否生成样式展示区
+[boolean] 是否生成样式展示区  
+`styleAreaIsShow:true`
+
 #### iconSettingIsShow
-[boolean] 是否生成设置按钮
+[boolean] 是否生成设置按钮  
+`iconSettingIsShow:true`
 #### externalLink
-[object] 外部链接可选范围
+[object] 外部链接可选范围  
+```js
+//请按照例子给定格式传入
+externalLink: {
+		'js': [
+			{
+				name: 'vue',
+				version: '2.0',
+				link: 'https://cdn.bootcss.com/vue/2.6.4/vue.js'
+			},
+			{
+				name: 'react',
+				version: '16.04',
+				link: 'https://cdn.staticfile.org/react/16.4.0/umd/react.development.js'
+			},
+			{
+				name: 'react-dom',
+				version: '16.04',
+				link: 'https://cdn.staticfile.org/react-dom/16.4.0/umd/react-dom.development.js'
+			},
+			{
+				name: 'jquery',
+				version: '3.3.1',
+				link: 'https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js'
+			},
+			{
+				name: 'bootstrap',
+				version: '3.0.0',
+				link: 'https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js'
+			}
+		],
+		'css': [
+			{
+				name: 'bootstrap',
+				version: '3.0.0',
+				link: 'https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css'
+			}
+		]
+	}
+```
 #### button
-[array] 底部按钮表现形势    如果不传  则 不显示
+[array] 底部按钮表现形势    如果不传  则 不显示  
+```js
+button: [ 
+		{
+			text: '点击运行',
+			style: 'background: #ff0000'
+		},
+		{
+			text: '重置编码',
+			style: 'background: #ff6600'
+		}
+	]
+```
+
 ## Api
 #### SetEditorVal()
 编辑器赋值  
@@ -138,8 +207,29 @@ SetEditorVal(
 	}
 ]
 ```
-
-
+#### EventForButton()
+底部操作按钮事件注册  
+参数：array  
+**注意：**请按照 下面例子格式传入 text 要与配置的按钮名称一致
+```
+eg:
+EventForButton(
+	[
+		{
+			text: '点击运行', //这里text 要与上面传入的button text一致
+			callback: function () {
+				console.log('点击运行');
+			}
+		},
+		{
+			text: '重置编码',
+			callback: function () {
+				console.log('重置编码');
+			}
+		}
+	]
+)
+```
 ## 我们举一个大栗子
 ```js
 var Online_Programming = new codemirrorSDK.OnlineProgramming({
