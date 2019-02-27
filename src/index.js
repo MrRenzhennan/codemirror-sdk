@@ -516,10 +516,6 @@ class OnlineProgramming extends Unit {
 				externalLink: [], //外部链接 支持链接
 				button: [
 					//底部按钮表现形势    如果不传  则 不显示
-					{
-						text: '自定义按钮',
-						style: 'background: #ff0000'
-					}
 				]
 			},
 			configuration
