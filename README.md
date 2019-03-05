@@ -2,9 +2,7 @@
 基于CodeMirror 封装 在线编程
 
 ## Browser
-```
-IE9 + 
-```
+[查看支持情况](./compatibility.md)
 ## 支持情况
 目前编辑器 支持前端语言在线编译（scss less es6 typescript vue react）  
 **注意** vue react 只能以下面例子方式运行  
