@@ -103,7 +103,7 @@
                 },
                 {
                     key: 'js',
-                    val: 'console.log("123")'
+                    val: 'alert("123")'
                 }
             ]
         )
@@ -113,16 +113,16 @@
                 {
                     text: '点击运行', //这里text 要与上面传入的button text一致
                     callback: function () {
-                        console.log('点击运行');
+                        // console.log('点击运行');
                         var val = Online_Programming.GetEditorVal(); //获取编辑器内容
-                        console.log(val)
+                        // console.log(val)
                         Online_Programming.RequestStyleSetVal(val) //展示区 展示   注意：不要改变val 的数据格式
                     }
                 },
                 {
                     text: '重置编码',
                     callback: function () {
-                        console.log('重置编码');
+                        // console.log('重置编码');
                         Online_Programming.ResetContent(); //重置代码
 
                         Online_Programming.SetEditorVal(  //重置后 是否要显示 默认值
@@ -137,7 +137,7 @@
                                 },
                                 {
                                     key: 'js',
-                                    val: 'console.log("123")'
+                                    val: 'alert("123")'
                                 }
                             ]
                         )
@@ -147,7 +147,7 @@
         )
 
 
-        console.log(Online_Programming)
+        // console.log(Online_Programming)
     </script>
 </body>
 
