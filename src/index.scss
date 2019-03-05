@@ -93,6 +93,7 @@
 		box-sizing: border-box;
 		position: relative;
 		overflow: hidden;
+		// pointer-events: none;
 		.exothecium-box {
 			width: 100%;
 			height: calc(100% - 40px);

@@ -652,7 +652,7 @@ class OnlineProgramming extends Unit {
 			this.configuration.styleAreaIsShow &&
 			this.DataTypeDetection().isBoolean(this.configuration.styleAreaIsShow)
 		) {
-			if (!this.GetBrowserInfo().isIE()) {
+			if (!this.GetBrowserInfo().isIE10() && !this.GetBrowserInfo().isIE9()) {
 				//区域拖拽初始化
 				this.ResizerMove();
 			}
@@ -1625,6 +1625,7 @@ class OnlineProgramming extends Unit {
 			let _target = _event.target || _event.srcElement;
 			//横向拖动
 			if (_target.getAttribute('class') && _target.getAttribute('class').includes('col-resize')) {
+				this.addStylePointerEvents(true)
 				this.ResizerCol(_event, _target);
 			};
 			//竖向拖动
@@ -1666,9 +1667,11 @@ class OnlineProgramming extends Unit {
 				}
 			}
 		};
-		document.onmouseup = function (event) {
+		let _this = this;
+		document.onmouseup = function () {
 			this.onmousemove = null;
 			this.onmouseup = null;
+			_this.addStylePointerEvents(false)
 		};
 	}
 
@@ -1748,6 +1751,16 @@ class OnlineProgramming extends Unit {
 			this.onmousemove = null;
 			this.onmouseup = null;
 		};
+	}
+
+	//增加iframe父元素pointer-events
+	addStylePointerEvents(isPointerEvents = ''){
+		let style_area = document.querySelector(`#${this.configuration.id} .style-area .exothecium-box`);
+		if(isPointerEvents){
+			style_area.style.pointerEvents = 'none'
+		}else{
+			style_area.style.pointerEvents = 'auto'
+		}
 	}
 
 	//change事件
@@ -2228,3 +2241,4 @@ class OnlineProgramming extends Unit {
 }
 
 export { OnlineProgramming };
+
