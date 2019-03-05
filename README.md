@@ -341,7 +341,7 @@ Online_Programming.EventForButton(
 			text: '点击运行', //这里text 要与上面传入的button text一致
 			callback: function () {
 				console.log('点击运行');
-				let val = Online_Programming.GetEditorVal(); //获取编辑器内容
+				var val = Online_Programming.GetEditorVal(); //获取编辑器内容
 				console.log(val)
 				Online_Programming.RequestStyleSetVal(val) //展示区 展示   注意：不要改变val 的数据格式
 			}
