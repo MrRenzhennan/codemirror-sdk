@@ -13,7 +13,7 @@
     scss (不支持ie)
     less (ie11)
 * 支持es6
-* 支持typescript (不支持语法检测)
+* 支持typescript (不支持语法检测,类型断言)
 * vue (不支持模板语法)
 * react (不支持jsx)
 * 支持语言切换
