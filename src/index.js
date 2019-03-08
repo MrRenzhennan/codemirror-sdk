@@ -2285,8 +2285,6 @@ class OnlineProgramming extends Unit {
 					};
 					if (this.configuration.cssPreprocessor == 'less') {
 						if (!this.GetBrowserInfo().isIE10() && !this.GetBrowserInfo().isIE9()) {
-							console.log(this.preprocessor['css'].preprocessor.indexOf(this.configuration.cssPreprocessor))
-							
 							this.SelectEventForPreprocessor(this.configuration.cssPreprocessor, this, select[i]);
 							if(this.GetBrowserInfo().isIE11()){
 								//ie11 scss 没有渲染
