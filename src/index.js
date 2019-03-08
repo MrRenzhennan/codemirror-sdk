@@ -513,7 +513,10 @@ class OnlineProgramming extends Unit {
 				disabledForInput: false, //是否禁用input
 				styleAreaIsShow: true, //是否生成样式展示区
 				iconSettingIsShow: true, //是否生成设置按钮
-				externalLink: [], //外部链接 支持链接
+				externalLink: [], //外部链接 搜索下拉框中的表现形式
+				cssPreprocessor: '',//默认css预处理器
+				jsPreprocessor: '',//默认js预处理器
+				defaultExternalLink: {},//默认外部链接
 				button: [
 					//底部按钮表现形势    如果不传  则 不显示
 				]
@@ -632,21 +635,19 @@ class OnlineProgramming extends Unit {
 			//竖向分区
 			div.appendChild(this.EditorResizerCol());
 		}
-		if (
-			this.configuration.iconSettingIsShow &&
-			this.DataTypeDetection().isBoolean(this.configuration.iconSettingIsShow)
-		) {
-			//弹框
-			div.appendChild(this.SettingDiaLog(this.preprocessor));
-		}
+
+		//弹框
+		div.appendChild(this.SettingDiaLog(this.preprocessor));
 
 		outermost_layer.appendChild(div);
 
-		//动态写<script>
-		this.DynamicWriteScript();
+
 
 		//编辑器初始化
 		this.EditorInit();
+
+		//动态写<script>
+		this.DynamicWriteScript();
 
 		if (
 			this.configuration.styleAreaIsShow &&
@@ -676,6 +677,11 @@ class OnlineProgramming extends Unit {
 			this.InputOrSelectRevivification();
 			clearTimeout(rest);
 		}, 300);
+
+		//默认预处理赋值
+		this.jsOrCssPreprocessor();
+		//默认外部链接
+		this.defaultExternalLinkSetVal()
 	}
 
 	/**
@@ -1138,7 +1144,7 @@ class OnlineProgramming extends Unit {
 		input.setAttribute('data-type', key);
 		input.setAttribute('type', 'text');
 		input.setAttribute('autocomplete', 'off');
-		input.setAttribute('placeholder', 'Search CDNjs (jQuery, Lodash, React, Angular, Vue.js, Ember...)');
+		input.setAttribute('placeholder', 'Search CDN...');
 		input.oninput = (e) => {
 			let _event = e || window.event;
 			_event.preventDefault();
@@ -1372,6 +1378,7 @@ class OnlineProgramming extends Unit {
 				this.DomClone(sortable_box, link);
 			};
 		};
+		valHaveAll = null;
 	}
 
 	/**
@@ -1754,11 +1761,11 @@ class OnlineProgramming extends Unit {
 	}
 
 	//增加iframe父元素pointer-events
-	addStylePointerEvents(isPointerEvents = ''){
+	addStylePointerEvents(isPointerEvents = '') {
 		let style_area = document.querySelector(`#${this.configuration.id} .style-area .exothecium-box`);
-		if(isPointerEvents){
+		if (isPointerEvents) {
 			style_area.style.pointerEvents = 'none'
-		}else{
+		} else {
 			style_area.style.pointerEvents = 'auto'
 		}
 	}
@@ -1955,10 +1962,10 @@ class OnlineProgramming extends Unit {
 		);
 		let Preprocessor = {};
 		for (let i = 0; i < title_text.length; i++) {
-			let text = this.DomGetVal(title_text[i]).replace('(', '-');
-			let text_new = text.replace(')', '');
+			let text = this.DomGetVal(title_text[i]).replace('(', '-');   //css(scss)-->css-scss)
+			let text_new = text.replace(')', '');  //css-scss)-->css-scss
 			Preprocessor[text_new.split('-')[0]] = text_new.split('-')[1] ? text_new.split('-')[1] : '';
-		}
+		};
 		return Preprocessor;
 	}
 
@@ -2187,10 +2194,31 @@ class OnlineProgramming extends Unit {
 		let selectAll = document.querySelectorAll(`#${this.configuration.id} .item-settings-modal .setting-box select`);
 		for (let i = 0; i < inputAll.length; i++) {
 			inputAll[i].value = '';
-		}
+		};
+		//清空input 在赋值
+		if (
+			(
+				this.configuration.defaultExternalLink['css'] &&
+				this.DataTypeDetection().isArray(this.configuration.defaultExternalLink['css']) &&
+				this.configuration.defaultExternalLink['css'].length > 0
+			) ||
+			(
+				this.configuration.defaultExternalLink['js'] &&
+				this.DataTypeDetection().isArray(this.configuration.defaultExternalLink['js']) &&
+				this.configuration.defaultExternalLink['js'].length > 0
+			)
+		) {
+			this.defaultExternalLinkSetVal()
+		};
+
 		for (let s = 0; s < selectAll.length; s++) {
+			//TODO:
 			selectAll[s].selectedIndex = 0;
-		}
+		};
+		//清空select 在赋值
+		if (this.configuration.cssPreprocessor || this.configuration.jsPreprocessor) {
+			this.jsOrCssPreprocessor()
+		};
 		//编辑区
 		let selectChangeMode = document.querySelector(`#${this.configuration.id} .editor-title select`);
 		if (selectChangeMode && this.DataTypeDetection().isDocument(selectChangeMode)) {
@@ -2209,7 +2237,9 @@ class OnlineProgramming extends Unit {
 		return iframe.contentWindow.IframeInitFinished;
 	}
 
-	//底部操作按钮 禁用 
+	/**
+	 * 底部操作按钮 禁用 
+	 */
 	ButtonDisabled() {
 		if (!this.configuration.styleAreaIsShow || !this.DataTypeDetection().isBoolean(this.configuration.styleAreaIsShow)) {
 			return
@@ -2224,7 +2254,10 @@ class OnlineProgramming extends Unit {
 		};
 	}
 
-	//底部操作按钮 释放
+	/**
+	 * 底部操作按钮 释放
+	 * @param {盒子ID} id 
+	 */
 	ButtonDisabledRemove(id = '') {
 		let button = document.querySelectorAll(`#${id} .button-operation-area button`);
 		if (button) {
@@ -2233,6 +2266,72 @@ class OnlineProgramming extends Unit {
 			};
 		};
 		//let iframe = document.querySelector(`#${this.configuration.id} .style-area .exothecium-box iframe`);
+	}
+
+	/**
+	 * 默认css预处理赋值 js预处理赋值
+	 */
+	jsOrCssPreprocessor() {
+		//处理器select
+		let select = document.querySelectorAll(`#${this.configuration.id} .setting-dialog .settings .setting-box .setting-type .select-box select`);
+		for (let i = 0; i < select.length; i++) {
+			if (select[i].parentNode.parentNode.getAttribute('data-type') == 'css') {
+				if (this.configuration.cssPreprocessor && (this.configuration.cssPreprocessor == 'scss' || this.configuration.cssPreprocessor == 'less')) {
+					if (this.configuration.cssPreprocessor == 'scss') {
+						if (!this.GetBrowserInfo().isIE()) {
+							this.SelectEventForPreprocessor(this.configuration.cssPreprocessor, this, select[i])
+							select[i].selectedIndex = this.preprocessor['css'].preprocessor.indexOf(this.configuration.cssPreprocessor);
+						};
+					};
+					if (this.configuration.cssPreprocessor == 'less') {
+						if (!this.GetBrowserInfo().isIE10() && !this.GetBrowserInfo().isIE9()) {
+							this.SelectEventForPreprocessor(this.configuration.cssPreprocessor, this, select[i])
+							select[i].selectedIndex = this.preprocessor['css'].preprocessor.indexOf(this.configuration.cssPreprocessor);
+						};
+					};
+				};
+			} else if (select[i].parentNode.parentNode.getAttribute('data-type') == 'js') {
+				if (this.configuration.jsPreprocessor && (this.configuration.jsPreprocessor == 'es6' || this.configuration.jsPreprocessor == 'typescript')) {
+					this.SelectEventForPreprocessor(this.configuration.jsPreprocessor, this, select[i])
+					select[i].selectedIndex = this.preprocessor['js'].preprocessor.indexOf(this.configuration.jsPreprocessor);
+				};
+			};
+		};
+	}
+
+	/**
+	 * 外部链接赋值
+	 */
+	defaultExternalLinkSetVal() {
+		let setting_type = document.querySelectorAll(`#${this.configuration.id} .setting-dialog .item-settings-modal .setting-type`); //setting-type 元素    为了循环children获取input
+		let inputArray, sortable_box;
+		for (let i = 0; i < setting_type.length; i++) {
+			if (setting_type[i].getAttribute('data-type') == 'css') {
+				inputArray = this.GetInpoutAll(setting_type[i]).inputArray; //input 集合
+				sortable_box = this.GetInpoutAll(setting_type[i]).sortable_box; //克隆节点 父元素
+				if (inputArray && sortable_box) {
+					if (this.configuration.defaultExternalLink['css'] && this.DataTypeDetection().isArray(this.configuration.defaultExternalLink['css']) && this.configuration.defaultExternalLink['css'].length > 0) {
+						for (let c = 0; c < this.configuration.defaultExternalLink['css'].length; c++) {
+							this.InputSetVal(inputArray, this.configuration.defaultExternalLink['css'][c], sortable_box);
+						};
+					};
+				};
+			} else if (setting_type[i].getAttribute('data-type') == 'js') {
+				inputArray = this.GetInpoutAll(setting_type[i]).inputArray; //input 集合
+				sortable_box = this.GetInpoutAll(setting_type[i]).sortable_box; //克隆节点 父元素
+				if (inputArray && sortable_box) {
+					if (this.configuration.defaultExternalLink['js'] && this.DataTypeDetection().isArray(this.configuration.defaultExternalLink['js']) && this.configuration.defaultExternalLink['js'].length > 0) {
+						for (let c = 0; c < this.configuration.defaultExternalLink['js'].length; c++) {
+							this.InputSetVal(inputArray, this.configuration.defaultExternalLink['js'][c], sortable_box);
+							//this.ToCloseLint(this.configuration.defaultExternalLink['js'][c], 'js', setting_type);
+						};
+					};
+				};
+			};
+		};
+		setting_type = null;
+		inputArray = null;
+		sortable_box = null
 	}
 
 
