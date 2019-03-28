@@ -105,7 +105,7 @@ import 'codemirror/addon/search/match-highlighter.js';
 import Sortable from 'sortablejs';
 
 class Unit {
-	constructor() { }
+	constructor() {}
 
 	//生成随机字符串
 	// GetRandomCode(length = 32) {
@@ -257,7 +257,7 @@ class Unit {
 	 * @param {*} _src 
 	 * @param {*} callback 
 	 */
-	LoadScripts(_src, callback = function () { }) {
+	LoadScripts(_src, callback = function() {}) {
 		//添加script属性，并添加到head中
 		let script = document.createElement('script');
 		script.type = 'text/javascript';
@@ -474,13 +474,13 @@ class OnlineProgramming extends Unit {
 			},
 			theme: 'isotope', //编辑器主题
 			extraKeys: {
-				'Tab': 'autocomplete', //Tab可以弹出选择项
+				Tab: 'autocomplete', //Tab可以弹出选择项
 				'Ctrl-/': 'toggleComment', //注释
-				F11: function (cm) {
+				F11: function(cm) {
 					//全屏
 					cm.setOption('fullScreen', !cm.getOption('fullScreen'));
 				},
-				Esc: function (cm) {
+				Esc: function(cm) {
 					//推出全屏
 					if (cm.getOption('fullScreen')) cm.setOption('fullScreen', false);
 				},
@@ -490,7 +490,7 @@ class OnlineProgramming extends Unit {
 			lineNumbers: true, //显示行号
 			lineWrapping: true,
 			foldGutter: true, //代码折叠
-			gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter', 'CodeMirror-lint-markers'],
+			gutters: [ 'CodeMirror-linenumbers', 'CodeMirror-foldgutter', 'CodeMirror-lint-markers' ],
 			scrollbarStyle: 'simple', //overlay
 			styleActiveLine: true, //选中行 高亮
 			lint: false, //错误检测
@@ -514,9 +514,9 @@ class OnlineProgramming extends Unit {
 				styleAreaIsShow: true, //是否生成样式展示区
 				iconSettingIsShow: true, //是否生成设置按钮
 				externalLink: [], //外部链接 搜索下拉框中的表现形式
-				cssPreprocessor: '',//默认css预处理器
-				jsPreprocessor: '',//默认js预处理器
-				defaultExternalLink: {},//默认外部链接
+				cssPreprocessor: '', //默认css预处理器
+				jsPreprocessor: '', //默认js预处理器
+				defaultExternalLink: {}, //默认外部链接
 				button: [
 					//底部按钮表现形势    如果不传  则 不显示
 				]
@@ -524,14 +524,14 @@ class OnlineProgramming extends Unit {
 			configuration
 		);
 		//支持的语言
-		this.option = ['html/css/js', 'java', 'python2', 'python3'];
+		this.option = [ 'html/css/js', 'java', 'python2', 'python3' ];
 		//支持的 编译模式
 		this.preprocessor = {
 			// 'html': {
 			// 	preprocessor: [''],//编译模式
 			// },
 			css: {
-				preprocessor: ['无', 'scss', 'less'] //编译模式
+				preprocessor: [ '无', 'scss', 'less' ] //编译模式
 			},
 			js: {
 				preprocessor: [
@@ -641,8 +641,6 @@ class OnlineProgramming extends Unit {
 
 		outermost_layer.appendChild(div);
 
-
-
 		//编辑器初始化
 		this.EditorInit();
 
@@ -657,7 +655,6 @@ class OnlineProgramming extends Unit {
 				//区域拖拽初始化
 				this.ResizerMove();
 			}
-
 		}
 
 		//初始化 input 拖拽排序
@@ -681,7 +678,7 @@ class OnlineProgramming extends Unit {
 		//默认预处理赋值
 		this.jsOrCssPreprocessor();
 		//默认外部链接
-		this.defaultExternalLinkSetVal()
+		this.defaultExternalLinkSetVal();
 	}
 
 	/**
@@ -755,9 +752,12 @@ class OnlineProgramming extends Unit {
 	 * @param {外部传入 用于注册方法} callback_object 
 	 */
 	EventForButton(callback_object) {
-		if (!this.configuration.styleAreaIsShow || !this.DataTypeDetection().isBoolean(this.configuration.styleAreaIsShow)) {
-			return
-		};
+		if (
+			!this.configuration.styleAreaIsShow ||
+			!this.DataTypeDetection().isBoolean(this.configuration.styleAreaIsShow)
+		) {
+			return;
+		}
 		let parentNode = document.querySelector(`#${this.configuration.id} .button-operation-area`);
 		if (callback_object && this.DataTypeDetection().isArray(callback_object)) {
 			for (let i = 0; i < parentNode.children.length; i++) {
@@ -811,7 +811,7 @@ class OnlineProgramming extends Unit {
 			text = _type.split('/'); //html css js
 		} else {
 			_num = 1;
-			text = [_type];
+			text = [ _type ];
 		}
 
 		for (let i = 0; i < text.length; i++) {
@@ -859,7 +859,7 @@ class OnlineProgramming extends Unit {
 			//默认选中选项
 			if (_opaction[i] == current_mode) {
 				option.setAttribute('selected', '');
-			};
+			}
 			//  < ie 11   禁用 scss sass less
 			if (this.GetBrowserInfo().isIE()) {
 				if (_opaction[i] != 'scss' && _opaction[i] != 'sass') {
@@ -867,24 +867,24 @@ class OnlineProgramming extends Unit {
 						if (this.GetBrowserInfo().isIE11()) {
 							this.DomSetVal(option, _opaction[i]);
 							select.appendChild(option);
-						};
+						}
 					} else {
 						this.DomSetVal(option, _opaction[i]);
 						select.appendChild(option);
-					};
-				};
+					}
+				}
 			} else {
 				this.DomSetVal(option, _opaction[i]);
 				select.appendChild(option);
-			};
-		};
+			}
+		}
 		select.onchange = (e) => {
 			let text = select.options[select.selectedIndex].value;
 			let _event = e || window.event;
 			let _target = _event.target || _event.srcElement;
 			if (callback && this.DataTypeDetection().isFunction(callback)) {
 				callback(text, this, _target);
-			};
+			}
 		};
 
 		return select;
@@ -912,11 +912,10 @@ class OnlineProgramming extends Unit {
 		input.onchange = (e) => {
 			let _event = e || window.event;
 			let _target = _event.target || _event.srcElement;
-			this.patternChange(_target)
+			this.patternChange(_target);
 		};
 		return input;
 	}
-
 
 	/**
 	 * input chang事件  检测输入是否正确
@@ -930,11 +929,11 @@ class OnlineProgramming extends Unit {
 		} else {
 			_target.style.borderColor = 'red';
 			_target.setAttribute('title', '请与所请求的格式保持一致');
-		};
+		}
 		if (!_target.value) {
 			_target.style.borderColor = '#eaedf0';
 			_target.setAttribute('title', '');
-		};
+		}
 	}
 
 	/**
@@ -1213,16 +1212,16 @@ class OnlineProgramming extends Unit {
 							.split(val)
 							.join('<span style="color:red;">' + val + '</span>');
 						return item;
-					};
-				};
+					}
+				}
 			});
 			if (findTrue && this.DataTypeDetection().isArray(findTrue) && findTrue.length > 0) {
 				this.CreateCenterForSearch(parentNode, findTrue);
 				this.SearchHeightChange(_target, 'onfocus');
 			} else {
 				this.SearchHeightChange(_target, 'onblur');
-			};
-		};
+			}
+		}
 	}
 
 	/**
@@ -1343,11 +1342,11 @@ class OnlineProgramming extends Unit {
 							//获取input
 							if (setting_type.children[i].children[a].children[b].tagName.toLowerCase() == 'input') {
 								inputArray.push(setting_type.children[i].children[a].children[b]);
-							};
-						};
-					};
-				};
-			};
+							}
+						}
+					}
+				}
+			}
 		}
 		return { inputArray, sortable_box };
 	}
@@ -1370,14 +1369,14 @@ class OnlineProgramming extends Unit {
 				//如果 都有值
 				valHaveAll = true;
 			}
-		};
+		}
 		//都有值   要增加input
 		if (valHaveAll) {
 			if (sortable_box && this.DataTypeDetection().isDocument(sortable_box)) {
 				//克隆节点 赋值
 				this.DomClone(sortable_box, link);
-			};
-		};
+			}
+		}
 		valHaveAll = null;
 	}
 
@@ -1400,12 +1399,12 @@ class OnlineProgramming extends Unit {
 					) {
 						setting_type.children[i].children[0].value = 'es6';
 						this.SelectEventForPreprocessor('es6', this, setting_type.children[i].children[0]);
-					};
-				};
-			};
+					}
+				}
+			}
 		} else {
 			this.editor[type].setOption('lint', true);
-		};
+		}
 	}
 
 	/**
@@ -1468,7 +1467,7 @@ class OnlineProgramming extends Unit {
 			clone_dom.onchange = (e) => {
 				let _event = e || window.event;
 				let _target = _event.target || _event.srcElement;
-				this.patternChange(_target)
+				this.patternChange(_target);
 			};
 			if (val && this.DataTypeDetection().isString(val)) {
 				clone_dom.children[1].value = val; //克隆input赋值
@@ -1496,11 +1495,11 @@ class OnlineProgramming extends Unit {
 				for (let i = 0; i < delete_dom.children.length; i++) {
 					if (delete_dom.children[i].tagName.toLowerCase() == 'input') {
 						delete_dom.children[i].value = '';
-						this.patternChange(delete_dom.children[i])
-					};
-				};
-			};
-		};
+						this.patternChange(delete_dom.children[i]);
+					}
+				}
+			}
+		}
 	}
 
 	/**
@@ -1577,9 +1576,8 @@ class OnlineProgramming extends Unit {
 			);
 		} else {
 			if (_this.support_language[text]) {
-				if (
-					_this.editor[_target.parentNode.parentNode.getAttribute('data-type')].options.mode !=
-					_this.support_language[text]
+				if (_this.editor[_target.parentNode.parentNode.getAttribute('data-type')] &&
+					(_this.editor[_target.parentNode.parentNode.getAttribute('data-type')].options.mode != _this.support_language[text])
 				) {
 					_this.editor[_target.parentNode.parentNode.getAttribute('data-type')].setOption(
 						'mode',
@@ -1589,15 +1587,14 @@ class OnlineProgramming extends Unit {
 			}
 		}
 		//是否关闭代码检测
-		if (
-			_target.parentNode.parentNode.getAttribute('data-type') == 'js' ||
-			_target.parentNode.parentNode.getAttribute('data-type') == 'css'
+		if ( _this.editor[_target.parentNode.parentNode.getAttribute('data-type')] && 
+			(_target.parentNode.parentNode.getAttribute('data-type') == 'js' || _target.parentNode.parentNode.getAttribute('data-type') == 'css')
 		) {
 			if (text == '') {
 				_this.editor[_target.parentNode.parentNode.getAttribute('data-type')].setOption('lint', true);
 			} else {
 				_this.editor[_target.parentNode.parentNode.getAttribute('data-type')].setOption('lint', false);
-			};
+			}
 			//react 关闭检测
 			if (_target.parentNode.parentNode.getAttribute('data-type') == 'js') {
 				if (
@@ -1614,11 +1611,11 @@ class OnlineProgramming extends Unit {
 								'js'
 							);
 							return;
-						};
-					};
-				};
-			};
-		};
+						}
+					}
+				}
+			}
+		}
 	}
 
 	/**
@@ -1632,13 +1629,13 @@ class OnlineProgramming extends Unit {
 			let _target = _event.target || _event.srcElement;
 			//横向拖动
 			if (_target.getAttribute('class') && _target.getAttribute('class').includes('col-resize')) {
-				this.addStylePointerEvents(true)
+				this.addStylePointerEvents(true);
 				this.ResizerCol(_event, _target);
-			};
+			}
 			//竖向拖动
 			if (_target.getAttribute('class') && _target.getAttribute('class').includes('row-resize')) {
 				this.ResizerRow(_event, _target);
-			};
+			}
 		};
 	}
 
@@ -1675,10 +1672,10 @@ class OnlineProgramming extends Unit {
 			}
 		};
 		let _this = this;
-		document.onmouseup = function () {
+		document.onmouseup = function() {
 			this.onmousemove = null;
 			this.onmouseup = null;
-			_this.addStylePointerEvents(false)
+			_this.addStylePointerEvents(false);
 		};
 	}
 
@@ -1754,7 +1751,7 @@ class OnlineProgramming extends Unit {
 				// }
 			}
 		};
-		document.onmouseup = function (event) {
+		document.onmouseup = function(event) {
 			this.onmousemove = null;
 			this.onmouseup = null;
 		};
@@ -1764,9 +1761,9 @@ class OnlineProgramming extends Unit {
 	addStylePointerEvents(isPointerEvents = '') {
 		let style_area = document.querySelector(`#${this.configuration.id} .style-area .exothecium-box`);
 		if (isPointerEvents) {
-			style_area.style.pointerEvents = 'none'
+			style_area.style.pointerEvents = 'none';
 		} else {
-			style_area.style.pointerEvents = 'auto'
+			style_area.style.pointerEvents = 'auto';
 		}
 	}
 
@@ -1788,8 +1785,8 @@ class OnlineProgramming extends Unit {
 		if (this.configuration.readOnly && this.DataTypeDetection().isBoolean(this.configuration.readOnly)) {
 			for (let key in this.editor) {
 				this.editor[key].setOption('readOnly', true);
-			};
-		};
+			}
+		}
 	}
 
 	/**
@@ -1805,8 +1802,8 @@ class OnlineProgramming extends Unit {
 						window.event.preventDefault();
 					}
 				});
-			};
-		};
+			}
+		}
 	}
 
 	/**
@@ -1817,7 +1814,7 @@ class OnlineProgramming extends Unit {
 	SetSize(width = '100%', height = '100%') {
 		for (let key in this.editor) {
 			this.editor[key].setSize(width, height);
-		};
+		}
 	}
 
 	/**
@@ -1826,7 +1823,7 @@ class OnlineProgramming extends Unit {
 	ResetContent() {
 		for (let key in this.editor) {
 			this.editor[key].setValue('');
-		};
+		}
 		this.SettingInputValNone();
 	}
 
@@ -1835,8 +1832,8 @@ class OnlineProgramming extends Unit {
 		let inputAll = document.querySelectorAll(`#${this.configuration.id} .setting-dialog .sortable-box input`);
 		for (let i = 0; i < inputAll.length; i++) {
 			inputAll[i].value = '';
-		};
-	};
+		}
+	}
 
 	/**
 	 * 获取编辑器内容
@@ -1847,9 +1844,9 @@ class OnlineProgramming extends Unit {
 			center_val.push({
 				[key]: this.editor[key].getValue()
 			});
-		};
+		}
 		return center_val;
-	};
+	}
 
 	/**
 	 * 编辑器初始内容
@@ -1861,11 +1858,11 @@ class OnlineProgramming extends Unit {
 				for (let k = 0; k < _array.length; k++) {
 					if (_array[k].key == key) {
 						this.editor[key].setValue(_array[k].val);
-					};
-				};
-			};
-		};
-	};
+					}
+				}
+			}
+		}
+	}
 
 	/**
 	 * sdk初始化
@@ -1873,9 +1870,9 @@ class OnlineProgramming extends Unit {
 	Init() {
 		if (!this.configuration.id || !this.DataTypeDetection().isString(this.configuration.id)) {
 			throw 'id不可为空';
-		};
+		}
 		this.DomLayout();
-	};
+	}
 
 	/**
 	 * 样式展示区初始化 
@@ -1884,7 +1881,7 @@ class OnlineProgramming extends Unit {
 	RequestStyleSetVal(val = '') {
 		if (!val || !this.DataTypeDetection().isArray(val)) {
 			return;
-		};
+		}
 		this.ButtonDisabled();
 		let iframe = document.querySelector(`#${this.configuration.id} .style-area .exothecium-box iframe`);
 		let ifrdoc = document.all ? iframe.contentWindow.document : iframe.contentDocument;
@@ -1914,8 +1911,7 @@ class OnlineProgramming extends Unit {
 		ifrdoc.close(); //关闭流
 		ifrdoc.contenEditable = false;
 		ifrdoc.designMode = 'off'; //文档进入非可编辑模式
-
-	};
+	}
 
 	/**
 	 * 样式展示区 格式拼接
@@ -1928,7 +1924,7 @@ class OnlineProgramming extends Unit {
 		for (let i = 0; i < val.length; i++) {
 			if (!this.DataTypeDetection().isObject(val[i])) {
 				return;
-			};
+			}
 			for (let key in val[i]) {
 				if (key == 'html' || key == 'js' || key == 'css') {
 					switch (key) {
@@ -1943,12 +1939,12 @@ class OnlineProgramming extends Unit {
 							break;
 						default:
 							break;
-					};
+					}
 				} else {
 					other = val[i][key];
-				};
-			};
-		};
+				}
+			}
+		}
 
 		return this.CenterJoin(html, css, js, other);
 	}
@@ -1958,14 +1954,15 @@ class OnlineProgramming extends Unit {
 	 */
 	GetPreprocessor() {
 		let title_text = document.querySelectorAll(
-			`#${this.configuration.id} .programming-practice-area .exothecium-box .editor_box .create-editor-name .title-text`
+			`#${this.configuration
+				.id} .programming-practice-area .exothecium-box .editor_box .create-editor-name .title-text`
 		);
 		let Preprocessor = {};
 		for (let i = 0; i < title_text.length; i++) {
-			let text = this.DomGetVal(title_text[i]).replace('(', '-');   //css(scss)-->css-scss)
-			let text_new = text.replace(')', '');  //css-scss)-->css-scss
+			let text = this.DomGetVal(title_text[i]).replace('(', '-'); //css(scss)-->css-scss)
+			let text_new = text.replace(')', ''); //css-scss)-->css-scss
 			Preprocessor[text_new.split('-')[0]] = text_new.split('-')[1] ? text_new.split('-')[1] : '';
-		};
+		}
 		return Preprocessor;
 	}
 
@@ -2008,7 +2005,6 @@ class OnlineProgramming extends Unit {
 		let _GetPreprocessor = this.GetPreprocessor(); //预处理器
 		let _GetExternalScripts = this.GetExternalScripts(); //外部链接获取
 		if (html || css || js) {
-
 			switch (_GetPreprocessor['js']) {
 				case 'es6':
 					center += `
@@ -2026,7 +2022,7 @@ class OnlineProgramming extends Unit {
 					break;
 				default:
 					break;
-			};
+			}
 
 			//增加css外部链接
 			for (let i = 0; i < _GetExternalScripts['css'].length; i++) {
@@ -2034,8 +2030,8 @@ class OnlineProgramming extends Unit {
 					center += `
 					<link href="${_GetExternalScripts['css'][i]}" rel="stylesheet">
 					`;
-				};
-			};
+				}
+			}
 
 			switch (_GetPreprocessor['css']) {
 				case 'scss':
@@ -2076,7 +2072,7 @@ class OnlineProgramming extends Unit {
 						<script src="http://fedcdn.open.com.cn/fedcdn/OnlineCode/browser-polyfill.min.js"></script>
 						<script src="http://fedcdn.open.com.cn/fedcdn/OnlineCode/less.min.js"></script>
 						`;
-					};
+					}
 
 					center += `
 					<script>
@@ -2109,9 +2105,7 @@ class OnlineProgramming extends Unit {
 					</style>
 					`;
 					break;
-			};
-
-
+			}
 
 			switch (_GetPreprocessor['html']) {
 				//TODO:预留以后HTML其他操作
@@ -2125,7 +2119,7 @@ class OnlineProgramming extends Unit {
 							${html}
 					`;
 					break;
-			};
+			}
 
 			//增加js外部链接
 			for (let i = 0; i < _GetExternalScripts['js'].length; i++) {
@@ -2134,7 +2128,7 @@ class OnlineProgramming extends Unit {
 						<script src="${_GetExternalScripts['js'][i]}"></script>
 						`;
 				}
-			};
+			}
 
 			//js内容
 			switch (_GetPreprocessor['js']) {
@@ -2159,8 +2153,8 @@ class OnlineProgramming extends Unit {
 						</script>
 					`;
 					break;
-			};
-		};
+			}
+		}
 
 		if (other) {
 			center = `				
@@ -2171,7 +2165,7 @@ class OnlineProgramming extends Unit {
 				</style>
 				${other}
 			`;
-		};
+		}
 
 		center += `
 				<script type="text/javascript">
@@ -2194,38 +2188,34 @@ class OnlineProgramming extends Unit {
 		let selectAll = document.querySelectorAll(`#${this.configuration.id} .item-settings-modal .setting-box select`);
 		for (let i = 0; i < inputAll.length; i++) {
 			inputAll[i].value = '';
-		};
+		}
 		//清空input 在赋值
 		if (
-			(
-				this.configuration.defaultExternalLink['css'] &&
+			(this.configuration.defaultExternalLink['css'] &&
 				this.DataTypeDetection().isArray(this.configuration.defaultExternalLink['css']) &&
-				this.configuration.defaultExternalLink['css'].length > 0
-			) ||
-			(
-				this.configuration.defaultExternalLink['js'] &&
+				this.configuration.defaultExternalLink['css'].length > 0) ||
+			(this.configuration.defaultExternalLink['js'] &&
 				this.DataTypeDetection().isArray(this.configuration.defaultExternalLink['js']) &&
-				this.configuration.defaultExternalLink['js'].length > 0
-			)
+				this.configuration.defaultExternalLink['js'].length > 0)
 		) {
-			this.defaultExternalLinkSetVal()
-		};
+			this.defaultExternalLinkSetVal();
+		}
 
 		for (let s = 0; s < selectAll.length; s++) {
 			//TODO:
 			selectAll[s].selectedIndex = 0;
-		};
+		}
 		//清空select 在赋值
 		if (this.configuration.cssPreprocessor || this.configuration.jsPreprocessor) {
-			this.jsOrCssPreprocessor()
-		};
+			this.jsOrCssPreprocessor();
+		}
 		//编辑区
 		let selectChangeMode = document.querySelector(`#${this.configuration.id} .editor-title select`);
 		if (selectChangeMode && this.DataTypeDetection().isDocument(selectChangeMode)) {
 			if (this.configuration.currentMode && this.DataTypeDetection().isString(this.configuration.currentMode)) {
 				selectChangeMode.value = this.configuration.currentMode;
-			};
-		};
+			}
+		}
 	}
 
 	/**
@@ -2241,17 +2231,20 @@ class OnlineProgramming extends Unit {
 	 * 底部操作按钮 禁用 
 	 */
 	ButtonDisabled() {
-		if (!this.configuration.styleAreaIsShow || !this.DataTypeDetection().isBoolean(this.configuration.styleAreaIsShow)) {
-			return
-		};
+		if (
+			!this.configuration.styleAreaIsShow ||
+			!this.DataTypeDetection().isBoolean(this.configuration.styleAreaIsShow)
+		) {
+			return;
+		}
 		let button = document.querySelectorAll(`#${this.configuration.id} .button-operation-area button`);
 		if (button) {
 			for (let i = 0; i < button.length; i++) {
 				//if(!this.IframeInitFinished()){
-				button[i].setAttribute('disabled', 'disabled')
+				button[i].setAttribute('disabled', 'disabled');
 				//}
-			};
-		};
+			}
+		}
 	}
 
 	/**
@@ -2262,9 +2255,9 @@ class OnlineProgramming extends Unit {
 		let button = document.querySelectorAll(`#${id} .button-operation-area button`);
 		if (button) {
 			for (let i = 0; i < button.length; i++) {
-				button[i].removeAttribute('disabled')
-			};
-		};
+				button[i].removeAttribute('disabled');
+			}
+		}
 		//let iframe = document.querySelector(`#${this.configuration.id} .style-area .exothecium-box iframe`);
 	}
 
@@ -2273,73 +2266,99 @@ class OnlineProgramming extends Unit {
 	 */
 	jsOrCssPreprocessor() {
 		//处理器select
-		let select = document.querySelectorAll(`#${this.configuration.id} .setting-dialog .settings .setting-box .setting-type .select-box select`);
+		let select = document.querySelectorAll(
+			`#${this.configuration.id} .setting-dialog .settings .setting-box .setting-type .select-box select`
+		);
 		for (let i = 0; i < select.length; i++) {
 			if (select[i].parentNode.parentNode.getAttribute('data-type') == 'css') {
-				if (this.configuration.cssPreprocessor && (this.configuration.cssPreprocessor == 'scss' || this.configuration.cssPreprocessor == 'less')) {
+				if (
+					this.configuration.cssPreprocessor &&
+					(this.configuration.cssPreprocessor == 'scss' || this.configuration.cssPreprocessor == 'less')
+				) {
 					if (this.configuration.cssPreprocessor == 'scss') {
 						if (!this.GetBrowserInfo().isIE()) {
-							this.SelectEventForPreprocessor(this.configuration.cssPreprocessor, this, select[i])
-							select[i].selectedIndex = this.preprocessor['css'].preprocessor.indexOf(this.configuration.cssPreprocessor);
-						};
-					};
+							this.SelectEventForPreprocessor(this.configuration.cssPreprocessor, this, select[i]);
+							select[i].selectedIndex = this.preprocessor['css'].preprocessor.indexOf(
+								this.configuration.cssPreprocessor
+							);
+						}
+					}
 					if (this.configuration.cssPreprocessor == 'less') {
 						if (!this.GetBrowserInfo().isIE10() && !this.GetBrowserInfo().isIE9()) {
 							this.SelectEventForPreprocessor(this.configuration.cssPreprocessor, this, select[i]);
-							if(this.GetBrowserInfo().isIE11()){
+							if (this.GetBrowserInfo().isIE11()) {
 								//ie11 scss 没有渲染
 								select[i].selectedIndex = 1;
-							}else{
-								select[i].selectedIndex = this.preprocessor['css'].preprocessor.indexOf(this.configuration.cssPreprocessor);
+							} else {
+								select[i].selectedIndex = this.preprocessor['css'].preprocessor.indexOf(
+									this.configuration.cssPreprocessor
+								);
 							}
-						};
-					};
-				};
+						}
+					}
+				}
 			} else if (select[i].parentNode.parentNode.getAttribute('data-type') == 'js') {
-				if (this.configuration.jsPreprocessor && (this.configuration.jsPreprocessor == 'es6' || this.configuration.jsPreprocessor == 'typescript')) {
-					this.SelectEventForPreprocessor(this.configuration.jsPreprocessor, this, select[i])
-					select[i].selectedIndex = this.preprocessor['js'].preprocessor.indexOf(this.configuration.jsPreprocessor);
-				};
-			};
-		};
+				if (
+					this.configuration.jsPreprocessor &&
+					(this.configuration.jsPreprocessor == 'es6' || this.configuration.jsPreprocessor == 'typescript')
+				) {
+					this.SelectEventForPreprocessor(this.configuration.jsPreprocessor, this, select[i]);
+					select[i].selectedIndex = this.preprocessor['js'].preprocessor.indexOf(
+						this.configuration.jsPreprocessor
+					);
+				}
+			}
+		}
 	}
 
 	/**
 	 * 外部链接赋值
 	 */
 	defaultExternalLinkSetVal() {
-		let setting_type = document.querySelectorAll(`#${this.configuration.id} .setting-dialog .item-settings-modal .setting-type`); //setting-type 元素    为了循环children获取input
+		let setting_type = document.querySelectorAll(
+			`#${this.configuration.id} .setting-dialog .item-settings-modal .setting-type`
+		); //setting-type 元素    为了循环children获取input
 		let inputArray, sortable_box;
 		for (let i = 0; i < setting_type.length; i++) {
 			if (setting_type[i].getAttribute('data-type') == 'css') {
 				inputArray = this.GetInpoutAll(setting_type[i]).inputArray; //input 集合
 				sortable_box = this.GetInpoutAll(setting_type[i]).sortable_box; //克隆节点 父元素
 				if (inputArray && sortable_box) {
-					if (this.configuration.defaultExternalLink['css'] && this.DataTypeDetection().isArray(this.configuration.defaultExternalLink['css']) && this.configuration.defaultExternalLink['css'].length > 0) {
+					if (
+						this.configuration.defaultExternalLink['css'] &&
+						this.DataTypeDetection().isArray(this.configuration.defaultExternalLink['css']) &&
+						this.configuration.defaultExternalLink['css'].length > 0
+					) {
 						for (let c = 0; c < this.configuration.defaultExternalLink['css'].length; c++) {
-							this.InputSetVal(inputArray, this.configuration.defaultExternalLink['css'][c], sortable_box);
-						};
-					};
-				};
+							this.InputSetVal(
+								inputArray,
+								this.configuration.defaultExternalLink['css'][c],
+								sortable_box
+							);
+						}
+					}
+				}
 			} else if (setting_type[i].getAttribute('data-type') == 'js') {
 				inputArray = this.GetInpoutAll(setting_type[i]).inputArray; //input 集合
 				sortable_box = this.GetInpoutAll(setting_type[i]).sortable_box; //克隆节点 父元素
 				if (inputArray && sortable_box) {
-					if (this.configuration.defaultExternalLink['js'] && this.DataTypeDetection().isArray(this.configuration.defaultExternalLink['js']) && this.configuration.defaultExternalLink['js'].length > 0) {
+					if (
+						this.configuration.defaultExternalLink['js'] &&
+						this.DataTypeDetection().isArray(this.configuration.defaultExternalLink['js']) &&
+						this.configuration.defaultExternalLink['js'].length > 0
+					) {
 						for (let c = 0; c < this.configuration.defaultExternalLink['js'].length; c++) {
 							this.InputSetVal(inputArray, this.configuration.defaultExternalLink['js'][c], sortable_box);
 							//this.ToCloseLint(this.configuration.defaultExternalLink['js'][c], 'js', setting_type);
-						};
-					};
-				};
-			};
-		};
+						}
+					}
+				}
+			}
+		}
 		setting_type = null;
 		inputArray = null;
-		sortable_box = null
+		sortable_box = null;
 	}
-
-
 
 	/********END */
 }
